@@ -1,0 +1,39 @@
+
+*{
+    font-family: sans-serif;
+}
+strong{
+    color: orange;
+
+}
+h1{
+    font-size: 45px;
+    margin-bottom: 70px;
+    text-align: center;
+    color:gray;
+}
+body {
+    background: linear-gradient(to top, rgb(0, 0, 0), rgb(255,255,255));
+    height:100%;
+}
+html {
+    height:100%;
+}
+header{
+    background-color: black;
+    color:white;
+    text-align: center;
+    padding: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+p{
+    color: gray;
+}
+ul{
+    color: white;
+}
+h3{
+    color:white;
+}
+
