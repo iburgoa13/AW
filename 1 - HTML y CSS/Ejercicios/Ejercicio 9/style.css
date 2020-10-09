@@ -1,0 +1,89 @@
+
+td,th{
+    padding: 5px;
+    text-align: center;
+    border: 2px solid gray;
+}
+caption{
+    border: 2px solid gray;
+    background-color: gainsboro;
+}
+
+th{
+    color: black;
+}
+.rojo {
+    color:red;
+}
+.resaltado {
+    background:lightgray;
+}
+#tc {  
+    font-style: italic;
+}
+
+img[src$=".png"]{
+    background-color: black;
+}
+
+.desayuno_titulo{
+    background-color: orange;
+}
+#desayuno_horario{
+    background-color: orangered;
+}
+
+#dias{
+    background-color: gainsboro;
+}
+#blanco{
+    background-color: white;
+}
+.break_titulo{
+    background-color: rgb(197, 21, 197);
+}
+#break_horario{
+    background-color: rebeccapurple;
+}
+.comida_titulo{
+    background-color:  rgb(14, 196, 14);
+}
+#comida_horario{
+    background-color: green;
+}
+
+.boton{
+    background-color: black;
+    padding: 8px;
+    border: 1px solid black;
+    color:white;
+    text-align: center;
+    text-decoration: none;/*esto es para los hipervinculos quitar el subrayado*/
+}
+.boton:hover{
+    background-color: rgba(220, 226, 219, 0.802);
+    color:black;
+ 
+}
+header{
+    background-color: rgb(187, 33, 33);
+    color:white;
+    padding: 20px;
+    margin-top: 30 px;
+    text-align: center;
+    border: 2px solid lightblue;
+
+}
+.deportes{
+    border: 2px solid gray;
+    background-color: gainsboro;
+   
+    color:black;
+    padding: 10 px 5 px;
+}
+#tabla2 tr:nth-child(even){
+    background-color: white;
+}
+#tabla2 tr:nth-child(odd){
+    background-color: gray;
+}
