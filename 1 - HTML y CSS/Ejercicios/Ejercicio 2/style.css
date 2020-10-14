@@ -1,0 +1,69 @@
+*{
+    font-family: 'Open Sans', sans-serif;
+}
+body{
+    background-color: #f4f4f4;
+}
+
+div{
+    background-color: white;
+    border: 15px solid #dddbdb77;
+}
+.principal{
+
+    padding-left: 20px;
+    padding-bottom: 30px;
+}
+.cuerpo{
+    padding-top: 40px;
+    padding-bottom: 50px;
+    margin-top: 15px
+}
+
+.boton:hover{
+  
+    color:black;
+
+}
+div.cuerpo h2{
+    font-weight: 400;
+    margin-left: 20px;
+}
+div.cuerpo a{
+   margin-left:35px;
+}
+
+/*todo aquel a que tenga un aviso de href despues se hace*/
+a[href="avisos"]::before{
+content: url("avisos.png");
+margin-right: 5px;
+}
+a[href$=".pdf"]::before{
+    content: url("pdf.png");
+    margin-right: 5px;
+    line-height: 20pt;
+}
+ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+li{
+    margin-bottom: 5px;
+}
+a{
+    font-size: 15px;
+    margin-right: 5px;
+    text-decoration: none;
+    color: #1177d1;
+}
+a[href^="https://cv4.ucm.es"]::before{
+    content: url("url.png");
+    margin-right: 5px;
+    line-height: 20pt;
+}
+a[href^="https://docs.google.com"]::before{
+    content: url("tarea.png");
+    margin-right: 5px;
+    line-height: 20pt;
+}
