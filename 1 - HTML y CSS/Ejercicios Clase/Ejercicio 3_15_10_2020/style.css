@@ -4,13 +4,13 @@
     padding: 0;*/
     border: 1px solid red;
 }
-html{
+/* html{
     background-color: mediumslateblue;
 }
 body{
     padding: 20px;
     background-color: magenta;
-}
+} */
 p {
    /* margin: 12px;*/
     padding: 5px;
@@ -25,4 +25,7 @@ p.flotante_dch {
     float: right;
     width: 20%;
     background-color: #FFA000;
+}
+.clear-left{
+    clear: left;
 }
