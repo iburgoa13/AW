@@ -4,18 +4,19 @@
 }
 
 body{
-    background: mediumslateblue;
+    background: rgba(144, 104, 238, 0.604);
 }
 html {
     height: 100%;
 }
+
 .box{
     background-color: mediumturquoise;
     width: 30%;
     text-align: center;
     float: left;
     margin: 20px;
-    border: 2px solid turquoise;
+    border: 2px solid rgb(43, 158, 147);
     border-radius: 5px;
 }
 img {
