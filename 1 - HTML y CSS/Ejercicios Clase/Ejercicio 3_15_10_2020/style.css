@@ -1,6 +1,18 @@
-span{
-    background-color: #FFE0E0;
-    display: inline-block;
-    margin-top: 10px;
-    width: 50px;
+
+* {
+    border: 1px solid red;
+}
+p {
+    padding: 5px;
+    background-color: #F0F0FF;
+}
+p.flotante_izq {
+    float: left;
+    width: 40%;
+    background-color: #FFA000;
+}
+p.flotante_dch {
+    float: right;
+    width: 40%;
+    background-color: #FFA000;
 }
