@@ -1,8 +1,18 @@
 
 * {
+   /* margin:0;
+    padding: 0;*/
     border: 1px solid red;
 }
+html{
+    background-color: mediumslateblue;
+}
+body{
+    padding: 20px;
+    background-color: magenta;
+}
 p {
+   /* margin: 12px;*/
     padding: 5px;
     background-color: #F0F0FF;
 }
@@ -13,6 +23,6 @@ p.flotante_izq {
 }
 p.flotante_dch {
     float: right;
-    width: 40%;
+    width: 20%;
     background-color: #FFA000;
 }
