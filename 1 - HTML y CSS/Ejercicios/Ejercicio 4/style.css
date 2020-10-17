@@ -33,7 +33,7 @@ div.botones a{
     text-decoration: none;
     text-align: center;
     font-size: 20px;
-    padding: 10px 50px;
+    padding: 10px 40px;
  
 }
 div.botones a:hover{
@@ -43,12 +43,52 @@ div.botones a:hover{
 .final{
     bottom: 100%;
     background-color: green;
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
+    clear: both;
+    
+}
+.pfinal{
+    margin-bottom: 20px;
+}
+span{
+    color: yellow;
+}
+li{
+    color: white;
+    margin-left: 40px;
 }
 div.final a{
     color: white;
     background-image:green;
     margin:auto 20px;
+}
+#per{
+    margin-top: 20px;
+}
+.cuerpo{
+    width: 75%;
+    margin-left: 15px;
+    float: left;
+    margin-top: 150px;
+}
+.fotos{
+    float: left;
+    width: 23%;
+   margin-top: 150px;
+   text-align: center;
+}
+div.cuerpo h2{
+    color: green;
+}
+div.cuerpo p{
+    margin-top: 20px;
+    color:white;
+}
+div.fotos h2{
+    color: rgb(255, 255, 0);
+}
+div.fotos img{
+    margin-bottom: 20px;
 }
