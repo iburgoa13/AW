@@ -1,0 +1,43 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+header{
+    margin-top: 2cm;
+    font-size: 20px;
+    margin-bottom: 1.5cm;  
+    text-align: center; 
+}
+body {
+    margin-left: 2cm;
+    margin-right: 2cm;
+}
+.cuerpo{
+    margin-bottom: 1cm;
+}
+.cuerpo h2{
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 1cm;
+}
+.cuerpo p{
+    font-size: 12px;
+}
+
+li p{
+    margin: 0;
+}
+.botones{
+    display: none;
+}
+.final{
+    display: none;
+}
+.fotos{
+    display: none;
+}
+div.cuerpo span{
+    text-decoration: underline;
+}
+ul{
+    border-bottom: 3cm;
+}
