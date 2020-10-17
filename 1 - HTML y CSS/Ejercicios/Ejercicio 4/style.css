@@ -27,7 +27,7 @@ header h1{
     top:9.5%;
 
 }
-div a{
+div.botones a{
     background-image: linear-gradient(green, yellow, green);
     color: black;
     text-decoration: none;
@@ -36,6 +36,19 @@ div a{
     padding: 10px 50px;
  
 }
-div a:hover{
+div.botones a:hover{
     background-image: linear-gradient(grey, lightgrey, grey);
   }
+
+.final{
+    bottom: 100%;
+    background-color: green;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+div.final a{
+    color: white;
+    background-image:green;
+    margin:auto 20px;
+}
