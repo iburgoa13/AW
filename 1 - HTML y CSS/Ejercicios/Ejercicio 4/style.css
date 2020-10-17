@@ -1,43 +1,41 @@
 *{
     margin: 0;
     padding: 0;
+    font-family: 'Indie Flower', cursive;
 }
 body{
     background-color: black;
-    color: white;
-    margin-top: 0;
-    margin-bottom: 0;
 }
 header{
-    font-family: 'Sansita Swashed', cursive;
     background-image: url(cesped.png);
-    text-align: center;
-    color: white;
-    font-size: 180%;
+    position: fixed;
+    top: 0%;
+    width: 100%;
     padding: 0.2% 0;
-    width: 100%;
+   
+}
+header h1{
+    color: white;
+    font-size: 40px;
+    vertical-align: center;
+    text-align: center;
+}
+.botones{
     position: fixed;
+    padding: 1% 2%;
+    left:0;
+    top:9.5%;
+
 }
-.boton{
-    background-color: rgba(17, 243, 17, 0.775);
-    float: left;
-}
-nav{
-    margin-top: 13px;
-    margin-left: 15px;
-    margin-bottom: 10px;
-    position: fixed;
-    margin-top: 243px;
-    width: 100%;
-}
-nav a {
+div a{
+    background-image: linear-gradient(green, yellow, green);
     color: black;
     text-decoration: none;
-    padding: 1% 2%;
     text-align: center;
     font-size: 20px;
-    background-image: linear-gradient(green, yellow, green);
+    padding: 10px 50px;
+ 
 }
-nav a:hover {
-    background-image: linear-gradient(grey, lightgrey, grey)
-}
+div a:hover{
+    background-image: linear-gradient(grey, lightgrey, grey);
+  }
