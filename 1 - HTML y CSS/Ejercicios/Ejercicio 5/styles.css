@@ -1,0 +1,62 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container{
+    display: flex;
+    margin: 3%;
+    
+}
+
+.users{
+    display: flex;
+    flex-basis: 250px;
+    flex-grow: 0;
+    flex-shrink: 1;
+    background-color: lightblue;
+}
+
+.user-photo{
+    display: flex;
+    flex-basis: 100px;
+    padding: 3%;
+    justify-content: center;
+
+}
+.user-state{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 150px;
+    justify-content: center;
+    border-bottom: 1px solid grey;
+}
+div.user-state p{
+    font-size: 0.7em;
+}
+div.user-state h3:hover{
+    color: red;
+}
+img{
+    width: 70%;
+    border-radius: 50%;
+    cursor: pointer;
+
+}
+li{
+    display: flex;
+}
+
+.conversation {
+    display: flex;
+    flex-basis: 500px;
+    flex-grow: 2;
+    flex-shrink: 2;
+    background: linear-gradient(rgba(17, 187, 187, 0.8), rgba(17, 187, 187, 0.8)),
+      url("bla.png");
+  }
+
+.ultimo{
+    border-bottom: none;
+}
