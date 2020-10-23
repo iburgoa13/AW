@@ -1,0 +1,35 @@
+.contenedor {
+    width: 400px;
+    padding: 10px;
+    display: grid;
+    background-color: green;
+    grid-template-rows: 50% 50%; 
+    grid-template-columns: 40% 30% 30%;
+}
+/*
+grid-template-rows: 2fr 1fr;
+grid-template-columns: 1fr 3fr 1fr; 
+ grid-template-rows: 50% 50%; 
+ grid-template-columns: 40% 30% 30%;
+*/
+/*
+fr fracciona el contenedor en partes y le asignamos cuanto se quiere 
+*/
+.elemento {
+    font-size: 30px;
+    background-color: lime;
+    border: solid black 2px;
+}
+.contenedor2 {
+    width: 90%;
+    padding: 10px;
+    display: grid;
+    background-color: green;
+    grid-template-rows:auto auto auto; 
+    grid-template-columns: auto auto auto; 
+}
+
+/*
+grid-column grid-row inicio / fin
+para ver como organizarlo si de izquierda a derecha, arriba a abajo...
+*/
