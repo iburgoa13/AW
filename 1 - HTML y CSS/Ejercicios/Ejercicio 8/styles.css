@@ -11,11 +11,12 @@
   left: 30%;
     display: grid;
     padding: 10px;
-    
+    border-radius: 10px 10px 10px 10px;
    background-color: gray;
    font-size: 30px;
    width: 300px;
-   
+   grid-column-gap: 2px;
+   grid-row-gap: 2px;
     grid-template-columns: 1fr 1fr 1fr 1fr;
   
 
