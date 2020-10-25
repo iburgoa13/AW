@@ -1,0 +1,70 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container{
+   
+    width: 350px;
+   
+    background-color: silver;
+    padding: 4px;
+    margin-bottom: 5px;
+}
+.fecha{
+    height:50px;
+    display: flex;
+    background-color: dimgray;
+    margin: inherit;
+    align-items: center;
+    justify-content: center;
+}
+.fecha h4{
+    color: white;
+    font-size: 20px;
+}
+.horas{
+  
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    background-color: dimgray;
+}
+.hora{
+ 
+   margin: 10px;
+    font-size: 50px;
+    color: white;
+}
+.puntos{
+    margin-left: 20px;
+    margin: 10px;
+    font-size: 50px;
+    color: white;
+}
+.min{
+    margin-left: 20px;
+    margin: 10px;
+    font-size: 50px;
+    color: white;
+}
+.AM{
+    margin-left: 20px;
+    margin: 0px;
+    font-size: 25px;
+    color: white;
+}
+.AM_min{
+    display: flex;
+    flex-direction: column; /*te coloca los hijos en columnas*/
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+.segpeque{
+    margin-left: 20px;
+    margin: 0px;
+    font-size: 25px;
+    color: white;
+}
