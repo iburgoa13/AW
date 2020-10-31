@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
         <title>PRACTICA 1 VOLUNTARIA</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="tasksScreen.css" media="screen">
         <link rel="stylesheet" href="tasksPrint.css" media="print">
-        <link rel="icon" type="image" href="favicon.png">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="favicon.png">
     </head>
     <body>
         <header>
@@ -13,8 +14,8 @@
             <div class="usuario">
                 <img src="user.png" alt="image"/>
                 <div class="informacion-usuario">
-                    <p>usuario1@ucm.es</p>
-                    <a href="">DESCONECTAR</a>
+                    <p id="mail" >USUARIO1@UCM.ES</p>
+                    <a id="desconectar" href="">DESCONECTAR</a>
                 </div>
             </div>   
         </header>
@@ -24,27 +25,31 @@
                     <h3>PREPARAR PRACTICAS AW</h3>
                     <span class="tag">AW</span>
                     <span class="tag">PRACTICA</span>
-                    <button class="boton_tarea">MARCAR FINALIZADA</button>
+                    <a href="" class="boton_tarea">MARCAR FINALIZADA</a>
                 </div>
-                <div id= "tarea2" class="tareas">
+                <div id= "tarea2" class="tarea_finalizada">
                     <h3 class="finalizarTarea">MIRAR FECHAS CONGRESO</h3>
                 </div>
                 <div class="tareas">
                     <h3>IR AL SUPERMERCADO</h3>
                     <span class="tag">PERSONAL</span>
-                    <button class="boton_tarea">MARCAR FINALIZADA</button>
+                    <a href="" class="boton_tarea">MARCAR FINALIZADA</a>
                 </div>
                 <div class="tareas">
                     <h3>MUDANZA</h3>
                     <span class="tag">PERSONAL</span>
-                    <button class="boton_tarea">MARCAR FINALIZADA</button>
+                    <a href="" class="boton_tarea">MARCAR FINALIZADA</a>
                 </div>
 
-                <div class="anadir">
-                    <form class="formulario" action=" " method="post">
+                <div id="s1" class="buscar">
+                    <form class="formulario" action="submit" method="post">
                         <input type="text" placeholder=" " required>
-                        <button class="anadirTarea">AÑADIR</button>
+                        <button type="submit" class="boton_anadir">AÑADIR</button>
                     </form>
+                </div>
+
+                <div class="eliminarCompletadas">
+                    <a href="" id="eliminar">ELIMINAR TAREAS COMPLETADAS</a>
                 </div>
             </div>
           
