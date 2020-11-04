@@ -18,7 +18,6 @@ let listaTareas = [
 
 
 
-/*done*/
 /*
 Esta función devuelve un array con los textos de aquellas tareas de la lista de tareas tasks que no estén finalizadas.
  */
@@ -29,12 +28,7 @@ function getToDoTasks(tasks){
 }
 
 
-console.log(getToDoTasks(listaTareas));
 
-/*
-
-
-/*done*/
 /*
 Esta función devuelve un array que contiene las tareas del array tasks que contengan, en su lista de etiquetas, la etiqueta pasada como segundo parámetro.
 */
@@ -45,12 +39,11 @@ function findByTag(tasks,tag){
         n["tags"].indexOf(tag,0)!=-1
         );
 }
-console.log(findByTag(listaTareas,"personal"));
 
 
 
 
-/*done*/
+
 /*
 Esta función devuelve un array que contiene aquellas tareas del array tasks que contengan al menos una etiqueta que coincida con una de las del array tags pasado como segundo parámetro.
  */
@@ -61,12 +54,10 @@ function findByTags(tasks,tag){
         return n;
     },[]);
 }
-console.log(findByTags(listaTareas, ["personal", "practica"]));
 
 
 
 
-/*done*/
 /*
 Esta función devuelve el número de tareas completadas en el array de tareas tasks pasado como parámetro.
  */
@@ -79,10 +70,9 @@ function countDone(tasks){
     },0);
 }
 
-console.log(countDone(listaTareas));
 
 
-/*done*/
+
 /*
 Esta función recibe un texto intercalado con etiquetas, cada una de ellas formada por una serie de caracteres alfanuméricos precedidos por el signo @. 
 Esta función debe devolver un objeto tarea con su array de etiquetas extraídas de la cadena texto. Por otra parte, el atributo text de la tarea resultante 
@@ -102,7 +92,3 @@ function createTask(texto){
     }
     return {text,tags};
 }
-
-console.log(createTask("@AW            @practica Preparar práctica AW"));
-console.log(createTask("Ir a @deporte entrenar"));
-console.log(createTask("Ir al medico @personal @salud"))
