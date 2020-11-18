@@ -66,18 +66,78 @@ main{
     color:white; 
     margin-top: 7px;
 }
-input{
+#buscar{
     background-image: url(../../images/descarga.png);
     background-repeat: no-repeat;
     background-size: 1.2%;
-    width: 85%;
-    padding:3px;
     padding-left:2%;
+}
+
+textarea{
+    width: 85%;
+    height: 100px;
+    padding:3px;
     border-radius:5px;
     border: 1px  gray solid;
     background-position-y: center;
     background-position-x: 0.5%;
+    margin-bottom: 10px;
+}
+#titulo{
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+main{
+
+    align-content: center;
+    margin-left: 350px;
+    margin-right: auto;
+    width:700px;
+}
+#contenido{
+   display: flex;
+   flex-direction: column;
+}
+#preguntas{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.preguntas_filtro_tag{
+background-color: rgb(230, 212, 114);
+margin-bottom: 15px;
+border: 1px solid orange;
+border-radius: 5px;
+justify-content: space-between;
+flex-direction: row;
+display: flex;
+}
+.pregunta{
+
+ 
     
+}
+.info_usuario{
+   
+    align-content: center;
+    margin-left: 100px;
+    margin-right: auto;
+}
+img{
+    width: 10%;
+}
+.tag{
+
+}
+input{
+    width: 85%;
+    padding:3px;
+    border-radius:5px;
+    border: 1px  gray solid;
+    background-position-y: center;
+    background-position-x: 0.5%;
+    margin-bottom: 15px;
 }
 
 #button_nav{
@@ -91,4 +151,11 @@ input{
 nav{
     margin-top:1%;
     margin-left:3%;
+}
+.boton{
+    padding: 5px;
+    border-radius: 5px;
+    background-color: orange;
+    color: white;
+
 }
