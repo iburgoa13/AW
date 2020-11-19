@@ -4,24 +4,30 @@
     /*border: 1px solid black;*/
 }
 header{
+    
     background: radial-gradient(circle, rgb(239, 243, 0) 0%, rgb(255, 170, 13) 91%);
-    height: 100px;
+    height: 125px;
     padding: 1% 2%;
     top: 0;
+   
+    align-items: center;
 }
 body{
     background-color: rgb(255, 251, 139);
 }
-header h1{
+h1{
+    
     text-align: center;
     color: white;
     font-size: 8em;
     text-shadow: 6px 10px 5px black;
+   
 }
 main{
    
     width: 100%;
 }
+
 
 label{
     margin-bottom: 2%;
