@@ -1,4 +1,5 @@
 "use strict"
+
 class DAOUsers{
 
     constructor(pool){
@@ -38,8 +39,8 @@ class DAOUsers{
     getUserImageName(email,callback){
         this.pool.getConnection(function(err,connection){
             if(err){
-                callback(err,null);
-                console.log(`Error al obtener la conexion a la base de datos: ${err.message}`);
+                callback(new Error("Error al obtener la conexion a la base de"))
+                
             }
             else{
                 const sql = "SELECT img  FROM user WHERE email = ?";
@@ -51,12 +52,11 @@ class DAOUsers{
                     }
                     else{
                         if(resultado.length>0)//tenemos img{
-                        {
-                            
+                        {            
                             callback(null,resultado[0].img);
                         }
                         else{ //es cero
-                            callback(null,false);
+                            callback(new Error("El usuario no existe."));
                         }
                     }
                 });

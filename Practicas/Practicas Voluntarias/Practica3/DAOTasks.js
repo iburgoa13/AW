@@ -1,5 +1,8 @@
 "use strict";
 
+
+
+
 class DAOTasks {
  constructor(pool) {  
      this.pool = pool;
@@ -11,7 +14,7 @@ class DAOTasks {
             callback(new Error("Error de conexión a la base de datos"));
         }
         else {
-        const query = "SELECT * FROM task  JOIN tag ON taskId = id WHERE user = ?";
+        const query = "SELECT * FROM task  JOIN tag ON (taskId = id) WHERE user = ?";
         connection.query(query ,[email],
         function(err, rows) {
             connection.release(); // devolver al pool la conexión
@@ -51,6 +54,7 @@ class DAOTasks {
     }
     );
    }
+ 
  insertTask(email, task, callback) {  
     this.pool.getConnection(function(err, connection) {
         if(err){
@@ -62,7 +66,7 @@ class DAOTasks {
             {
                 connection.release();
                 if(err){
-                    callback(err);
+                    callback(new Error("Error de acceso a la base de datos"));
                 }
                 else{
                     let sql2= "INSERT INTO tag (taskId,tag) values ?";
@@ -73,7 +77,7 @@ class DAOTasks {
                     });
                     connection.query(sql2,[array],function(error,total){
                         if(error){
-                            callback(error);
+                            callback(new Error("No se ha insertado los datos"));
                         }
                         else{
                             callback(null,true);
@@ -111,12 +115,11 @@ class DAOTasks {
                     callback(new Error("Error de conexión a la base de datos"));
                 }
                 else{
-                    let tarea = "DELETE FROM tag JOIN task ON task.taskId = tag.id where user = ? and done = 1";
                     let sql = "DELETE FROM task WHERE user = ? AND done = 1;";
                     connection.query(sql,[email],function(err,res){
                         connection.release();
                         if(err){
-                            callback(err);
+                            callback(new Error("Error de acceso a la base de datos"));
                         }
                         else{
                             callback(null,true);

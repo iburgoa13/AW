@@ -21,24 +21,22 @@ let daoTask = new DAOTasks(pool);
 
 daoTask.getAllTasks("daniela@ucm.es",function(err,res){
     if(err){
-        console.log("Error al sacar los tags");
+        console.log(err.message);
     }
     else{
-        console.log(res);
+        if(res)
+            console.log(res);
+        else console.log("Usuario no posee tags");
     }
 });
-let task = {
-    "text": "Insercion ",
-    "done": 0,
-    "tags":["AW","PRUEBA","AMONOS"]
-};*/
+*/
 /*
 let task = {
     "text": "Insercion ",
     "done": 0,
     "tags":["AW","PRUEBA","AMONOS"]
 };
-daoTask.insertTask("daniela@ucm.es",task,function(err,res){
+daoTask.insertTask("danielas@ucm.es",task,function(err,res){
     if(err){
         console.log("No se han insertado los datos");
     }
@@ -53,9 +51,10 @@ daoTask.deleteCompleted("daniela@ucm.es",function(err){
         console.log(err.message);
     }
     else console.log("Tarea/s eliminada/s correctamente");
-})*/
+})
+*/
 /*
-daoTask.markTaskDone(3,function(err){
+daoTask.markTaskDone(9,function(err){
     if(err){
         console.log("No se ha marcado la tarea como completada");
     }
@@ -76,14 +75,16 @@ daoUser.isUserCorrect("daniela@ucm.es","1234",function(err,exist){
         }
     }
 });
+*/
 
 /*
 daoUser.getUserImageName("daniela@ucm.es",function(err,result){
     if(err){
-        console.log("No existe el usuario.");
+        console.log(err.message);
     }
     else{  
             console.log(`La imagen es: ${result}`);
     }
-});*/
+});
 
+*/
