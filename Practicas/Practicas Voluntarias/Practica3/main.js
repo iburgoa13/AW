@@ -17,52 +17,7 @@ let daoUser = new DAOUsers(pool);
 let daoTask = new DAOTasks(pool);
 
 
-/*
-
-daoTask.getAllTasks("daniela@ucm.es",function(err,res){
-    if(err){
-        console.log(err.message);
-    }
-    else{
-        if(res)
-            console.log(res);
-        else console.log("Usuario no posee tags");
-    }
-});
-*/
-/*
-let task = {
-    "text": "Insercion ",
-    "done": 0,
-    "tags":["AW","PRUEBA","AMONOS"]
-};
-daoTask.insertTask("danielas@ucm.es",task,function(err,res){
-    if(err){
-        console.log("No se han insertado los datos");
-    }
-    else{
-        console.log("Insercion completada");
-    }
-});
-*/
-/*
-daoTask.deleteCompleted("daniela@ucm.es",function(err){
-    if(err){
-        console.log(err.message);
-    }
-    else console.log("Tarea/s eliminada/s correctamente");
-})
-*/
-/*
-daoTask.markTaskDone(9,function(err){
-    if(err){
-        console.log("No se ha marcado la tarea como completada");
-    }
-    else console.log("Tarea completada");
-});
-*/
-/*
-daoUser.isUserCorrect("daniela@ucm.es","1234",function(err,exist){
+daoUser.isUserCorrect("usuario@ucm.es","mipass",function(err,exist){
     if(err){
         console.log(err.message);
     }
@@ -75,10 +30,9 @@ daoUser.isUserCorrect("daniela@ucm.es","1234",function(err,exist){
         }
     }
 });
-*/
 
-/*
-daoUser.getUserImageName("daniela@ucm.es",function(err,result){
+
+daoUser.getUserImageName("usuario@ucm.es",function(err,result){
     if(err){
         console.log(err.message);
     }
@@ -87,4 +41,51 @@ daoUser.getUserImageName("daniela@ucm.es",function(err,result){
     }
 });
 
-*/
+
+daoTask.getAllTasks("usuario@ucm.es",function(err,res){
+    if(err){
+        console.log(err.message);
+    }
+    else{
+        if(res.length>0)
+            console.log(res);
+        else console.log("Usuario no posee tareas");
+    }
+});
+
+
+let task = {
+    "text": "Insercion",
+    "done": 0,
+    "tags":["AW","PRUEBA","AMONOS"]
+};
+
+
+daoTask.insertTask("usuario@ucm.es",task,function(err){
+    if(err){
+        console.log(err.message);
+    }
+    else{
+        console.log("Insercion completada correctamente");
+    }
+});
+
+daoTask.markTaskDone(1,function(err){
+    if(err){
+        console.log(err.message);
+    }
+    else console.log("Tarea completada");
+});
+
+
+daoTask.deleteCompleted("usuario@ucm.es",function(err){
+    if(err){
+        console.log(err.message);
+    }
+    else console.log("Tarea/s eliminada/s correctamente");
+})
+
+
+
+
+

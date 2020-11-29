@@ -1,8 +1,6 @@
 "use strict";
 
 
-
-
 class DAOTasks {
  constructor(pool) {  
      this.pool = pool;
@@ -39,11 +37,9 @@ class DAOTasks {
                             };   
 
                         if(it.tag) tareas[it.id].tags.push(it.tag);      
-
-                           
+   
                     }
                     
-
                     rows = tareas;
                     callback(null,rows);
                 
@@ -77,7 +73,7 @@ class DAOTasks {
                     });
                     connection.query(sql2,[array],function(error,total){
                         if(error){
-                            callback(new Error("No se ha insertado los datos"));
+                            callback(new Error("Error de acceso a la base de datos"));
                         }
                         else{
                             callback(null,true);
@@ -109,7 +105,7 @@ class DAOTasks {
    }
 
 
-        deleteCompleted(email, callback) {  
+    deleteCompleted(email, callback) {  
             this.pool.getConnection(function(err,connection){
                 if(err){
                     callback(new Error("Error de conexión a la base de datos"));
@@ -127,7 +123,7 @@ class DAOTasks {
                     });
                 }
             });
-        }
+    }
 }
 
 module.exports = DAOTasks;

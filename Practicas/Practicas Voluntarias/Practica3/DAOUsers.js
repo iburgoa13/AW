@@ -39,7 +39,7 @@ class DAOUsers{
     getUserImageName(email,callback){
         this.pool.getConnection(function(err,connection){
             if(err){
-                callback(new Error("Error al obtener la conexion a la base de"))
+                callback(new Error("Error de conexión a la base de datos"))
                 
             }
             else{
@@ -47,8 +47,7 @@ class DAOUsers{
                 connection.query(sql,[email], function(err,resultado){
                     connection.release();
                     if(err){
-                        callback(err,null);
-                        console.log(`Error de acceso a la base de datos: ${err.message}`);
+                        callback(new Error("Error de acceso a la base de datos"));
                     }
                     else{
                         if(resultado.length>0)//tenemos img{
@@ -56,7 +55,7 @@ class DAOUsers{
                             callback(null,resultado[0].img);
                         }
                         else{ //es cero
-                            callback(new Error("El usuario no existe."));
+                            callback(new Error("No existe el usuario"));
                         }
                     }
                 });
