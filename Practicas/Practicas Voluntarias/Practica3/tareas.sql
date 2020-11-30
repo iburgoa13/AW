@@ -24,6 +24,10 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+DROP TABLE `tag`;
+DROP TABLE `task`;
+DROP TABLE `user`;
+
 --
 -- Estructura de tabla para la tabla `tag`
 --
@@ -122,13 +126,13 @@ ALTER TABLE `task`
 -- Filtros para la tabla `tag`
 --
 ALTER TABLE `tag`
-  ADD CONSTRAINT `FK_TASK_ID` FOREIGN KEY (`taskId`) REFERENCES `task` (`id`) ON DELETE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_TASK_ID` FOREIGN KEY (`taskId`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `task`
 --
 ALTER TABLE `task`
-  ADD CONSTRAINT `FK_USER` FOREIGN KEY (`user`) REFERENCES `user` (`email`) ON DELETE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_USER` FOREIGN KEY (`user`) REFERENCES `user` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -31,7 +31,6 @@ daoUser.isUserCorrect("usuario@ucm.es","mipass",function(err,exist){
     }
 });
 
-
 daoUser.getUserImageName("usuario@ucm.es",function(err,result){
     if(err){
         console.log(err.message);
@@ -47,9 +46,12 @@ daoTask.getAllTasks("usuario@ucm.es",function(err,res){
         console.log(err.message);
     }
     else{
-        if(res.length>0)
-            console.log(res);
-        else console.log("Usuario no posee tareas");
+        if(res){
+            
+            console.log(res.filter(el=> el!= ''));
+        }
+        else 
+            console.log("El usuario no posee tareas");
     }
 });
 
@@ -70,6 +72,7 @@ daoTask.insertTask("usuario@ucm.es",task,function(err){
     }
 });
 
+
 daoTask.markTaskDone(1,function(err){
     if(err){
         console.log(err.message);
@@ -84,7 +87,6 @@ daoTask.deleteCompleted("usuario@ucm.es",function(err){
     }
     else console.log("Tarea/s eliminada/s correctamente");
 })
-
 
 
 
