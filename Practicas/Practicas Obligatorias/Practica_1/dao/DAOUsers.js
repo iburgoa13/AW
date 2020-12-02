@@ -1,10 +1,3 @@
-/*
-Grupo 3
-Miembros : Daniela Nicoleta Boldureanu
-           Iker Burgoa Muñoz
-*/ 
-
-
 "use strict"
 
 class DAOUsers{
@@ -73,5 +66,3 @@ class DAOUsers{
 }
 
 module.exports = DAOUsers;
-
-
