@@ -13,6 +13,238 @@ class DAOUsers{
         this.pool= pool;
     }
 
+
+
+
+    insertQuestion(title,body,tags,id_user,callback){
+        this.pool.getConnection(function(err, connection) {
+            if (err) { 
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else {
+            //SACAMOS TODOS LOS TAGS
+            let sql_select_tags = "SELECT * FROM tag;";
+            connection.query( sql_select_tags, function(err, rows) {
+                connection.release(); // devolver al pool la conexión
+                if (err) {
+                    callback(new Error("Error de acceso a la base de datos 1"));
+                }
+                else {
+                    let id_tags = [];
+                    let array=[];
+                    //SI NO EXISTEN TAGS
+                   if(rows.length == 0){
+                       let sql_insert ="INSERT INTO tag(name) VALUES(?);";
+                       tags.forEach(n => {
+                            connection.query(sql_insert,[n],function(err,insert){
+                                if(err){
+                                callback(new Error("Error de acceso a la base de datos 2"));
+                                }
+                                else{
+                                    //INSERTAMOS EN UN ARRAY LOS IDS DE LOS TAGS PARA LA TABLA INTERMEDIA
+                                    id_tags.push(insert.insertId);
+                                }
+                            });
+                        });
+                     
+                        
+                      
+                       //INSERTAMOS EN BBDD PREGUNTA
+                       let sql_insert_question = "INSERT INTO question(title,body,id_user,date) VALUES (?,?,?,?)";
+                       const e = Date.now();
+                       const fecha = new Date(e);
+                       connection.query(sql_insert_question,[title,body,id_user,fecha],function(err,quest){
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos 3"));
+                        }
+                        else{
+                            //sacamos el id de la pregunta para la insercion en la tabla
+                            let id_question = quest.insertId;
+                            console.log(id_question);
+                            let array=[];
+
+                            id_tags.forEach(n => {
+                                array.push([id_question,n]);
+                                console.log(id_question + "   "+ n);
+                            });
+                            let sql_insert_question_tag = "INSERT INTO question_tag(id_question,id_tag) VALUES ?";
+                            connection.query(sql_insert_question_tag,[array],function(error,total){
+                                if(error){
+                                    callback(new Error("Error de acceso a la base de datos 4"));
+                                }
+                                else{
+                                    callback(null,true);
+                                }
+                            });
+                        }
+                       });
+                   }    
+                }
+            });
+            }
+        }
+        );
+    }
+
+
+
+
+     //INSERCION USUARIO
+     insertUser(email, password,name,img, callback) {  
+        this.pool.getConnection(function(err, connection) {
+            if(err){
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+                const e = Date.now();
+                const today = new Date(e);
+                let sql_select = "SELECT email FROM usuario WHERE email = ?";
+                //compruebo si existe usuario
+                connection.query(sql_select,[email],function(err,resultado){
+                    connection.release();
+                    if(err){
+                        callback(new Error("Error de acceso a la base de datos"));  
+                    }
+                    else{
+                        if(resultado.length>0){
+                            callback(new Error("El email ya existe en la base de datos"));
+                        }
+                        else{
+                            let sql = "INSERT INTO usuario(email,password,name,imagen,date) VALUES(?,?,?,?,?)";
+                            connection.query(sql,[email,password,name,img,today],function(err,resultado)
+                            {
+                                if(err){
+                                    callback(new Error("Error de acceso a la base de datos"));  
+                                }
+                                //insercion correcta
+                                else{
+                                    callback(null,true);
+                                }
+                        });
+                        }
+                    }
+                });
+
+              
+    
+         }
+        });
+    }
+
+    isUserCorrect(email,password, callback) {
+
+        this.pool.getConnection(function(err, connection) {
+            if (err) { 
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else {
+            connection.query("SELECT * FROM usuario WHERE email = ?" ,
+            [email],
+            function(err, rows) {
+                connection.release(); // devolver al pool la conexión
+                if (err) {
+                    callback(new Error("Error de acceso a la base de datos"));
+                }
+                else {
+                    //Comprobamos si el email existe
+                    if (rows.length === 0) {
+                        callback(new Error("El email introducido no existe en la base de datos"));
+                    }
+                    else {
+                        //Si existe el email y la pass es correcta
+                        if(rows[0].password === password){
+                            callback(null, true);
+                        }
+                        //en caso de que no exista la pass con ese usuario
+                        else{
+                            callback(new Error("La contraseña introducida no corresponde al usuario"));
+                        }
+                    }           
+                }
+            });
+            }
+        }
+        );
+    } 
+
+
+
+
+    //BUSCAR USUARIO POR CORREO
+    getUser(email,callback){
+        this.pool.getConnection(function(err,connection){
+            if(err){
+                callback(new Error("Error de conexión a la base de datos"))
+                
+            }
+            else{
+                const sql = "SELECT *  FROM usuario WHERE email = ?";
+                connection.query(sql,[email], function(err,resultado){
+                    connection.release();
+                    if(err){
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        if(resultado.length>0)
+                        {            
+                            callback(null,resultado[0]);
+                        }
+                        else{ //es cero
+                            callback(new Error("No existe el usuario"));
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    //TOOODOS USUARIOS
+    getAllUsers(callback){
+        this.pool.getConnection(function(err,connection){
+            if(err){
+                callback(new Error("Error de conexión a la base de datos"))
+                
+            }
+            else{
+                const sql = "SELECT *  FROM usuario";
+                connection.query(sql, function(err,resultado){
+                    connection.release();
+                    if(err){
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        if(resultado.length>0)
+                        {            
+                            let usuarios = [];
+                            for(let it of resultado){
+                            usuarios[it.id] = {
+                                "id" : it.id,
+                                "email": it.email,
+                                "name": it.name,
+                                "img": it.imagen,
+                                "date": it.date,
+                                "reputation": it.reputation,
+                                "publicate_questions" : it.publicate_questions,
+                                "publicate_response" : it.publicate_response
+                            };
+        
+                            }
+                            
+                            resultado = usuarios;
+                            callback(null,resultado);
+                        }
+                        else{ //es cero
+                            callback(new Error("No existe el usuario"));
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
+
+    /*
     //USUARIO CORRECTO
     isUserCorrect(email, password, callback) {
 
@@ -42,7 +274,7 @@ class DAOUsers{
         );
     } 
 
-
+*/
     getUserImageName(email,callback){
         this.pool.getConnection(function(err,connection){
             if(err){
