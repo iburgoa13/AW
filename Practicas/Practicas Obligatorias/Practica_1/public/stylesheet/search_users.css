@@ -1,0 +1,148 @@
+*{
+    margin: 0;
+    padding: 0;
+    /*border: 1px solid black;*/
+}
+header{
+    display: flex;
+    background: radial-gradient(circle, rgb(239, 243, 0) 0%, rgb(255, 170, 13) 91%);
+    height: 100px;
+    padding: 1% 2%;
+    top: 0;
+    justify-content: space-between;
+    align-items: center;
+}
+body{
+    background-color: rgb(255, 251, 139);
+}
+h1{
+    
+    text-align: center;
+    color: white;
+    font-size: 8em;
+    text-shadow: 6px 10px 5px black;
+   
+}
+main{
+   
+    width: 100%;
+}
+#buscar{
+    background-image: url(../../images/descarga.png);
+    background-repeat: no-repeat;
+    background-size: 1.2%;
+    padding-left:2%;
+}
+
+.header_button{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between ;
+  
+}
+.button_principal{
+    padding:5px;
+    border-radius: 5px;
+    background-color:rgb(255, 102, 0);
+    margin-top: 10px;
+    color:white;
+    width: 150%;
+}
+.information {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    float: right;
+    width: 10%;
+
+}
+#avatar{
+    border-radius: 10%;
+    width: 50%;
+}
+#cerrar{
+    padding:3px;
+    border-radius: 5px;
+    background-color:rgb(255, 102, 0);
+    color:white; 
+    margin-top: 7px;
+}
+
+#buscar{
+    background-image: url(../images/descarga.png);
+    background-repeat: no-repeat;
+    background-size: 1.2%;
+    padding-left:2%;
+    width: 85%;
+    border-radius:5px;
+    border: 1px  gray solid;
+    background-position-y: center;
+    background-position-x: 0.5%;
+    margin-bottom: 15px;
+}
+#button_nav{
+    padding:3px;
+    border-radius: 5px;
+    width: 5%; 
+    background-color:rgb(255, 102, 0);
+    color:white;
+}
+
+nav{
+    margin-top:1%;
+    margin-left:3%;
+}
+img{
+    width: 25%;
+}
+
+
+.centro{
+    margin-left: 50px;
+    margin-right: 50px;
+    display: block;
+    justify-content: center;
+
+    height: 600px;
+}
+.centro h2{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: auto;
+    text-align: center;
+
+}
+
+
+#filtrar_user{
+    margin-left: 100px;
+    background-image: url(../images/descarga.png);
+    background-repeat: no-repeat;
+    background-size: 5%;
+    padding-left:2%;
+    width: 20%;
+    border-radius:5px;
+    border: 1px  gray solid;
+    background-position-y: center;
+    background-position-x: 0.5%;
+    margin-bottom: 30px;
+}
+.container{
+    justify-content: center;
+    text-align: center;
+    margin-top: 10px;
+    margin-right: 20%;
+   
+    margin-left: 250px;
+    height: 400px;
+    
+}
+.cajas{
+    float: left;
+    width: 150px;
+    height:150px;
+    margin-top: 20px;
+    margin-left: 25px;
+    border: 1px  gray solid;
+}
