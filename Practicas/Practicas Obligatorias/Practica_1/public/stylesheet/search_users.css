@@ -107,11 +107,11 @@ img{
     height: 600px;
 }
 .centro h2{
+    font-size: 35px;
     padding-top: 10px;
     padding-bottom: 10px;
     margin: auto;
     text-align: center;
-
 }
 
 
@@ -140,9 +140,31 @@ img{
 }
 .cajas{
     float: left;
-    width: 150px;
-    height:150px;
+    width: 160px;
+    height:160px;
     margin-top: 20px;
     margin-left: 25px;
     border: 1px  gray solid;
+}
+.avatar{
+    border-radius: 10%;
+    width: 50%;
+
+}
+img{
+    margin-top: 5px;
+}
+.tag{
+    margin-top:10px;
+   margin-bottom: 20px;
+   border-bottom: 10px;
+}
+a{
+    
+    padding:3px;
+    width: 10px;
+    text-decoration: none;
+    border: 1px solid orangered;
+    color:black;
+    background-color: peachpuff;
 }
