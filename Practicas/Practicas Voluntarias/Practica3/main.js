@@ -21,10 +21,59 @@ const pool = mysql.createPool({
 });
 
 let daoUser = new DAOUsers(pool);
-let daoTask = new DAOTasks(pool);
 
+//let daoTask = new DAOTasks(pool);
+let tags = ["AW","PRUEBA","AMONOS"];
+/*
+tags.forEach(element => {
+    console.log(element);
+});*/
 
-daoUser.isUserCorrect("usuario@ucm.es","mipass",function(err,exist){
+daoUser.insertQuestion("TITULO DE PRUEBA","ESTO ES UNA PRUEBA PARA VER SI FUNCIONA",tags,1, function(err,exist){
+    if(err){
+        console.log(err.message);
+    }
+    else{
+        if(exist){
+            console.log("Inserciones hechas");
+        }
+    }
+});
+
+/*
+daoUser.insertUser("pruesbsa@prueba.com","65s4321","LIBROFUERTE_88","deiudhefuerhfnfu",function(err,exist){
+    if(err){
+        console.log(err.message);
+    }
+    else{
+        if(exist){
+            console.log("Usuario insertado con éxito");
+        }
+    }
+});
+*/
+/*
+daoUser.getUser("usuario2@prueba.com",function(err,usuarios){
+    if(err){
+        console.log(err.message);
+    }
+    else{
+        console.log(usuarios);
+    }
+});*/
+/*
+daoUser.getAllUsers(function(err,usuarios){
+    if(err){
+        console.log(err.message);
+    }
+    if(usuarios.length>0){
+            
+        console.log(usuarios.filter(el=> el!= ''));
+    }
+  
+});*/
+/*
+daoUser.isUserCorrect("usuario@prueba.com","123456",function(err,exist){
     if(err){
         console.log(err.message);
     }
@@ -37,7 +86,8 @@ daoUser.isUserCorrect("usuario@ucm.es","mipass",function(err,exist){
         }
     }
 });
-
+*/
+/*
 daoUser.getUserImageName("usuario@ucm.es",function(err,result){
     if(err){
         console.log(err.message);
@@ -96,5 +146,5 @@ daoTask.deleteCompleted("usuario@ucm.es",function(err){
 })
 
 
-
+*/
 

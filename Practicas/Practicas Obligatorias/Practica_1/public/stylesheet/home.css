@@ -72,7 +72,11 @@ main{
     font-size: 1em;
 }
 input{
+<<<<<<< HEAD
     background-image: url(../../public/images/descarga.png);
+=======
+    background-image: url(../images/descarga.png);
+>>>>>>> 4466a8b4ecc39005996119a8d2e8284d7078fbf2
     background-repeat: no-repeat;
     background-size: 1.2%;
     width: 85%;
