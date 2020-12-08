@@ -5,7 +5,7 @@
 }
 header{
     display: flex;
-    background: radial-gradient(circle, rgb(239, 243, 0) 0%, rgb(255, 170, 13) 91%);
+    background-image: linear-gradient(180deg,rgb(52, 116, 189), rgb(197, 222, 243));
     height: 100px;
     padding: 1% 2%;
     top: 0;
@@ -13,19 +13,23 @@ header{
     align-items: center;
 }
 body{
-    background-color: rgb(255, 251, 139);
+    background-color: rgb(197, 222, 243);
 }
 h1{
     
     text-align: center;
     color: white;
     font-size: 8em;
-    text-shadow: 6px 10px 5px black;
+    text-shadow: 6px 10px 5px rgb(45, 79, 129);
    
 }
 main{
-   
     width: 100%;
+    font-family: 'Roboto', sans-serif;
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width:700px;
 }
 
 .header_button{
@@ -38,10 +42,12 @@ main{
 .button_principal{
     padding:5px;
     border-radius: 5px;
-    background-color:rgb(255, 102, 0);
+    background-color: rgb(52, 116, 189);
+    box-shadow: 4px 4px 4px rgb(37, 37, 37);
+    color: white;
     margin-top: 10px;
-    color:white;
     width: 150%;
+    font-size: 1em;
 }
 
 .information {
@@ -51,6 +57,7 @@ main{
     justify-content: center;
     float: right;
     width: 10%;
+    font-size: 1em;
 
 }
 
@@ -62,15 +69,24 @@ main{
 #cerrar{
     padding:3px;
     border-radius: 5px;
-    background-color:rgb(255, 102, 0);
-    color:white; 
+    background-color: rgb(52, 116, 189);
+    box-shadow: 4px 4px 4px rgb(37, 37, 37);
+    color: white;
+    font-size: 1em;
     margin-top: 7px;
 }
 #buscar{
-    background-image: url(../images/descarga.png);
+    background-image: url(../../public/images/descarga.png);
     background-repeat: no-repeat;
     background-size: 1.2%;
+    width: 85%;
+    padding:4px;
     padding-left:2%;
+    border-radius:5px;
+    border: 1px  gray solid;
+    background-position-y: center;
+    background-position-x: 0.5%;
+    font-size: 1em;
 }
 
 textarea{
@@ -82,19 +98,14 @@ textarea{
     background-position-y: center;
     background-position-x: 0.5%;
     margin-bottom: 10px;
+    font-size: 1em;
 }
 #titulo{
     font-size: 30px;
     text-align: center;
     margin-bottom: 30px;
 }
-main{
 
-    align-content: center;
-    margin-left: 350px;
-    margin-right: auto;
-    width:700px;
-}
 #contenido{
     margin-left: 75px;
 }
@@ -103,12 +114,14 @@ main{
     margin-top: 10px;
     margin-bottom: 5%;
     border-radius: 5px;
-    background-color: orange;
+    background-color: rgb(52, 116, 189);
+    box-shadow: 4px 4px 4px rgb(37, 37, 37);
     color: white;
     align-self: center;
     margin-left: auto;
     margin-right: auto;
     display: block;
+    font-size: 1em;
 }
 .elementoSec{
     font-size: 15px;
@@ -132,8 +145,10 @@ input{
     padding:3px;
     border-radius: 5px;
     width: 5%; 
-    background-color:rgb(255, 102, 0);
-    color:white;
+    background-color: rgb(52, 116, 189);
+    box-shadow: 4px 4px 4px rgb(37, 37, 37);
+    color: white;
+    font-size: 1em;
 }
 
 nav{

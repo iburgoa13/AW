@@ -25,9 +25,12 @@ h1{
    
 }
 main{
-   
     width: 100%;
     font-family: 'Roboto', sans-serif;
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width:700px;
 }
 
 
