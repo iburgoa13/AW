@@ -66,7 +66,7 @@ class DAOUsers{
                 else {
                     //Comprobamos si el email existe
                     if (rows.length === 0) {
-                        callback(new Error("El email introducido no existe en la base de datos"));
+                        callback(new Error("Usuario y/o contraseña incorrecta"));
                     }
                     else {
                         //Si existe el email y la pass es correcta
@@ -75,7 +75,7 @@ class DAOUsers{
                         }
                         //en caso de que no exista la pass con ese usuario
                         else{
-                            callback(new Error("La contraseña introducida no corresponde al usuario"));
+                            callback(new Error("Usuario y/o contraseña incorrecta"));
                         }
                     }           
                 }

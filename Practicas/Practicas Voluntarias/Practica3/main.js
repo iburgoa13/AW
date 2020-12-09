@@ -23,13 +23,24 @@ const pool = mysql.createPool({
 let daoUser = new DAOUsers(pool);
 
 //let daoTask = new DAOTasks(pool);
-let tags = ["AW","PRUEBA","AMONOS"];
+let tags = ["AW","PORDIOS","AMONOS","UNAMAS"];
 /*
 tags.forEach(element => {
     console.log(element);
 });*/
 
-daoUser.insertQuestion("TITULO DE PRUEBA","ESTO ES UNA PRUEBA PARA VER SI FUNCIONA",tags,1, function(err,exist){
+daoUser.numberQuestionVote(16,1,8,1,function(err,exist){
+    if(err){
+        console.log(err.message);
+    }
+    else{
+        if(exist){
+            console.log("HAS VOTADO");
+        }
+    }
+});
+/*
+daoUser.insertQuestion("TITULO DE PRUEBA CON TAGS","ESTO ES UNA PRUEBA PARA VER SI FUNCIONA 2",tags,1, function(err,exist){
     if(err){
         console.log(err.message);
     }
@@ -38,7 +49,7 @@ daoUser.insertQuestion("TITULO DE PRUEBA","ESTO ES UNA PRUEBA PARA VER SI FUNCIO
             console.log("Inserciones hechas");
         }
     }
-});
+});*/
 
 /*
 daoUser.insertUser("pruesbsa@prueba.com","65s4321","LIBROFUERTE_88","deiudhefuerhfnfu",function(err,exist){
