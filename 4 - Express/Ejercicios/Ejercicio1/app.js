@@ -26,6 +26,7 @@ app.listen(3000, (err) => {
 app.get("/usuarios", function(request, response){
     response.redirect("/users");
 });
+
 app.get("/public/css/usuarios.css",function(request,response){
     response.sendFile(path.join(__dirname,"public","css","usuarios.css"));
 });
