@@ -111,6 +111,7 @@ class DAOQuestionResponse{
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else{
+                //AQUI ANTES COMPROBAR QUE ESTA PREGUNTA NO ES MIA(???)
                 const e = Date.now();
                 const today = new Date(e);
                 //COMPROBAR SI YA HE VOTADO YO A ESA PERSONA
