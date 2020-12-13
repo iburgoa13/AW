@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-12-2020 a las 20:06:04
+-- Tiempo de generación: 13-12-2020 a las 12:31:00
 -- Versión del servidor: 10.4.8-MariaDB
 -- Versión de PHP: 7.3.10
 
@@ -35,6 +35,22 @@ CREATE TABLE `medals` (
   `merit` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `medals`
+--
+
+INSERT INTO `medals` (`id`, `medal`, `name`, `merit`) VALUES
+(1, 'BRONCE', 'Estudiante', 'Pregunta con 1 punto'),
+(2, 'BRONCE', 'Pregunta interesante', 'Pregunta con 2 puntos'),
+(3, 'PLATA', 'Buena pregunta', 'Pregunta con 4 puntos'),
+(4, 'ORO', 'Excelente pregunta', 'Pregunta con 6 puntos'),
+(5, 'BRONCE', 'Pregunta popular', 'Pregunta con 2 visitas'),
+(6, 'PLATA', 'Pregunta destacada', 'Pregunta con 4 visitas'),
+(7, 'ORO', 'Pregunta famosa', 'Pregunta con 6 visitas'),
+(8, 'BRONCE', 'Respuesta interesante', 'Respuesta con 2 puntos'),
+(9, 'PLATA', 'Buena respuesta', 'Respuesta con 4 puntos'),
+(10, 'ORO', 'Excelente respuesta', 'Respuesta con 6 puntos');
+
 -- --------------------------------------------------------
 
 --
@@ -56,7 +72,9 @@ CREATE TABLE `question` (
 --
 
 INSERT INTO `question` (`id`, `title`, `body`, `counter_visit`, `counter_vote`, `id_user`, `date`) VALUES
-(16, 'TITULO DE PRUEBA', 'ESTO ES UNA PRUEBA PARA VER SI FUNCIONA', 0, 2, 1, '2020-12-09');
+(16, 'TITULO DE PRUEBA', 'ESTO ES UNA PRUEBA PARA VER SI FUNCIONA', 0, 2, 1, '2020-12-09'),
+(37, 'FUNCIONA PLS', 'ESTO ES UNA PRUEBA ', 0, 0, 1, '2020-12-13'),
+(38, 'OLE OLE ', 'BLABLBALBLALBALBALLABLBLABALBALBLA', 0, 0, 1, '2020-12-15');
 
 -- --------------------------------------------------------
 
@@ -90,8 +108,17 @@ CREATE TABLE `response` (
   `counter_vote` int(11) NOT NULL DEFAULT 0,
   `id_question` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `date` datetime NOT NULL DEFAULT current_timestamp()
+  `date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `response`
+--
+
+INSERT INTO `response` (`id`, `message`, `counter_vote`, `id_question`, `id_user`, `date`) VALUES
+(1, 'esto no es asi ', 0, 37, 14, '2020-12-08'),
+(2, 'aaaamigo', 0, 37, 14, '2020-12-23'),
+(3, 'dededed', 0, 38, 14, '2020-12-23');
 
 -- --------------------------------------------------------
 
@@ -116,14 +143,44 @@ INSERT INTO `tag` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `user_medal`
+-- Estructura de tabla para la tabla `user_medal_question`
 --
 
-CREATE TABLE `user_medal` (
+CREATE TABLE `user_medal_question` (
   `id_user` int(11) NOT NULL,
   `id_medal` int(11) NOT NULL,
-  `date` datetime NOT NULL
+  `id_question` int(11) NOT NULL,
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `user_medal_question`
+--
+
+INSERT INTO `user_medal_question` (`id_user`, `id_medal`, `id_question`, `date`) VALUES
+(1, 1, 37, '2020-12-14'),
+(1, 1, 38, '2020-12-17');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_medal_response`
+--
+
+CREATE TABLE `user_medal_response` (
+  `id_user` int(11) NOT NULL,
+  `id_medal` int(11) NOT NULL,
+  `id_response` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `user_medal_response`
+--
+
+INSERT INTO `user_medal_response` (`id_user`, `id_medal`, `id_response`, `date`) VALUES
+(14, 8, 1, '2020-12-26'),
+(14, 8, 2, '2020-12-30');
 
 -- --------------------------------------------------------
 
@@ -171,7 +228,7 @@ INSERT INTO `usuario` (`id`, `email`, `password`, `name`, `imagen`, `date`, `rep
 CREATE TABLE `visit_question_user` (
   `id_user` int(11) NOT NULL,
   `id_question` int(11) NOT NULL,
-  `date` datetime NOT NULL
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -183,7 +240,7 @@ CREATE TABLE `visit_question_user` (
 CREATE TABLE `vote_question_user` (
   `id_user` int(11) NOT NULL,
   `id_question` int(11) NOT NULL,
-  `date` datetime NOT NULL
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -191,10 +248,10 @@ CREATE TABLE `vote_question_user` (
 --
 
 INSERT INTO `vote_question_user` (`id_user`, `id_question`, `date`) VALUES
-(3, 16, '2020-12-09 19:57:12'),
-(5, 16, '2020-12-09 19:57:48'),
-(7, 16, '2020-12-09 20:04:10'),
-(8, 16, '2020-12-09 20:04:42');
+(3, 16, '2020-12-09'),
+(5, 16, '2020-12-09'),
+(7, 16, '2020-12-09'),
+(8, 16, '2020-12-09');
 
 -- --------------------------------------------------------
 
@@ -205,7 +262,7 @@ INSERT INTO `vote_question_user` (`id_user`, `id_question`, `date`) VALUES
 CREATE TABLE `vote_response_user` (
   `id_user` int(11) NOT NULL,
   `id_response` int(11) NOT NULL,
-  `date` datetime NOT NULL
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -247,11 +304,20 @@ ALTER TABLE `tag`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `user_medal`
+-- Indices de la tabla `user_medal_question`
 --
-ALTER TABLE `user_medal`
-  ADD PRIMARY KEY (`id_user`,`id_medal`),
-  ADD KEY `FK_MEDAL_R` (`id_medal`);
+ALTER TABLE `user_medal_question`
+  ADD PRIMARY KEY (`id_user`,`id_medal`,`id_question`),
+  ADD KEY `FM_UMQ1` (`id_medal`),
+  ADD KEY `FM_UMQ2` (`id_question`);
+
+--
+-- Indices de la tabla `user_medal_response`
+--
+ALTER TABLE `user_medal_response`
+  ADD PRIMARY KEY (`id_user`,`id_medal`,`id_response`),
+  ADD KEY `FK_UMR1` (`id_medal`),
+  ADD KEY `FK_UMR2` (`id_response`);
 
 --
 -- Indices de la tabla `usuario`
@@ -288,19 +354,19 @@ ALTER TABLE `vote_response_user`
 -- AUTO_INCREMENT de la tabla `medals`
 --
 ALTER TABLE `medals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `response`
 --
 ALTER TABLE `response`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tag`
@@ -339,11 +405,20 @@ ALTER TABLE `response`
   ADD CONSTRAINT `FK_USER` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `user_medal`
+-- Filtros para la tabla `user_medal_question`
 --
-ALTER TABLE `user_medal`
-  ADD CONSTRAINT `FK_MEDAL_R` FOREIGN KEY (`id_medal`) REFERENCES `medals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_USER_R` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `user_medal_question`
+  ADD CONSTRAINT `FK_UMQ` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FM_UMQ1` FOREIGN KEY (`id_medal`) REFERENCES `medals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FM_UMQ2` FOREIGN KEY (`id_question`) REFERENCES `question` (`id`);
+
+--
+-- Filtros para la tabla `user_medal_response`
+--
+ALTER TABLE `user_medal_response`
+  ADD CONSTRAINT `FK_UMR` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_UMR1` FOREIGN KEY (`id_medal`) REFERENCES `medals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_UMR2` FOREIGN KEY (`id_response`) REFERENCES `response` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `visit_question_user`
