@@ -1,12 +1,14 @@
-
+"use strict"
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const app = express();
-
+const morgan = require("morgan");
+const ficherosEst = path.join(__dirname,"public");
+app.use(morgan("dev"))
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(ficherosEstnodeno));
 app.get("/public/css/form_get.css",function(request,response){
     response.sendFile(path.join(__dirname,"public","css","form_get.css"));
 });
