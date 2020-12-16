@@ -31,11 +31,7 @@ app.use(function(request,response,next){
 });
 
 
-app.use(function(request,response,next){
-    request.esUCM = request.ip.startsWith("127.0.");
-    next();
-});
-
+z
 
 app.listen(3000, (err) => {
     if (err) console.log(err);

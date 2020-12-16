@@ -1,0 +1,204 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url(../img/tasks.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+} 
+
+header{
+    position: fixed;
+    display: flex;
+    background-color: rgb(194, 166, 166);
+    width: 100%;
+    height: 100px;
+    padding: 1% 2%;
+    flex-grow: 1;
+    justify-content: space-around;
+    top: 0;
+}
+header h1{
+    color: white;
+    font-size: 5em;
+    width: 75%;
+    text-shadow: 6px 10px 5px black;
+}
+
+header h1:hover{
+    text-shadow: 0 0 10px white;
+}
+.usuario{
+    display: flex;
+    float: right;
+    margin-right:40px;
+}
+.usuario img{
+    border-radius: 100%;
+}
+.informacion-usuario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    padding: 20px;
+}
+
+.informacion-usuario a{
+    text-decoration: none;
+    margin-top: 1%;
+}
+
+.informacion-usuario a:hover{
+    color: white;
+    cursor: pointer;
+}
+
+
+#desconectar{
+    color:black;
+    margin-top:20%;
+}
+
+#desconectar:hover{
+    color:blue;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    margin: 180px 20% 0 20%;
+    color:white;
+}
+.tarea_finalizada{
+    background-color:#6ec0bb;
+    border: 2px solid	#6d8081;
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;  
+}
+.tareas{
+    background-color:#6ec0bb;
+    border: 2px solid	#6d8081;
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.tag {
+    padding: 3px;
+    color:white;
+    background-color: #48706d;
+    border: 2px solid white;
+    border-radius: 15%;
+    margin-left: 3%;
+}
+
+.boton_tarea {
+    background-color: #e25129;
+    color:white;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 5px;
+    text-align: center;
+    float: right;
+    display: flex;
+    font-size: 14px;
+    margin-inline-start:auto;
+}
+.boton_tarea:hover{
+    color: white;
+    background-color: firebrick;
+}
+.anadirTarea {
+    background-color: #66a5a4;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    float: right;
+    display: flex;
+    font-size: 14px;
+    margin-inline-start: 0px;
+    
+}
+h3{
+    display: inline-block;
+}
+#tarea2 {
+    opacity: 0.5;
+}
+.finalizarTarea {
+    text-decoration: line-through;
+    color: rgb(33, 28, 28);
+    margin-left: 25px;
+}
+
+.buscar {
+    background-color:#2f4f4e;
+    text-align: center;
+    border: 2px solid #72a69e;
+    margin: 20px 0;
+    padding: 10px;
+}
+
+input {
+    border: 2px solid #72a69e;
+    padding: 5px;
+    padding-bottom: 10px;
+    padding-top:10px;
+    width: 80%;
+    margin-right:50px;
+}
+
+
+.boton_anadir {
+    color:white;
+    background-color:#72a69e;
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+}
+.boton_anadir:hover{
+    color:blue;
+    background-color: white;
+}
+
+.eliminarCompletadas {
+    margin: 0 auto;
+
+}
+
+
+#eliminar {
+    background-color:#293133;
+    border: 2px solid #FFFFFF;
+    color:white;
+    cursor: pointer;
+    padding-left:30px;
+    padding-right:30px; 
+    padding-top:10px;
+    padding-bottom:10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#eliminar:hover{
+    color:rgb(13, 13, 191);
+    background-color: rgb(242, 12, 12);
+ 
+}

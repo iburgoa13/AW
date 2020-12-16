@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>PRACTICA 4 VOLUNTARIA</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/tasksScreen.css" media="screen">
+        <link rel="stylesheet" href="css/tasksPrint.css" media="print">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="img/favicon.png">
+    </head>
+    <body>
+        <header>
+            <h1>TAREAS</h1>
+            <div class="usuario">
+                <img src="img/user.png" alt="image"/>
+                <div class="informacion-usuario">
+                    <p id="mail" ><%= user%></p>
+                    <a id="desconectar" href="">DESCONECTAR</a>
+                </div>
+            </div>   
+        </header>
+        <main>
+            <div class="container">
+                <% if(taskList.length>0) {%>
+                    <% taskList.forEach(task => {%>
+                        <% if(task.done){%>
+                        <div class ="tarea_finalizada" id="tarea2"> 
+                            <h3 class="finalizarTarea"><%= task.text%></h3>
+                        </div>
+                        
+                        <%} else {%>
+
+                        <div class ="tareas">
+                            <h3><%= task.text %></h3>
+                            <%task.tags.forEach(tag => {%>
+                                <span class="tag"> <%=tag%> </span>
+                            <% }) %>
+                            <a href="/finish/<%=task.id%>" id ="marcar"class="boton_tarea">MARCAR FINALIZADA</a>
+                        </div>
+                    <% }}) %>
+                <%}%>  
+                    <div id="s1" class="buscar">
+                        <form class="formulario" action="/addTask" method="POST">
+                            <input type="text" name = "texto" placeholder=" " required>
+                            <button type="submit" class="boton_anadir">AÑADIR</button>
+                        </form>
+                    </div>
+
+                    <div class="eliminarCompletadas">
+                        <a href="/deleteCompleted" id="eliminar">ELIMINAR TAREAS COMPLETADAS</a>
+                    </div>
+                    
+            </div>
+          
+            
+        </main>
+    </body>
+</html>
