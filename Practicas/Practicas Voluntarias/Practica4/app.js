@@ -27,7 +27,7 @@ app.get("/tasks", function(request, response){
     daoT.getAllTasks(correo,function(err,lista){
         if(err){
             console.log(err.message);
-            response.status(500).end();
+            response.status(500).end(err.message);
         }
         else{
             response.status(200).render("tasks",{taskList:lista,user:correo});
@@ -44,8 +44,7 @@ app.post("/addTask",function(request,response){
         if(err){
             console.log(err.message);
             response.status(500);
-            response.write(err.message);
-            response.redirect("/tasks");
+            response.end(err.message);
         }
         else{
             response.status(200);
@@ -59,7 +58,7 @@ app.get("/finish/:taskId",function(request,response){
     daoT.markTaskDone(request.params.taskId,function(error){
         if(error){
             console.log(error.message);
-            response.status(500).end();
+            response.status(500).end(error.message);
         }
         else{
             response.status(200).redirect("/tasks");
@@ -72,7 +71,7 @@ app.get("/deleteCompleted",function(request,response){
     daoT.deleteCompleted(correo,function(error){
         if(error){
             console.log(error.message);
-            response.status(500).end();
+            response.status(500).end(error.message);
         }
         else{
             response.status(200).redirect("/tasks");
