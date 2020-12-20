@@ -1,3 +1,12 @@
+/*
+Práctica 4
+Grupo 03
+Miembros: Daniela Nicoleta Boldureanu
+          Iker Burgoa Muñoz 
+        
+*/ 
+
+
 "use strict"
 const config = require("./config");
 const DAOTasks = require("./DAOTasks");
@@ -40,7 +49,7 @@ app.post("/addTask",function(request,response){
     const {text, tags} = utils.createTask(request.body.texto);
     const new_task = {text,tags,user:correo,done:0};
 
-    daoT.insertTask(correo,new_task,function(err,eee){
+    daoT.insertTask(correo,new_task,function(err){
         if(err){
             console.log(err.message);
             response.status(500);

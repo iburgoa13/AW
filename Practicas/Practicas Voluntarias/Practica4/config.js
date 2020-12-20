@@ -1,4 +1,12 @@
-// config.js
+/*
+Práctica 4
+Grupo 03
+Miembros: Daniela Nicoleta Boldureanu
+          Iker Burgoa Muñoz 
+        
+*/ 
+
+
 "use strict";
 module.exports = {
    mysqlConfig: {

@@ -24,9 +24,9 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
-DROP TABLE `tag`;
-DROP TABLE `task`;
-DROP TABLE `user`;
+DROP TABLE IF EXISTS `tag`;
+DROP TABLE IF EXISTS`task`;
+DROP TABLE IF EXISTS `user`;
 
 --
 -- Estructura de tabla para la tabla `tag`
@@ -41,9 +41,6 @@ CREATE TABLE `tag` (
 -- Volcado de datos para la tabla `tag`
 --
 
-INSERT INTO `tag` (`taskId`, `tag`) VALUES
-(6, 'Este no'),
-(7, 'Este se elimina');
 
 -- --------------------------------------------------------
 
@@ -62,9 +59,6 @@ CREATE TABLE `task` (
 -- Volcado de datos para la tabla `task`
 --
 
-INSERT INTO `task` (`id`, `user`, `text`, `done`) VALUES
-(6, 'daniela@ucm.es', 'Prueba', 0),
-(7, 'daniela@ucm.es', 'Prueba 2', 1);
 
 -- --------------------------------------------------------
 
@@ -81,10 +75,6 @@ CREATE TABLE `user` (
 --
 -- Volcado de datos para la tabla `user`
 --
-
-INSERT INTO `user` (`email`, `password`, `img`) VALUES
-('daniela@ucm.es', '1234', 'Hola');
-
 --
 -- Índices para tablas volcadas
 --

@@ -1,6 +1,13 @@
+/*
+Práctica 4
+Grupo 03
+Miembros: Daniela Nicoleta Boldureanu
+          Iker Burgoa Muñoz 
+        
+*/ 
+
+
 "use strict";
-
-
 
 class DAOTasks {
  constructor(pool) {  
@@ -52,13 +59,10 @@ class DAOTasks {
     );
    }
  
- insertTask(email, task, callback) {  
+   insertTask(email, task, callback) {  
     this.pool.getConnection(function(err, connection) {
         if(err){
             callback(new Error("Error de conexión a la base de datos"));
-        }
-        else if(task["tags"].length>5){
-            callback(new Error("Solo se permiten 5 tags"));
         }
         else{
             let sql = "INSERT INTO task(user,text,done) VALUES(?,?,?)";
@@ -90,6 +94,7 @@ class DAOTasks {
      }
     });
 }
+
 
    
  markTaskDone(idTask, callback) {  
