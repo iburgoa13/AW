@@ -38,6 +38,8 @@ header h1:hover{
 }
 .usuario img{
     border-radius: 100%;
+    width: 30%;
+    height: auto;
 }
 .informacion-usuario{
     display: flex;
