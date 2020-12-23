@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/home.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="icon" type="image/gif" href="img/favi.PNG">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>404</title>
+</head>
+<body>
+    <header>
+       <div class="header_button"> 
+           <button type="button" class="button_principal">Preguntas</button>
+           <button type="button" class="button_principal">Sin responder</button>
+           <button type="button" class="button_principal">Usuarios</button>
+       </div> 
+       <div><h1>404</h1></div>
+       <div class="information" >
+        <img id="avatar" src="/imagenUsuario" alt="image"/>
+        <p id="nombre"><%= usuario %></p>
+        <form action="/logout" method="GET">
+            <button id="cerrar" type="submit">Cerrar sesión</button>
+        </form>
+        
+    </div>
+    </header>
+    <nav>
+        <button type="button" id="button_nav">Buscar</button> 
+        <input type="search" placeholder="Buscar por titulo/cuerpo de preguntas">
+    </nav>
+    <main>
+        
+    </main>
+
+</body>
+</html>

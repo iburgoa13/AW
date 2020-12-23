@@ -73,6 +73,9 @@ app.get("/tasks", comprobarUsuario, function(request, response){
     });
 });
 
+app.get("/",function(request,response){
+    response.status(200).redirect("/login");
+});
 
 app.post("/addTask",comprobarUsuario,function(request,response){
     const {text, tags} = utils.createTask(request.body.texto);

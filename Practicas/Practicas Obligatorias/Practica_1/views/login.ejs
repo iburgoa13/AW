@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/login.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="icon" type="image/gif" href="img/favi.PNG">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>Login</title>
+</head>
+<body>
+    <header>
+        <div><h1>404</h1></div>
+    </header>
+    <main>
+        <form action="/login" method="POST">
+
+                    <label>Correo *</label>
+
+                    <input type="email" name="correo" required>
+
+                    <label>Contraseña *</label>
+
+                    <input type="password" name ="password" required>
+
+                    
+                    <form action="/home" method="GET">
+                        <button type="submit" class="boton">Iniciar Sesión</button>
+                    </form>
+                    <form action="/register" method="GET">
+                        <button type="submit" class="boton">Crear cuenta</button>
+                    </form>
+
+        </form>
+        <h3><%= errorMsg%></h3>
+    </main>
+
+</body>
+</html>
