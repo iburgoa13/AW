@@ -68,7 +68,7 @@ class DAOUsers{
 
     //USUARIO CORRECTO
     isUserCorrect(email,password, callback) {
-        console.log(email);
+
         this.pool.getConnection(function(err, connection) {
             if (err) { 
                 callback(new Error("Error de conexión a la base de datos"));
@@ -84,7 +84,6 @@ class DAOUsers{
                 else {
                     //Comprobamos si el email existe
                     if (rows.length === 0) {
-                        console.log("1");
                         callback(new Error("Usuario y/o contraseña incorrecta"));
                     }
                     else {
@@ -94,7 +93,6 @@ class DAOUsers{
                         }
                         //en caso de que no exista la pass con ese usuario
                         else{
-                            console.log("21");
                             callback(new Error("Usuario y/o contraseña incorrecta"));
                         }
                     }           

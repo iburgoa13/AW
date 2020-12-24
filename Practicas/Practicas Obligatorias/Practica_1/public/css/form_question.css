@@ -76,7 +76,7 @@ main{
     margin-top: 7px;
 }
 #buscar{
-    background-image: url(../../public/images/descarga.png);
+    background-image: url(../img/descarga.png);
     background-repeat: no-repeat;
     background-size: 1.2%;
     width: 85%;

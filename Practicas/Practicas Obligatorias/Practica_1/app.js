@@ -85,7 +85,6 @@ app.get("/",function(request,response){
 });
 app.get("/home", comprobarUsuario,comprobarNombre, function(request, response){
     let usuario={nombre:response.locals.userNombre};
-    console.log("aqui entra");
     response.status(200).render("home",
     {usuario});
 });
