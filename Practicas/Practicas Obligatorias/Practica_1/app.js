@@ -5,6 +5,7 @@ const DAOUsers = require("./models/DAOUsers");
 const path = require("path");
 const mysql = require("mysql");
 const express = require("express");
+var multer = require('multer');
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const session = require("express-session");
@@ -12,6 +13,17 @@ const mysqlSession = require("express-mysql-session");
 const MySQLStore = require("express-mysql-session");
 const MYSQLStore = mysqlSession(session);
 const sessionStore = MySQLStore(config.mysqlConfig);
+
+var storage = multer.diskStorage({ destination: function (req, file, cb) { 
+    cb(null, 'profile_imgs/') }, filename: function (req, file, cb) { 
+        let ext = ''; 
+        if (file.originalname.split(".").length>1) 
+        ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length); 
+        cb(null, Date.now() + ext);
+     } 
+    })
+
+ var upload = multer({ storage: storage });
 
 
 const middlewareSession = session({
@@ -51,18 +63,20 @@ function comprobarUsuario(request,response,next){
     }
 }
 function comprobarNombre(request,response,next){
-    if(response.locals.userEmail){
+    if( request.session.currentUser ){
         daoU.getUserName(request.session.currentUser,
             function(err,nombre){
                 if(err){
                     console.log(err);
                 }
                 else{
-                    console.log(nombre);
-                    nameUser = nombre;
+                    console.log("nombre");
+                    response.locals.userNombre = nombre;
+                    console.log(response.locals.userNombre)
+                    next();
                 }
         });
-            next();
+            
     }
     else{
         response.status(403).redirect("/login");
@@ -72,56 +86,14 @@ app.get("/",function(request,response){
     response.status(200).redirect("/login");
 });
 app.get("/home", comprobarUsuario,comprobarNombre, function(request, response){
-    console.log("GET HOME");
+    let usuario={nombre:response.locals.userNombre};
+    console.log("aqui entra");
     response.status(200).render("home",
-    {usuario:  "DEFAULT"});
+    {usuario});
 });
 
 
-app.post("/addTask",comprobarUsuario,function(request,response){
-    const {text, tags} = utils.createTask(request.body.texto);
-    const new_task = {text,tags,user:response.locals.userEmail,done:0};
 
-    daoT.insertTask(response.locals.userEmail,new_task,function(err){
-        if(err){
-            console.log(err.message);
-            response.status(500);
-            response.end(err.message);
-        }
-        else{
-            response.status(200);
-            response.redirect("/tasks");
-        }
-    });
-    
-});
-
-app.get("/finish/:taskId",comprobarUsuario,function(request,response){
-    daoT.markTaskDone(request.params.taskId,function(error){
-        if(error){
-            console.log(error.message);
-            response.status(500).end(error.message);
-        }
-        else{
-            response.status(200).redirect("/tasks");
-        }
-    });
-});
-
-
-app.get("/deleteCompleted",comprobarUsuario,function(request,response){
-    daoT.deleteCompleted(response.locals.userEmail,function(error){
-        if(error){
-            console.log(error.message);
-            response.status(500).end(error.message);
-        }
-        else{
-            response.status(200).redirect("/tasks");
-        }
-    });
-});
-
-//PRACTICA 5
 app.get("/login",function(request,response){
     response.status(200).render("login",{errorMsg: null})
 });
@@ -138,7 +110,7 @@ app.post("/login",function(request,response){
                 { errorMsg:error.message });
             }
             else if (userCorrect){
-                console.log("HOME");
+    
                 request.session.currentUser = request.body.correo;
 
                 response.redirect("/home");
@@ -156,16 +128,25 @@ app.get("/logout",function(request,response){
     request.session.destroy();
     response.redirect("/login");
 });
-app.post("/register",function(request,response){
+
+app.post("/register",upload.single('imagen'),function(request,response){
+    let imagenFich = null;
+    if (request.file) {
+		
+		imagenFich = request.file.filename;
+	}
     daoU.insertUser(request.body.correo,request.body.password,request.body.password2,
-        request.body.nombre,request.body.imagen,function(error,usuario){
+        request.body.nombre,imagenFich,function(error,usuario){
             if(error){
                 response.status(500);
                 response.render("register",
                 { errorMsg:error.message });
+      
             }
             else{
-                response.status(200).render("home",{usuario:  request.body.nombre});
+                request.session.currentUser = request.body.correo;
+                response.status(200).redirect("/home");
+                
             }
         });
 });

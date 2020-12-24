@@ -41,6 +41,7 @@ class DAOUsers{
                                 }
                                 //MIRAR IMAGEN
                                 let sql = "INSERT INTO usuario(email,password,name,imagen,date) VALUES(?,?,?,?,?)";
+                                
 
                                 connection.query(sql,[email,password,name,img,today],function(err,resultado)
                                 {
