@@ -70,9 +70,7 @@ function comprobarNombre(request,response,next){
                     console.log(err);
                 }
                 else{
-                    console.log("nombre");
                     response.locals.userNombre = nombre;
-                    console.log(response.locals.userNombre)
                     next();
                 }
         });
