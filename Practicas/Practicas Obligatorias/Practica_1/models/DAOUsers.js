@@ -1,4 +1,8 @@
 "use strict"
+const path = require("path");
+
+
+    
 
 class DAOUsers{
 
@@ -31,9 +35,13 @@ class DAOUsers{
                                 callback(new Error("El email ya existe en la base de datos"));
                             }
                             else{
+                                
+                                if(img === undefined || img ===""){
+                                    img = null;
+                                }
                                 //MIRAR IMAGEN
                                 let sql = "INSERT INTO usuario(email,password,name,imagen,date) VALUES(?,?,?,?,?)";
-                                console.log(email +" "+ password +" "+ name +" " + img + " " + today);
+
                                 connection.query(sql,[email,password,name,img,today],function(err,resultado)
                                 {
                                     if(err){
@@ -41,6 +49,7 @@ class DAOUsers{
                                     }
                                     //insercion correcta
                                     else{
+                                       
                                         callback(null,true);
                                     }
                             });
@@ -58,7 +67,7 @@ class DAOUsers{
 
     //USUARIO CORRECTO
     isUserCorrect(email,password, callback) {
-
+        console.log(email);
         this.pool.getConnection(function(err, connection) {
             if (err) { 
                 callback(new Error("Error de conexión a la base de datos"));
@@ -74,6 +83,7 @@ class DAOUsers{
                 else {
                     //Comprobamos si el email existe
                     if (rows.length === 0) {
+                        console.log("1");
                         callback(new Error("Usuario y/o contraseña incorrecta"));
                     }
                     else {
@@ -83,6 +93,7 @@ class DAOUsers{
                         }
                         //en caso de que no exista la pass con ese usuario
                         else{
+                            console.log("21");
                             callback(new Error("Usuario y/o contraseña incorrecta"));
                         }
                     }           

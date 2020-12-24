@@ -182,7 +182,6 @@ app.get("/imagenUsuario",comprobarUsuario,function(request,response){
                 response.status(200).sendFile(path.join(__dirname,"public","img","NoPerfil.png"));
             }
             else{
-                console.log(usuario);
                 response.status(200).sendFile(path.join(__dirname,"profile_imgs",usuario));
             }
         }
