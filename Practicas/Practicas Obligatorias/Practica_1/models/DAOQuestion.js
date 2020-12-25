@@ -103,7 +103,48 @@ class DAOQuestion{
         );
     }
 
+    getAllQuestion(callback){
+        this.pool.getConnection(function(err,connection){
+            if(err){
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+                
+                let sql ="SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario'" +
+",u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag)";
 
+                
+                 connection.query(sql,function(err,result){
+                    if(err){
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        let array = [];
+                        for(let it of result){
+                            let e = it.date.toISOString().split('T')[0];
+                            let publicado = new Date(e);
+                            let formatted_date = publicado.getDate() + "/" + (publicado.getMonth() + 1) + "/" + publicado.getFullYear() 
+                           
+                            if(!array[it.id])
+                            array[it.id]={
+                                    "id": it.id,
+                                    "title": it.title,
+                                    "body": it.body,
+                                    "date": formatted_date,
+                                    "usuario":it.NombreUsuario,
+                                    "imagen":it.imagen,
+                                    "tags": []
+                                };   
+                            if(it.nombreTag) array[it.id].tags.push(it.nombreTag);      
+                        }
+                        result = array;
+                        callback(null,result);
+                    }
+                 });
+            }
+        });
+      
+    }
 
     numberQuestionVote(id_question,id_user, id_mio, voto, callback){
         this.pool.getConnection(function(err, connection) {
@@ -182,5 +223,44 @@ class DAOQuestion{
             }
         });
     }
-
+    getQuestionFilterText(texto,callback){
+        this.pool.getConnection(function(err, connection) {
+            if(err){
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+                let sql = `SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario', u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) WHERE title like '%${texto}%' or body like '%${texto}%'`;
+               
+                connection.query(sql,function(err,result){
+                    if(err){
+                        callback(new Error("Error de acceso a la base de datos 2"));
+                    }
+                    else{
+                        let array = [];
+                        for(let it of result){
+                            let e = it.date.toISOString().split('T')[0];
+                            let publicado = new Date(e);
+                            let formatted_date = publicado.getDate() + "/" + (publicado.getMonth() + 1) + "/" + publicado.getFullYear() 
+                           
+                            if(!array[it.id])
+                            array[it.id]={
+                                    "id": it.id,
+                                    "title": it.title,
+                                    "body": it.body,
+                                    "date": formatted_date,
+                                    "usuario":it.NombreUsuario,
+                                    "imagen":it.imagen,
+                                    "tags": []
+                                };   
+                            if(it.nombreTag) array[it.id].tags.push(it.nombreTag);      
+                        }
+                        result = array;
+                        callback(null,result);
+                    }
+                });
+            }
+        });
+    }
 }    
+
+module.exports = DAOQuestion;

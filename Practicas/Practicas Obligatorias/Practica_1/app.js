@@ -41,7 +41,7 @@ const app = express();
 const pool = mysql.createPool(config.mysqlConfig);
 
 //creamos instancias de los DAOS
-//const daoQ = new DAOQuestion(pool);
+const daoQ = new DAOQuestion(pool);
 const daoU = new DAOUsers(pool);
 
 //estaticos
@@ -89,13 +89,46 @@ app.get("/home", comprobarUsuario,comprobarNombre, function(request, response){
     {usuario});
 });
 
-
-
+app.get("/formular", comprobarUsuario,comprobarNombre, function(request, response){
+    let usuario={nombre:response.locals.userNombre};
+    response.status(200).render("form_question",
+    {usuario});
+});
+app.post("/searchText", function(request,response){
+    console.log(request.body.texto);
+    daoQ.getQuestionFilterText(request.body.texto,function(err,results){
+        if(err){
+            response.status(500).send(err);
+        }
+        else{
+            console.log(request.body.texto);
+            console.log("Entra");
+            results = results.filter(el=> el!= '');
+            console.log(results);
+            let texto =  request.body.texto;
+            let usuario={nombre:response.locals.userNombre};
+            response.render("filter_question_text",{ usuario, questions:results, texto});
+        }
+    });
+});
 app.get("/login",function(request,response){
     response.status(200).render("login",{errorMsg: null})
 });
 app.get("/register",function(request,response){
     response.status(200).render("register",{errorMsg: null})
+});
+app.get("/questions",comprobarUsuario,comprobarNombre, function(request,response){
+    daoQ.getAllQuestion(function(err,results){
+        if(err){
+            response.status(500).send(err);
+        }
+        else{ 
+            results = results.filter(el=> el!= '');
+            let usuario={nombre:response.locals.userNombre};
+            response.render("questions",{ usuario, questions:results});
+        }
+    });
+   
 });
 app.post("/login",function(request,response){
     daoU.isUserCorrect(request.body.correo,request.body.password,

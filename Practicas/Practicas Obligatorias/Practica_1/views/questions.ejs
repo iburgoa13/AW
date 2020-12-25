@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/questions.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/gif" href="img/favi.PNG">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>404</title>
+</head>
+<body>
+    <header>
+        <div class="header_button"> 
+            <form action="/questions" method="GET">
+                 <button type="submit" class="button_principal">Preguntas</button>
+             </form>
+            <form action ="/sinRespuesta" method="GET">
+                 <button type="submit" class="button_principal">Sin responder</button>
+             </form>
+           <form action="/usuarios" method="GET">
+                 <button type="submit" class="button_principal">Usuarios</button>
+           </form>
+            
+        </div> 
+        <div><h1>404</h1></div>
+        <div class="information" >
+         <img id="avatar" src="/imagenUsuario" alt="image"/>
+         <p id="nombre" ><%= usuario.nombre %></p>
+         <form action="/logout" method="GET">
+             <button id="cerrar" type="submit">Cerrar sesión</button>
+         </form>
+         
+     </div>
+     </header>
+    <nav>
+        <form action="/searchText" method="POST">
+            <button type="submit" id="button_nav">Buscar</button> 
+            <input id="buscar" type="search" placeholder="Buscar por titulo/cuerpo de preguntas" name="texto">
+        </form>
+      
+    </nav>
+    <main>
+        <p id="titulo">Todas las preguntas</p>
+        <!--La pregunta y boton-->
+        <div id ="preguntas">
+            
+            <p id="num_preguntas"><%= questions.length %> Preguntas</p>
+            <form action="/formular" method="GET">
+                <button type="submit" class="boton">Formular una pregunta</button>
+            </form>
+            
+        </div>
+        <!--las preguntas-->
+        <div id ="contenido">
+            <% questions.forEach(pregunta => {%>
+            <!--la pregunta-->
+                <div class="preguntas_container">
+                    <div class="pregunta">           
+                        <p class="pregunta_start"><%= pregunta.title %></p> 
+                        <p class="contenido_pregunta"><%= pregunta.body %>
+                        </p>
+                        <div class="tag">
+                        <% pregunta.tags.forEach(tag =>{%>
+                            <a href=""><%= tag %></a>
+                        <%})%>
+                       
+                        </div>
+                    </div>
+                    <div class="info_usuario">
+                        <p class="pregunta_formulada">Formulada el <%= pregunta.date %></p>
+                        <img src='<%= pregunta.imagen %>' alt="Foto usuario">
+                        <p class="pregunta_user"><%= pregunta.usuario %></>
+                    </div>
+                </div>
+                <%})%>  
+    </main>
+
+</body>
+</html>
