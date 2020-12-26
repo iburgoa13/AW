@@ -51,6 +51,16 @@ app.use(express.static(ficherosEst));
 app.use(bodyParser.urlencoded({extended:false}));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+/*
+daoQ.insertQuestion("Pregunta para Daniela","Esto debe salir", 2,["uno","hola"],function(err,res){
+    if(err){
+        console.log(err);
+    }
+    else{
+        console.log(res);
+    }
+});
+*/
 
 var nameUser;
 function comprobarUsuario(request,response,next){
@@ -94,7 +104,7 @@ app.get("/formular", comprobarUsuario,comprobarNombre, function(request, respons
     response.status(200).render("form_question",
     {usuario});
 });
-app.post("/searchText", function(request,response){
+app.post("/searchText",  comprobarUsuario,comprobarNombre,function(request,response){
     console.log(request.body.texto);
     daoQ.getQuestionFilterText(request.body.texto,function(err,results){
         if(err){

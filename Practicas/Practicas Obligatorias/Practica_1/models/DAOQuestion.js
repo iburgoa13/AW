@@ -1,18 +1,68 @@
 "use strict"
-
+const moment = require("moment");
 class DAOQuestion{
     constructor(pool){
         this.pool= pool;
     }
 
-    /**
-     * 
-     * @param {Titulo de la pregunta} title 
-     * @param {Cuerpo de la pregunta} body 
-     * @param {Array , máximo 5 tags} tags 
-     * @param {Correo del usuario} email 
-     * @param {*} callback 
-     */
+
+    insertQuestion(title,body,id_user, tags, callback) {  
+    this.pool.getConnection(function(err, connection) {
+        if(err){
+            callback(new Error("Error de conexión a la base de datos"));
+        }
+        else{
+            let sql_insert_question = "INSERT INTO question(title,body,id_user,date) VALUES (?,?,?,?)";
+            const e = Date.now();
+            const fecha = new Date(e);
+            connection.query(sql_insert_question,[title,body,id_user,fecha],function(err,quest){
+                connection.release();
+                if(err){
+                    callback(new Error("Error de acceso a la base de datos al insertar pregunta"));
+                }
+                else{
+                    let sql_update ="UPDATE usuario set publicate_questions = publicate_questions + 1 where id = ?";
+                    connection.query(sql_update,[id_user],function(err,upd){
+                        if(err){
+                            callback(new Error("Error de acceso a la base de datos al update usuario sumar una pregunta"));
+                        }
+                        else{
+                            for(let it of tags){
+                                
+                                let sql2 = "INSERT INTO tag (name) SELECT * FROM (SELECT ?) "+
+                                "AS tmp WHERE NOT EXISTS ( "+
+                                "SELECT name FROM tag WHERE name = ? "+
+                                ") LIMIT 1"
+                                connection.query(sql2,[it,it],function(err,res){
+                                    if(err){
+                                        callback(new Error("Error de acceso a la base de datos al insertar tags"));
+                                    }
+                                    else{
+                                        let sql3 = "insert into question_tag(id_question, id_tag) values(?, (select id from tag WHERE name = ?))"
+                                        connection.query(sql3,[quest.insertId,it], function(err,result){
+                                            if(err){
+                                                callback(new Error("Error de acceso a la base de datos al insertar question-tags"));
+                                            }
+                                            else{
+                                                callback(null,"Insertados");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    });
+                   
+                  
+
+                }
+        });
+
+     }
+    });
+}
+
+/** 
 
     insertQuestion(title,body,tags,id_user,callback){
         this.pool.getConnection(function(err, connection) {
@@ -94,7 +144,7 @@ class DAOQuestion{
                        
                        console.log(array);
                        console.log(nuevos);
-                       */
+                       
                     }   
                 }
             });
@@ -102,7 +152,7 @@ class DAOQuestion{
         }
         );
     }
-
+*/
     getAllQuestion(callback){
         this.pool.getConnection(function(err,connection){
             if(err){
@@ -111,7 +161,7 @@ class DAOQuestion{
             else{
                 
                 let sql ="SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario'" +
-",u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag)";
+",u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) order by q.date desc";
 
                 
                  connection.query(sql,function(err,result){
@@ -121,22 +171,39 @@ class DAOQuestion{
                     else{
                         let array = [];
                         for(let it of result){
-                            let e = it.date.toISOString().split('T')[0];
-                            let publicado = new Date(e);
-                            let formatted_date = publicado.getDate() + "/" + (publicado.getMonth() + 1) + "/" + publicado.getFullYear() 
-                           
                             if(!array[it.id])
                             array[it.id]={
                                     "id": it.id,
                                     "title": it.title,
                                     "body": it.body,
-                                    "date": formatted_date,
+                                    "date":  moment(it.date).format('DD/MM/YYYY'),
                                     "usuario":it.NombreUsuario,
                                     "imagen":it.imagen,
                                     "tags": []
                                 };   
                             if(it.nombreTag) array[it.id].tags.push(it.nombreTag);      
                         }
+         
+                        
+                        array.sort(function(a,b){
+                            // Turn your strings into dates, and then subtract them
+                            // to get a value that is either negative, positive, or zero.
+                            let bb  = [];
+                            bb = b.date.split("/");
+                            console.log(bb);
+                            let aa = [];
+                            aa = a.date.split("/");
+                             //mismo año
+                            if(aa[2] == bb[2]){
+                                if(aa[1] == bb[1]){
+                                    return bb[0] - aa[0];
+                                }
+                                else{
+                                    return bb[1] - aa[1];
+                                }
+                            }
+                            return bb[2]-aa[2];
+                          });
                         result = array;
                         callback(null,result);
                     }
@@ -238,22 +305,38 @@ class DAOQuestion{
                     else{
                         let array = [];
                         for(let it of result){
-                            let e = it.date.toISOString().split('T')[0];
-                            let publicado = new Date(e);
-                            let formatted_date = publicado.getDate() + "/" + (publicado.getMonth() + 1) + "/" + publicado.getFullYear() 
                            
                             if(!array[it.id])
                             array[it.id]={
                                     "id": it.id,
                                     "title": it.title,
                                     "body": it.body,
-                                    "date": formatted_date,
+                                    "date": moment(it.date).format('DD/MM/YYYY'),
                                     "usuario":it.NombreUsuario,
                                     "imagen":it.imagen,
                                     "tags": []
                                 };   
                             if(it.nombreTag) array[it.id].tags.push(it.nombreTag);      
                         }
+                        array.sort(function(a,b){
+                            // Turn your strings into dates, and then subtract them
+                            // to get a value that is either negative, positive, or zero.
+                            let bb  = [];
+                            bb = b.date.split("/");
+                            console.log(bb);
+                            let aa = [];
+                            aa = a.date.split("/");
+                             //mismo año
+                            if(aa[2] == bb[2]){
+                                if(aa[1] == bb[1]){
+                                    return bb[0] - aa[0];
+                                }
+                                else{
+                                    return bb[1] - aa[1];
+                                }
+                            }
+                            return bb[2]-aa[2];
+                          });
                         result = array;
                         callback(null,result);
                     }
