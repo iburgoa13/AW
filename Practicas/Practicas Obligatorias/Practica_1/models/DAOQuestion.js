@@ -12,6 +12,7 @@ class DAOQuestion{
             callback(new Error("Error de conexión a la base de datos"));
         }
         else{
+            
             let sql_insert_question = "INSERT INTO question(title,body,id_user,date) VALUES (?,?,?,?)";
             const e = Date.now();
             const fecha = new Date(e);

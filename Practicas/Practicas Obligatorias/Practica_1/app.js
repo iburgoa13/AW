@@ -124,6 +124,10 @@ app.post("/searchText",  comprobarUsuario,comprobarNombre,function(request,respo
 app.get("/login",function(request,response){
     response.status(200).render("login",{errorMsg: null})
 });
+
+app.get("/formQuestion",function(request,response){
+    response.status(200).render("home",{errorMsg: null})
+})
 app.get("/register",function(request,response){
     response.status(200).render("register",{errorMsg: null})
 });
@@ -163,6 +167,41 @@ app.post("/login",function(request,response){
             }
         });
 });
+
+app.post("/formQuestion",comprobarUsuario,comprobarNombre,function(request,response){
+  
+     //array de tags
+   let tags = []; 
+   let texto=request.body.etiquetas;
+    //aqui si no es indefinido 
+    if(typeof texto != "undefined" && typeof texto =="string" && texto!=""){
+        //queremos recoger el tag
+        tags = (texto.match(/@\w+/g) || []).map(n => n.replace("@",""));
+    }
+    if(tags.length>5) {
+        response.status(500);
+        response.render("home");
+    }
+    else{
+        daoQ.insertQuestion(request.body.pregunta,request.body.texto,34,tags,function(error,usuario){
+            usuario={nombre:response.locals.userNombre};
+               if(error){
+                   response.status(500);
+                   response.end();
+                   response.render("form_question",
+                   { errorMsg:error.message });
+         
+               }
+               else{
+                   console.log(usuario)
+                   
+                   response.status(200).render("home",{usuario});
+               }
+           });
+    }
+    
+});
+
 
 app.get("/logout",function(request,response){
     request.session.destroy();
@@ -208,6 +247,8 @@ app.get("/imagenUsuario",comprobarUsuario,function(request,response){
         }
     });
 });
+
+
 // Arrancar el servidor
 app.listen(config.port, function(err) {
    if (err) {

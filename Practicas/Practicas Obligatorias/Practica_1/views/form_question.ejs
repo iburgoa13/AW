@@ -39,18 +39,23 @@
     </nav>
     <main>
         <p id="titulo">Formular una pregunta</p>
+        <form action="/formQuestion" method="POST">
         <div id="contenido">
             <p class="elementoBase">Titulo</p>
             <p class="elementoSec">Se especifica e imagina que estás haciendo la pregunta a otra persona</p>
-            <input type="text" placeholder="¿Cual es la pregunta sobre programación de aplicaciones web?">
+            <input type="text" placeholder="¿Cual es la pregunta sobre programación de aplicaciones web?" name="pregunta" required>
             <p class="elementoBase">Cuerpo</p>
             <p class="elementoSec" >Incluye toda la informacion que alguien necesitaria para responder tu pregunta</p>
-            <textarea></textarea>
+            <textarea name="texto" required></textarea>
             <p class="elementoBase">Etiquetas</p>
             <p class="elementoSec">Añade hasta 5 etiquetas para describir sobre qué trata tus preguntas</p>
-            <input type="text" placeholder="Por ejemplo: @AW@Express">
+            <input type="text" name="etiquetas" placeholder="Por ejemplo: @AW@Express">
         </div>
-        <button type="button" class="boton">Publica tu pregunta</button>
+        <form action="/home" method="GET">
+            <button type="submit" class="boton">Publica tu pregunta</button>
+        </form>
+       
+        </form>
     </main>
 
 </body>
