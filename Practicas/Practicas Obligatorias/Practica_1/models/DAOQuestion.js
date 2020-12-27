@@ -161,6 +161,55 @@ class DAOQuestion{
         );
     }
 */
+    getAllQuestionNoAnswer(callback){
+        this.pool.getConnection(function(err,connection){
+            let sql = "SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario' ,u.imagen, t.name as 'nombreTag' FROM question q left join response res on (res.id_question = q.id) left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) WHERE res.id IS NULL order by q.date desc";
+            connection.query(sql,function(err,result){
+                if(err){
+                    callback(new Error("Error de acceso a la base de datos"));
+                }
+                else{
+                    let array = [];
+                    for(let it of result){
+                        if(!array[it.id])
+                        array[it.id]={
+                                "id": it.id,
+                                "title": it.title,
+                                "body": it.body,
+                                "date":  moment(it.date).format('DD/MM/YYYY'),
+                                "usuario":it.NombreUsuario,
+                                "idUsuario":it.id_user,
+                                "imagen":it.imagen,
+                                "tags": []
+                            };   
+                        if(it.nombreTag) array[it.id].tags.push(it.nombreTag);      
+                    }
+     
+                    
+                    array.sort(function(a,b){
+                        // Turn your strings into dates, and then subtract them
+                        // to get a value that is either negative, positive, or zero.
+                        let bb  = [];
+                        bb = b.date.split("/");
+                        let aa = [];
+                        aa = a.date.split("/");
+                         //mismo año
+                        if(aa[2] == bb[2]){
+                            if(aa[1] == bb[1]){
+                                return bb[0] - aa[0];
+                            }
+                            else{
+                                return bb[1] - aa[1];
+                            }
+                        }
+                        return bb[2]-aa[2];
+                      });
+                    result = array;
+                    callback(null,result);
+                }
+             });
+        });
+    }
     getAllQuestion(callback){
         this.pool.getConnection(function(err,connection){
             if(err){
@@ -169,7 +218,7 @@ class DAOQuestion{
             else{
                 
                 let sql ="SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario'" +
-",u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) order by q.date desc";
+                    ",u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) order by q.date desc";
 
                 
                  connection.query(sql,function(err,result){
@@ -298,6 +347,62 @@ class DAOQuestion{
             }
         });
     }
+    getQuestionFilterTag(tag,callback){
+        this.pool.getConnection(function(err,connection){
+            if(err){
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+
+                let sql = "SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario', u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) "+
+               " WHERE t.name = ?";
+               connection.query(sql,[tag],function(err,result){
+                   if(err){
+                    callback(new Error("Error de acceso a la base de datos"));
+                   }
+                   else{
+                    let array = [];
+                    for(let it of result){
+                       
+                        if(!array[it.id])
+                        array[it.id]={
+                                "id": it.id,
+                                "title": it.title,
+                                "body": it.body,
+                                "date": moment(it.date).format('DD/MM/YYYY'),
+                                "usuario":it.NombreUsuario,
+                                "idUsuario":it.id_user,
+                                "imagen":it.imagen,
+                                "tags": []
+                            };   
+                        if(it.nombreTag) array[it.id].tags.push(it.nombreTag);      
+                    }
+                    array.sort(function(a,b){
+                        // Turn your strings into dates, and then subtract them
+                        // to get a value that is either negative, positive, or zero.
+                        let bb  = [];
+                        bb = b.date.split("/");
+                        let aa = [];
+                        aa = a.date.split("/");
+                         //mismo año
+                        if(aa[2] == bb[2]){
+                            if(aa[1] == bb[1]){
+                                return bb[0] - aa[0];
+                            }
+                            else{
+                                return bb[1] - aa[1];
+                            }
+                        }
+                        return bb[2]-aa[2];
+                      });
+                    result = array;
+                    callback(null,result);
+                   }
+               });
+                               
+            }
+        });
+    }
     getQuestionFilterText(texto,callback){
         this.pool.getConnection(function(err, connection) {
             if(err){
@@ -308,7 +413,7 @@ class DAOQuestion{
                
                 connection.query(sql,function(err,result){
                     if(err){
-                        callback(new Error("Error de acceso a la base de datos 2"));
+                        callback(new Error("Error de acceso a la base de datos"));
                     }
                     else{
                         let array = [];
@@ -321,6 +426,7 @@ class DAOQuestion{
                                     "body": it.body,
                                     "date": moment(it.date).format('DD/MM/YYYY'),
                                     "usuario":it.NombreUsuario,
+                                    "idUsuario":it.id_user,
                                     "imagen":it.imagen,
                                     "tags": []
                                 };   

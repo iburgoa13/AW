@@ -34,7 +34,7 @@
      </div>
      </header>
     <nav>
-        <form action="/searchText" method="POST">
+        <form action="/searchText" method="GET">
             <button type="submit" id="button_nav">Buscar</button> 
             <input id="buscar" type="search" placeholder="Buscar por titulo/cuerpo de preguntas" name="texto">
         </form>
@@ -62,7 +62,9 @@
                         </p>
                         <div class="tag">
                         <% pregunta.tags.forEach(tag =>{%>
-                            <a href=""><%= tag %></a>
+                            <form action="/searchTag" method="GET">
+                                <button type="submit"  class="tagButton" name ="tagName" value="<%= tag %>"><%= tag %></button>
+                            </form>  
                         <%})%>
                        
                         </div>

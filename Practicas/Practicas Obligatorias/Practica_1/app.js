@@ -96,17 +96,34 @@ app.get("/formular", comprobarUsuario,comprobarNombre, function(request, respons
     response.status(200).render("form_question",
     {usuario});
 });
-app.post("/searchText",  comprobarUsuario,comprobarNombre,function(request,response){
+app.get("/searchTag", comprobarUsuario,comprobarNombre,function(request,response){
     
-    daoQ.getQuestionFilterText(request.body.texto,function(err,results){
+    daoQ.getQuestionFilterTag(request.query.tagName, function(err,results){
         if(err){
             response.status(500).send(err);
         }
         else{
             
             results = results.filter(el=> el!= '');
-            let texto =  request.body.texto;
+            let textoTag =  request.query.tagName;
             let usuario={nombre:response.locals.userNombre};
+            
+            response.render("filter_question_tag",{ usuario, questions:results, textoTag});
+        }
+    });
+});
+app.get("/searchText",  comprobarUsuario,comprobarNombre,function(request,response){
+    
+    daoQ.getQuestionFilterText(request.query.texto,function(err,results){
+        if(err){
+            response.status(500).send(err);
+        }
+        else{
+            
+            results = results.filter(el=> el!= '');
+            let texto =  request.query.texto;
+            let usuario={nombre:response.locals.userNombre};
+            
             response.render("filter_question_text",{ usuario, questions:results, texto});
         }
     });
@@ -120,6 +137,18 @@ app.get("/formQuestion",function(request,response){
 })
 app.get("/register",function(request,response){
     response.status(200).render("register",{errorMsg: null})
+});
+app.get("/sinRespuesta",comprobarUsuario,comprobarNombre, function(request,response){
+    daoQ.getAllQuestionNoAnswer(function(err,results){
+        if(err){
+            response.status(500).send(err);
+        }
+        else{ 
+            results = results.filter(el=> el!= '');
+            let usuario={nombre:response.locals.userNombre};
+            response.render("no_response_question",{ usuario, questions:results});
+        }
+    });
 });
 app.get("/questions",comprobarUsuario,comprobarNombre, function(request,response){
     daoQ.getAllQuestion(function(err,results){
