@@ -144,6 +144,26 @@ app.get("/questions",comprobarUsuario,comprobarNombre, function(request,response
     });
    
 });
+
+app.get("/finish/:taskId",comprobarUsuario,function(request,response){
+    console.log(request.params.taskId)
+    daoU.getUserImageNameId(request.params.taskId,function(error,usuario){
+        if(error){
+            response.status(500);
+            response.end();
+        }
+        else{
+            if(!usuario)
+            {
+                response.status(200).sendFile(path.join(__dirname,"public","img","NoPerfil.png"));
+            }
+            else{
+                response.status(200).sendFile(path.join(__dirname,"profile_imgs",usuario));
+            }
+        }
+    });
+});
+
 app.post("/login",function(request,response){
     daoU.isUserCorrect(request.body.correo,request.body.password,
         function(error,userCorrect){

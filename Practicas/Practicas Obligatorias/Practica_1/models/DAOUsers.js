@@ -228,6 +228,33 @@ class DAOUsers{
             }
         });
     }
+
+    getUserImageNameId(id,callback){
+        this.pool.getConnection(function(err,connection){
+            if(err){
+                callback(new Error("Error de conexión a la base de datos"))
+                
+            }
+            else{
+                const sql = "SELECT imagen FROM usuario WHERE id = ?";
+                connection.query(sql,[id], function(err,resultado){
+                    connection.release();
+                    if(err){
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        if(resultado.length>0)//tenemos img{
+                        {            
+                            callback(null,resultado[0].imagen);
+                        }
+                        else{ //es cero
+                            callback(new Error("No existe el usuario"));
+                        }
+                    }
+                });
+            }
+        });
+    }
     
 }
 

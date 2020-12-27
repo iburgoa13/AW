@@ -179,6 +179,7 @@ class DAOQuestion{
                                     "body": it.body,
                                     "date":  moment(it.date).format('DD/MM/YYYY'),
                                     "usuario":it.NombreUsuario,
+                                    "idUsuario":it.id_user,
                                     "imagen":it.imagen,
                                     "tags": []
                                 };   
