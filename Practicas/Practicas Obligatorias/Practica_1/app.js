@@ -194,8 +194,9 @@ app.post("/formQuestion",comprobarUsuario,comprobarNombre,function(request,respo
      //array de tags
    let tags = []; 
    let texto=request.body.etiquetas;
+   console.log("etis "+ texto.length)
     //aqui si no es indefinido 
-    if(typeof texto != "undefined" && typeof texto =="string" && texto!=""){
+    if(typeof texto != "undefined" && typeof texto =="string" && texto!="" && texto.length > 0 ){
         //queremos recoger el tag
         tags = (texto.match(/@\w+/g) || []).map(n => n.replace("@",""));
     }
@@ -204,8 +205,10 @@ app.post("/formQuestion",comprobarUsuario,comprobarNombre,function(request,respo
         response.render("home");
     }
     else{
+        console.log(request.body.pregunta+","+request.body.texto+","+response.locals.email+", "+[])
         daoQ.insertQuestion(request.body.pregunta,request.body.texto,response.locals.email,tags,function(error,usuario){
             usuario={nombre:response.locals.userNombre};
+            console.log("He leido a "+ usuario);
                if(error){
                    response.status(500);
                    response.end();

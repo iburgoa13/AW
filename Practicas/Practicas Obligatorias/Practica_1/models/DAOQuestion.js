@@ -12,7 +12,7 @@ class DAOQuestion{
             callback(new Error("Error de conexión a la base de datos"));
         }
         else{
-            
+          
             let sql_insert_question = "INSERT INTO question(title,body,id_user,date) VALUES (?,?,(select id from usuario where email = ?),?)";
             const e = Date.now();
             const fecha = new Date(e);
@@ -22,35 +22,43 @@ class DAOQuestion{
                     callback(new Error("Error de acceso a la base de datos al insertar pregunta"));
                 }
                 else{
+                
                     let sql_update ="UPDATE usuario set publicate_questions = publicate_questions + 1 where email = ?";
                     connection.query(sql_update,[id_user],function(err,upd){
                         if(err){
                             callback(new Error("Error de acceso a la base de datos al update usuario sumar una pregunta"));
                         }
                         else{
-                            for(let it of tags){
-                                
-                                let sql2 = "INSERT INTO tag (name) SELECT * FROM (SELECT ?) "+
-                                "AS tmp WHERE NOT EXISTS ( "+
-                                "SELECT name FROM tag WHERE name = ? "+
-                                ") LIMIT 1"
-                                connection.query(sql2,[it,it],function(err,res){
-                                    if(err){
-                                        callback(new Error("Error de acceso a la base de datos al insertar tags"));
-                                    }
-                                    else{
-                                        let sql3 = "insert into question_tag(id_question, id_tag) values(?, (select id from tag WHERE name = ?))"
-                                        connection.query(sql3,[quest.insertId,it], function(err,result){
-                                            if(err){
-                                                callback(new Error("Error de acceso a la base de datos al insertar question-tags"));
-                                            }
-                                            else{
-                                                callback(null,"Insertados");
-                                            }
-                                        });
-                                    }
-                                });
+                            
+                            if(tags.length>0){
+                                for(let it of tags){
+                                  
+                                    let sql2 = "INSERT INTO tag (name) SELECT * FROM (SELECT ?) "+
+                                    "AS tmp WHERE NOT EXISTS ( "+
+                                    "SELECT name FROM tag WHERE name = ? "+
+                                    ") LIMIT 1"
+                                    connection.query(sql2,[it,it],function(err,res){
+                                        if(err){
+                                            callback(new Error("Error de acceso a la base de datos al insertar tags"));
+                                        }
+                                        else{
+                                            let sql3 = "insert into question_tag(id_question, id_tag) values(?, (select id from tag WHERE name = ?))"
+                                            connection.query(sql3,[quest.insertId,it], function(err,result){
+                                                if(err){
+                                                    callback(new Error("Error de acceso a la base de datos al insertar question-tags"));
+                                                }
+                                                else{
+                                                    callback(null,"Insertados");
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
                             }
+                            else{
+                                callback(null,"Insertados sin tags");
+                            }
+                           
                         }
                     });
                    
