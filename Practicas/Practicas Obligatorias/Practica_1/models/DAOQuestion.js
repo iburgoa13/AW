@@ -29,10 +29,9 @@ class DAOQuestion{
                             callback(new Error("Error de acceso a la base de datos al update usuario sumar una pregunta"));
                         }
                         else{
-                            
                             if(tags.length>0){
-                                for(let it of tags){
-                                  
+                                tags.forEach(it =>{
+                                    console.log(it);
                                     let sql2 = "INSERT INTO tag (name) SELECT * FROM (SELECT ?) "+
                                     "AS tmp WHERE NOT EXISTS ( "+
                                     "SELECT name FROM tag WHERE name = ? "+
@@ -47,18 +46,19 @@ class DAOQuestion{
                                                 if(err){
                                                     callback(new Error("Error de acceso a la base de datos al insertar question-tags"));
                                                 }
-                                                else{
-                                                    callback(null,"Insertados");
-                                                }
                                             });
                                         }
                                     });
-                                }
+                                });
+                                callback(null,"Insertados");
                             }
+                               
+                                
+                                  
+                            
                             else{
                                 callback(null,"Insertados sin tags");
-                            }
-                           
+                            }              
                         }
                     });
                    

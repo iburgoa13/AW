@@ -202,13 +202,12 @@ app.post("/formQuestion",comprobarUsuario,comprobarNombre,function(request,respo
     }
     if(tags.length>5) {
         response.status(500);
-        response.render("home");
+        response.redirect("/home");
     }
     else{
         console.log(request.body.pregunta+","+request.body.texto+","+response.locals.email+", "+[])
         daoQ.insertQuestion(request.body.pregunta,request.body.texto,response.locals.email,tags,function(error,usuario){
             usuario={nombre:response.locals.userNombre};
-            console.log("He leido a "+ usuario);
                if(error){
                    response.status(500);
                    response.end();
@@ -217,9 +216,7 @@ app.post("/formQuestion",comprobarUsuario,comprobarNombre,function(request,respo
          
                }
                else{
-                   console.log(usuario)
-                   
-                   response.status(200).render("home",{usuario});
+                   response.status(200).redirect("/home");
                }
            });
     }
