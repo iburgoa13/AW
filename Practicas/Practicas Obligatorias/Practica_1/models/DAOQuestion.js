@@ -13,7 +13,7 @@ class DAOQuestion{
         }
         else{
             
-            let sql_insert_question = "INSERT INTO question(title,body,id_user,date) VALUES (?,?,?,?)";
+            let sql_insert_question = "INSERT INTO question(title,body,id_user,date) VALUES (?,?,(select id from usuario where email = ?),?)";
             const e = Date.now();
             const fecha = new Date(e);
             connection.query(sql_insert_question,[title,body,id_user,fecha],function(err,quest){
@@ -22,7 +22,7 @@ class DAOQuestion{
                     callback(new Error("Error de acceso a la base de datos al insertar pregunta"));
                 }
                 else{
-                    let sql_update ="UPDATE usuario set publicate_questions = publicate_questions + 1 where id = ?";
+                    let sql_update ="UPDATE usuario set publicate_questions = publicate_questions + 1 where email = ?";
                     connection.query(sql_update,[id_user],function(err,upd){
                         if(err){
                             callback(new Error("Error de acceso a la base de datos al update usuario sumar una pregunta"));

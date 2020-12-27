@@ -81,6 +81,7 @@ function comprobarNombre(request,response,next){
                 }
                 else{
                     response.locals.userNombre = nombre;
+                    response.locals.email = request.session.currentUser;
                     next();
                 }
         });
@@ -183,7 +184,7 @@ app.post("/formQuestion",comprobarUsuario,comprobarNombre,function(request,respo
         response.render("home");
     }
     else{
-        daoQ.insertQuestion(request.body.pregunta,request.body.texto,34,tags,function(error,usuario){
+        daoQ.insertQuestion(request.body.pregunta,request.body.texto,response.locals.email,tags,function(error,usuario){
             usuario={nombre:response.locals.userNombre};
                if(error){
                    response.status(500);
