@@ -31,7 +31,6 @@ class DAOQuestion{
                         else{
                             if(tags.length>0){
                                 tags.forEach(it =>{
-                                    console.log(it);
                                     let sql2 = "INSERT INTO tag (name) SELECT * FROM (SELECT ?) "+
                                     "AS tmp WHERE NOT EXISTS ( "+
                                     "SELECT name FROM tag WHERE name = ? "+
@@ -200,7 +199,6 @@ class DAOQuestion{
                             // to get a value that is either negative, positive, or zero.
                             let bb  = [];
                             bb = b.date.split("/");
-                            console.log(bb);
                             let aa = [];
                             aa = a.date.split("/");
                              //mismo año
@@ -333,7 +331,6 @@ class DAOQuestion{
                             // to get a value that is either negative, positive, or zero.
                             let bb  = [];
                             bb = b.date.split("/");
-                            console.log(bb);
                             let aa = [];
                             aa = a.date.split("/");
                              //mismo año

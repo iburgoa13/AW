@@ -51,16 +51,7 @@ app.use(express.static(ficherosEst));
 app.use(bodyParser.urlencoded({extended:false}));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-/*
-daoQ.insertQuestion("Pregunta para Daniela","Esto debe salir", 2,["uno","hola"],function(err,res){
-    if(err){
-        console.log(err);
-    }
-    else{
-        console.log(res);
-    }
-});
-*/
+
 
 var nameUser;
 function comprobarUsuario(request,response,next){
@@ -106,16 +97,14 @@ app.get("/formular", comprobarUsuario,comprobarNombre, function(request, respons
     {usuario});
 });
 app.post("/searchText",  comprobarUsuario,comprobarNombre,function(request,response){
-    console.log(request.body.texto);
+    
     daoQ.getQuestionFilterText(request.body.texto,function(err,results){
         if(err){
             response.status(500).send(err);
         }
         else{
-            console.log(request.body.texto);
-            console.log("Entra");
+            
             results = results.filter(el=> el!= '');
-            console.log(results);
             let texto =  request.body.texto;
             let usuario={nombre:response.locals.userNombre};
             response.render("filter_question_text",{ usuario, questions:results, texto});
@@ -146,9 +135,9 @@ app.get("/questions",comprobarUsuario,comprobarNombre, function(request,response
    
 });
 
-app.get("/finish/:taskId",comprobarUsuario,function(request,response){
-    console.log(request.params.taskId)
-    daoU.getUserImageNameId(request.params.taskId,function(error,usuario){
+app.get("/fotoId/:userId",comprobarUsuario,function(request,response){
+    
+    daoU.getUserImageNameId(request.params.userId,function(error,usuario){
         if(error){
             response.status(500);
             response.end();
@@ -194,7 +183,7 @@ app.post("/formQuestion",comprobarUsuario,comprobarNombre,function(request,respo
      //array de tags
    let tags = []; 
    let texto=request.body.etiquetas;
-   console.log("etis "+ texto.length)
+   
     //aqui si no es indefinido 
     if(typeof texto != "undefined" && typeof texto =="string" && texto!="" && texto.length > 0 ){
         //queremos recoger el tag
@@ -205,7 +194,7 @@ app.post("/formQuestion",comprobarUsuario,comprobarNombre,function(request,respo
         response.redirect("/home");
     }
     else{
-        console.log(request.body.pregunta+","+request.body.texto+","+response.locals.email+", "+[])
+        
         daoQ.insertQuestion(request.body.pregunta,request.body.texto,response.locals.email,tags,function(error,usuario){
             usuario={nombre:response.locals.userNombre};
                if(error){
