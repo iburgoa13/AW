@@ -26,12 +26,14 @@ class DAOUsers{
                     let sql_select = "SELECT email FROM usuario WHERE email = ?";
                     //compruebo si existe usuario
                     connection.query(sql_select,[email],function(err,resultado){
-                        connection.release();
                         if(err){
+                            connection.release();
                             callback(new Error("Error de acceso a la base de datos1"));  
+                            
                         }
                         else{
                             if(resultado.length>0){
+                                connection.release();
                                 callback(new Error("El email ya existe en la base de datos"));
                             }
                             else{
@@ -46,11 +48,12 @@ class DAOUsers{
                                 connection.query(sql,[email,password,name,img,today],function(err,resultado)
                                 {
                                     if(err){
+                                        connection.release();
                                         callback(new Error("Error de acceso a la base de datos2"));  
                                     }
                                     //insercion correcta
                                     else{
-                                       
+                                        connection.release();
                                         callback(null,true);
                                     }
                             });
@@ -77,22 +80,26 @@ class DAOUsers{
             connection.query("SELECT * FROM usuario WHERE email = ?" ,
             [email],
             function(err, rows) {
-                connection.release(); // devolver al pool la conexión
+               // connection.release(); // devolver al pool la conexión
                 if (err) {
+                    connection.release();
                     callback(new Error("Error de acceso a la base de datos"));
                 }
                 else {
                     //Comprobamos si el email existe
                     if (rows.length === 0) {
+                        connection.release();
                         callback(new Error("Usuario y/o contraseña incorrecta"));
                     }
                     else {
                         //Si existe el email y la pass es correcta
                         if(rows[0].password === password){
+                            connection.release();
                             callback(null, true);
                         }
                         //en caso de que no exista la pass con ese usuario
                         else{
+                            connection.release();
                             callback(new Error("Usuario y/o contraseña incorrecta"));
                         }
                     }           
@@ -113,16 +120,19 @@ class DAOUsers{
             else{
                 const sql = "SELECT *  FROM usuario WHERE email = ?";
                 connection.query(sql,[email], function(err,resultado){
-                    connection.release();
+                   // connection.release();
                     if(err){
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else{
                         if(resultado.length>0)
-                        {            
+                        {          
+                            connection.release();  
                             callback(null,resultado[0]);
                         }
                         else{ //es cero
+                            connection.release();
                             callback(new Error("No existe el usuario"));
                         }
                     }
@@ -141,8 +151,9 @@ class DAOUsers{
             else{
                 const sql = "SELECT *  FROM usuario";
                 connection.query(sql, function(err,resultado){
-                    connection.release();
+                 //   connection.release();
                     if(err){
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else{
@@ -164,9 +175,11 @@ class DAOUsers{
                             }
                             
                             resultado = usuarios;
+                            connection.release();
                             callback(null,resultado);
                         }
                         else{ //es cero
+                            connection.release();
                             callback(new Error("No existe el usuario"));
                         }
                     }
@@ -184,16 +197,19 @@ class DAOUsers{
             else{
                 const sql = "SELECT name FROM usuario WHERE email = ?";
                 connection.query(sql,[email], function(err,resultado){
-                    connection.release();
+                  //  connection.release();
                     if(err){
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else{
                         if(resultado.length>0)//tenemos img{
-                        {            
+                        {        
+                            connection.release();    
                             callback(null,resultado[0].name);
                         }
                         else{ //es cero
+                            connection.release();
                             callback(new Error("No existe el usuario"));
                         }
                     }
@@ -211,16 +227,19 @@ class DAOUsers{
             else{
                 const sql = "SELECT imagen FROM usuario WHERE email = ?";
                 connection.query(sql,[email], function(err,resultado){
-                    connection.release();
+               //     connection.release();
                     if(err){
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else{
                         if(resultado.length>0)//tenemos img{
-                        {            
+                        {         
+                            connection.release();   
                             callback(null,resultado[0].imagen);
                         }
                         else{ //es cero
+                            connection.release();
                             callback(new Error("No existe el usuario"));
                         }
                     }
@@ -238,16 +257,19 @@ class DAOUsers{
             else{
                 const sql = "SELECT imagen FROM usuario WHERE id = ?";
                 connection.query(sql,[id], function(err,resultado){
-                    connection.release();
+                //    connection.release();
                     if(err){
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else{
                         if(resultado.length>0)//tenemos img{
-                        {            
+                        {         
+                            connection.release();   
                             callback(null,resultado[0].imagen);
                         }
                         else{ //es cero
+                            connection.release();
                             callback(new Error("No existe el usuario"));
                         }
                     }

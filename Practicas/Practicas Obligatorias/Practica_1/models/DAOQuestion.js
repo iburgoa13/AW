@@ -17,14 +17,16 @@ class DAOQuestion {
                 const e = Date.now();
                 const fecha = new Date(e);
                 connection.query(sql_insert_question, [title, body, id_user, fecha], function (err, quest) {
-                    connection.release();
+                 //   connection.release();
                     if (err) {
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos al insertar pregunta"));
                     }
                     else {
                         let sql_update = "UPDATE usuario set publicate_questions = publicate_questions + 1 where email = ?";
                         connection.query(sql_update, [id_user], function (err, upd) {
                             if (err) {
+                                connection.release();
                                 callback(new Error("Error de acceso a la base de datos al update usuario sumar una pregunta"));
                             }
                             else {
@@ -36,21 +38,25 @@ class DAOQuestion {
                                             ") LIMIT 1"
                                         connection.query(sql2, [it, it], function (err, res) {
                                             if (err) {
+                                                connection.release();
                                                 callback(new Error("Error de acceso a la base de datos al insertar tags"));
                                             }
                                             else {
                                                 let sql3 = "insert into question_tag(id_question, id_tag) values(?, (select id from tag WHERE name = ?))"
                                                 connection.query(sql3, [quest.insertId, it], function (err, result) {
                                                     if (err) {
+                                                        connection.release();
                                                         callback(new Error("Error de acceso a la base de datos al insertar question-tags"));
                                                     }
                                                 });
                                             }
                                         });
                                     });
+                                    connection.release();
                                     callback(null, "Insertados");
                                 }
                                 else {
+                                    connection.release();
                                     callback(null, "Insertados sin tags");
                                 }
                             }
@@ -66,8 +72,9 @@ class DAOQuestion {
         this.pool.getConnection(function (err, connection) {
             let sql = "SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario' ,u.imagen, t.name as 'nombreTag' FROM question q left join response res on (res.id_question = q.id) left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) WHERE res.id IS NULL order by q.date desc";
             connection.query(sql, function (err, result) {
-                connection.release();
+            //    connection.release();
                 if (err) {
+                    connection.release();
                     callback(new Error("Error de acceso a la base de datos"));
                 }
                 else {
@@ -104,7 +111,9 @@ class DAOQuestion {
                         }
                         return bb[2] - aa[2];
                     });
+                    
                     result = array;
+                    connection.release();
                     callback(null, result);
                 }
             });
@@ -120,8 +129,9 @@ class DAOQuestion {
                 let sql = "SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario'" +
                     ",u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) order by q.date desc";
                 connection.query(sql, function (err, result) {
-                    connection.release();
+               //     connection.release();
                     if (err) {
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else {
@@ -159,6 +169,7 @@ class DAOQuestion {
                             return bb[2] - aa[2];
                         });
                         result = array;
+                        connection.release();
                         callback(null, result);
                     }
                 });
@@ -179,18 +190,21 @@ class DAOQuestion {
                 //COMPROBAR SI YA HE VOTADO YO A ESA PERSONA
                 let sql = "SELECT id_user FROM vote_question_user WHERE id_user = ? and id_question = ?";
                 connection.query(sql, [id_mio, id_question], function (err, result) {
-                    connection.release();
+               //     connection.release();
                     if (err) {
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else {
                         if (result.length > 0) {
+                            connection.release();
                             callback(new Error("No puedes votar dos veces a esta pregunta"));
                         }
                         else {
                             let sql_insert = "INSERT INTO vote_question_user(id_question,id_user,date) VALUES(?,?,?)";
                             connection.query(sql_insert, [id_question, id_mio, today], function (err, result) {
                                 if (err) {
+                                    connection.release();
                                     callback(new Error("Error de acceso a la base de datos 2"));
                                 }
                                 else {
@@ -199,6 +213,7 @@ class DAOQuestion {
                                         let sql_update = "UPDATE question SET counter_vote = counter_vote + 1 WHERE id = ?";
                                         connection.query(sql_update, [id_question], function (err, res) {
                                             if (err) {
+                                                connection.release();
                                                 callback(new Error("Error de acceso a la base de datos 3"));
                                             }
                                             //COMPROBAR LAS MEDALLAS
@@ -206,9 +221,11 @@ class DAOQuestion {
                                                 let sql_update = "UPDATE usuario SET reputation = reputation + 10 WHERE id = ?";
                                                 connection.query(sql_update, [id_user], function (err, res) {
                                                     if (err) {
+                                                        connection.release();
                                                         callback(new Error("Error de acceso a la base de datos 4"));
                                                     }
                                                     else {
+                                                        connection.release();
                                                         callback(null, true);
                                                     }
                                                 });
@@ -219,15 +236,18 @@ class DAOQuestion {
                                         let sql_update = "UPDATE question SET counter_vote = counter_vote - 1 WHERE id = ?";
                                         connection.query(sql_update, [id_question], function (err, res) {
                                             if (err) {
+                                                connection.release();
                                                 callback(new Error("Error de acceso a la base de datos 3"));
                                             }
                                             else {
                                                 let sql_update = "UPDATE usuario SET reputation = reputation -2 WHERE id = ?";
                                                 connection.query(sql_update, [id_user], function (err, res) {
                                                     if (err) {
+                                                        connection.release();
                                                         callback(new Error("Error de acceso a la base de datos 4"));
                                                     }
                                                     else {
+                                                        connection.release();
                                                         callback(null, true);
                                                     }
                                                 });
@@ -253,9 +273,9 @@ class DAOQuestion {
                 let sql = "SELECT r.id, r.message, r.date, r.counter_vote, u.name as 'nombreUsuario', u.imagen, u.id as 'id_user' from response r LEFT join usuario u on (u.id = r.id_user) where r.id_question = ?";
                 //     console.log(sql);
                 connection.query(sql, [id_question], function (err, result) {
-                    connection.release();
+              //      connection.release();
                     if (err) {
-
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else {
@@ -275,6 +295,7 @@ class DAOQuestion {
                         }
 
                         result = array;
+                        connection.release();
                         callback(null, result);
                     }
                 });
@@ -292,12 +313,14 @@ class DAOQuestion {
                 "set q.counter_visit = q.counter_visit + 1 "+
                 "where q.id = ?";
                 connection.query(sql,[id],function(err,res){
-                    connection.release();
+              //      connection.release();
 
                     if(err){
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else{
+                        connection.release();
                         callback(null,"Sumado");
                     }
                 });
@@ -312,16 +335,19 @@ class DAOQuestion {
             else{
                 let sql = "SELECT * from vote_response_user where id_response = ? and id_user = (select id from usuario u where u.email = ?)";
                 connection.query(sql,[id,email],function(err,res){
-                connection.release();
+             //   connection.release();
                 if(err){
+                    connection.release();
                     callback(new Error("Error de acceso a la base de datos1"));
                 }
                 else{
                     console.log(res);
                     if(res.length > 0){
+                        connection.release();
                         callback(new Error("No puedes votar de nuevo"));
                     }
                     else{
+                        connection.release();
                         callback(null,"No existe");
                     }
                 }
@@ -339,14 +365,16 @@ class DAOQuestion {
                 if(like ==="1"){
                     let sql = "UPDATE response res set res.counter_vote = res.counter_vote + 1  where res.id = ?";
                     connection.query(sql,id_response,function(err,res){
-                        connection.release();
+                   //     connection.release();
                         if(err){
+                            connection.release();
                             callback(new Error("Error de acceso a la base de datos1"));
                         }
                         else{
                             let sql1 ="UPDATE usuario u left join response r on (r.id_user = u.id) set u.reputation = u.reputation + 10 where r.id = ?";
                             connection.query(sql1,id_response,function (err,res){
                                 if(err){
+                                    connection.release();
                                     callback(new Error("Error de acceso a la base de datos2"));
                                 }
                                 else{
@@ -356,9 +384,11 @@ class DAOQuestion {
 
                                     connection.query(sql2,[email,id_response,today],function (err,res){
                                         if(err){
+                                            connection.release();
                                             callback(new Error("Error de acceso a la base de datos"));
                                         }
                                         else{
+                                            connection.release();
                                             callback(null,"Insertado");
                                         }
                                     });
@@ -371,8 +401,9 @@ class DAOQuestion {
                 else{
                     let sql = "UPDATE response res set res.counter_vote = res.counter_vote - 1  where res.id = ?";
                     connection.query(sql,id_response,function(err,res){
-                        connection.release();
+                    //    connection.release();
                         if(err){
+                            connection.release();
                             callback(new Error("Error de acceso a la base de datos"));
                         }
                         else{
@@ -383,6 +414,7 @@ class DAOQuestion {
                              " where r.id = ?";
                             connection.query(sql1,id_response,function (err,res){
                                 if(err){
+                                    connection.release();
                                     callback(new Error("Error de acceso a la base de datos"));
                                 }
                                 else{
@@ -391,9 +423,11 @@ class DAOQuestion {
                                     let sql2 = "insert into vote_response_user values (( SELECT u.id from usuario u  where u.email = ?) , (SELECT rr.id from response rr where rr.id = ?) ,?)";
                                     connection.query(sql2,[email,id_response,today],function (err,res){
                                         if(err){
+                                            connection.release();
                                             callback(new Error("Error de acceso a la base de datos"));
                                         }
                                         else{
+                                            connection.release();
                                             callback(null,"Insertado");
                                         }
                                     });
@@ -418,9 +452,9 @@ class DAOQuestion {
                 
               
                 connection.query(sql, [id], function (err, result) {
-                    connection.release();
+                 //   connection.release();
                     if (err) {
-
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else {
@@ -444,6 +478,7 @@ class DAOQuestion {
                         }
 
                         result = array;
+                        connection.release();
                         callback(null, result);
                     }
                 });
@@ -472,8 +507,9 @@ class DAOQuestion {
                 //   let sql = "SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario', u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) " +
                 //       " WHERE t.name = ?";
                 connection.query(sql, [tag], function (err, result) {
-                    connection.release();
+               //     connection.release();
                     if (err) {
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else {
@@ -512,6 +548,7 @@ class DAOQuestion {
                             return bb[2] - aa[2];
                         });
                         result = array;
+                        connection.release();
                         callback(null, result);
                     }
                 });
@@ -528,8 +565,9 @@ class DAOQuestion {
                 let sql = `SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario', u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) WHERE title like '%${texto}%' or body like '%${texto}%'`;
 
                 connection.query(sql, function (err, result) {
-                    connection.release();
+              //      connection.release();
                     if (err) {
+                        connection.release();
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else {
@@ -568,6 +606,7 @@ class DAOQuestion {
                             return bb[2] - aa[2];
                         });
                         result = array;
+                        connection.release();
                         callback(null, result);
                     }
                 });
