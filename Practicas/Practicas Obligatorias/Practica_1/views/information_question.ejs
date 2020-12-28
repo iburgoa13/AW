@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/information_question.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="icon" type="image/gif" href="/img/favi.PNG">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>404</title>
+</head>
+<body>
+    <header>
+        <div class="header_button"> 
+            <form action="/questions" method="GET">
+                 <button type="submit" class="button_principal">Preguntas</button>
+             </form>
+            <form action ="/sinRespuesta" method="GET">
+                 <button type="submit" class="button_principal">Sin responder</button>
+             </form>
+           <form action="/usuarios" method="GET">
+                 <button type="submit" class="button_principal">Usuarios</button>
+           </form>
+            
+        </div> 
+        <div><h1>404</h1></div>
+        <div class="information" >
+         <img id="avatar" src="/imagenUsuario" alt="image"/>
+         <p id="nombre" ><%= usuario.nombre %></p>
+         <form action="/logout" method="GET">
+             <button id="cerrar" type="submit">Cerrar sesión</button>
+         </form>
+         
+     </div>
+     </header>
+     <nav>
+        <form action="/searchText" method="GET">
+            <button type="submit" id="button_nav">Buscar</button> 
+            <input id="buscar" type="search" placeholder="Buscar por titulo/cuerpo de preguntas" name="texto">
+        </form>
+      
+    </nav>
+    <main>
+       <div>
+        <div id="principal">
+            <p class="titulo_principal"><%= pregunta.title %></p>
+            <div>
+                <p class="visitas">Vista <%= pregunta.counter_visit %> veces</p>
+            </div>
+            <div class="votos">
+                <p class="numero_votos"> <%= pregunta.counter_vote %> votos</p>
+                <img class="img_like" src="/img/like.png"  />
+                <img class="img_like" src="/img/dislike.png" />
+            </div>
+            <p id="contenido_pregunta"> <%= pregunta.body %></p>
+            <div class="tag">
+                <% pregunta.tags.forEach(tag =>{%>
+                    <form action="/searchTag" method="GET">
+                        <button type="submit"  class="tagButton" name ="tagName" value="<%= tag %>"><%= tag %></button>
+                    </form>  
+                <%})%>
+           
+            </div>
+            <div class="info_usuario">
+                <p class="pregunta_formulada">Formulada el <%= pregunta.date %></p>
+                <img src="/fotoId/<%=pregunta.idUsuarioQ%>" alt="Foto usuario">
+                <p class="pregunta_user"><%= pregunta.usuario %></p>
+            </div>
+        </div>
+        <p id="numero_respuestas"><%= respuestas.length %> Respuestas</p>
+        <% respuestas.forEach(respuesta => {%>
+        <div id="respuestas_totales">
+            <div class="votos">
+                <p class="numero_votos"> <%= respuesta.counter_vote %> votos</p>
+                <form method="GET" action="/like">
+                    <button type="submit" name="like" value ="1_<%= respuesta.id %>_<%= pregunta.id %>"><img src="/img/like.png" alt="Like" class="img_like"/></button>
+                    </form>
+                <form method="GET" action="/like">
+                    <button type="submit" name="like" value="0_<%= respuesta.id %>_<%= pregunta.id %>"><img src="/img/dislike.png" alt="Dislike" class="img_like"/></button>
+                </form>
+               
+            </div>
+            <p class="respuesta_usuario"><%= respuesta.message %></p>
+            <div class="info_usuario">
+                <p class="pregunta_formulada">Respondida el <%= respuesta.date %></p>
+                <img src="/fotoId/<%=respuesta.idUsuarioQ%>" alt="Foto usuario">
+                <p class="pregunta_user"><%= respuesta.usuario %></p>
+            </div>
+        </div>
+        <%})%>
+        <p id="respuesta">Tu respuesta</p>
+        <textarea></textarea>
+    </div>
+        <button type="button" class="boton">Publica tu pregunta</button>
+    </main>
+
+</body>
+</html>

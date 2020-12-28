@@ -124,7 +124,7 @@ padding:2%;
 }
 
 
-
+/*
 a{
     
     margin-left:25px;
@@ -136,7 +136,10 @@ a{
     background-color: rgb(0, 4, 253);
     font-size: 1em;
 }
-
+*/
+a{
+    text-decoration: none;
+}
 
 .info_usuario{
     text-align: center;

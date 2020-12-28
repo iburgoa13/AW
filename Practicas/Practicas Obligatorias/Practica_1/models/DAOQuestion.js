@@ -1,5 +1,6 @@
 "use strict"
 const moment = require("moment");
+const { resourceLimits } = require("worker_threads");
 class DAOQuestion {
     constructor(pool) {
         this.pool = pool;
@@ -243,15 +244,233 @@ class DAOQuestion {
             }
         });
     }
+    getResponse(id_question, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else {
+                let sql = "SELECT r.id, r.message, r.date, r.counter_vote, u.name as 'nombreUsuario', u.imagen, u.id as 'id_user' from response r LEFT join usuario u on (u.id = r.id_user) where r.id_question = ?";
+                //     console.log(sql);
+                connection.query(sql, [id_question], function (err, result) {
+                    connection.release();
+                    if (err) {
+
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else {
+
+                        let array = [];
+                        for (let it of result) {
+                            if (!array[it.id])
+                                array[it.id] = {
+                                    "id": it.id,
+                                    "message": it.message,
+                                    "date": moment(it.date).format('DD/MM/YYYY'),
+                                    "counter_vote": it.counter_vote,
+                                    "usuario": it.nombreUsuario,
+                                    "idUsuarioQ": it.id_user,
+                                    "imagen": it.imagen,
+                                };
+                        }
+
+                        result = array;
+                        callback(null, result);
+                    }
+                });
+            }
+        });
+    }
+    setQuestionVote(id,callback){
+        this.pool.getConnection(function(err,connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+
+                let sql = "UPDATE question q "+
+                "set q.counter_visit = q.counter_visit + 1 "+
+                "where q.id = ?";
+                connection.query(sql,[id],function(err,res){
+                    connection.release();
+
+                    if(err){
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        callback(null,"Sumado");
+                    }
+                });
+            }
+        });
+    }
+    comprobarVoto(email, id,callback){
+        this.pool.getConnection(function(err,connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+                let sql = "SELECT * from vote_response_user where id_response = ? and id_user = (select id from usuario u where u.email = ?)";
+                connection.query(sql,[id,email],function(err,res){
+                connection.release();
+                if(err){
+                    callback(new Error("Error de acceso a la base de datos1"));
+                }
+                else{
+                    console.log(res);
+                    if(res.length > 0){
+                        callback(new Error("No puedes votar de nuevo"));
+                    }
+                    else{
+                        callback(null,"No existe");
+                    }
+                }
+                });
+            }
+
+        });
+    }
+    setResponseVote(like,id_response,email,callback){
+        this.pool.getConnection(function(err,connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+                if(like ==="1"){
+                    let sql = "UPDATE response res set res.counter_vote = res.counter_vote + 1  where res.id = ?";
+                    connection.query(sql,id_response,function(err,res){
+                        connection.release();
+                        if(err){
+                            callback(new Error("Error de acceso a la base de datos1"));
+                        }
+                        else{
+                            let sql1 ="UPDATE usuario u left join response r on (r.id_user = u.id) set u.reputation = u.reputation + 10 where r.id = ?";
+                            connection.query(sql1,id_response,function (err,res){
+                                if(err){
+                                    callback(new Error("Error de acceso a la base de datos2"));
+                                }
+                                else{
+                                    const e = Date.now();
+                                    const today = new Date(e);
+                                    let sql2 = "insert into vote_response_user values (( SELECT u.id from usuario u  where u.email = ?) , (SELECT rr.id from response rr where rr.id = ?) ,?)";
+
+                                    connection.query(sql2,[email,id_response,today],function (err,res){
+                                        if(err){
+                                            callback(new Error("Error de acceso a la base de datos"));
+                                        }
+                                        else{
+                                            callback(null,"Insertado");
+                                        }
+                                    });
+                                }
+                                
+                            });
+                        }
+                    });
+                }
+                else{
+                    let sql = "UPDATE response res set res.counter_vote = res.counter_vote - 1  where res.id = ?";
+                    connection.query(sql,id_response,function(err,res){
+                        connection.release();
+                        if(err){
+                            callback(new Error("Error de acceso a la base de datos"));
+                        }
+                        else{
+                            
+                            
+                            let sql1 ="UPDATE usuario u left join response r on (r.id_user = u.id) SET u.reputation = "+
+                            "(case when u.reputation - 2 <= 0  then  1 else u.reputation - 2 end)"+
+                             " where r.id = ?";
+                            connection.query(sql1,id_response,function (err,res){
+                                if(err){
+                                    callback(new Error("Error de acceso a la base de datos"));
+                                }
+                                else{
+                                    const e = Date.now();
+                                    const today = new Date(e);
+                                    let sql2 = "insert into vote_response_user values (( SELECT u.id from usuario u  where u.email = ?) , (SELECT rr.id from response rr where rr.id = ?) ,?)";
+                                    connection.query(sql2,[email,id_response,today],function (err,res){
+                                        if(err){
+                                            callback(new Error("Error de acceso a la base de datos"));
+                                        }
+                                        else{
+                                            callback(null,"Insertado");
+                                        }
+                                    });
+                                }
+                                
+                            });
+                        }
+                    });
+                }
+            }
+        });
+       
+    }
+    getQuestion(id, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else {
+                //   console.log("Estoy dentro de getquestion");
+                let sql = "SELECT q.id, q.title, q.body, q.date, q.counter_visit, q.counter_vote, u.name as 'nombreUsuario', u.imagen, u.id as 'id_userq', t.name as 'nombreTag' from question q left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) left join usuario u on (u.id = q.id_user) where q.id = ?";
+                
+              
+                connection.query(sql, [id], function (err, result) {
+                    connection.release();
+                    if (err) {
+
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else {
+
+                        let array = [];
+                        for (let it of result) {
+                            if (!array[it.id])
+                                array[it.id] = {
+                                    "id": it.id,
+                                    "title": it.title,
+                                    "body": it.body,
+                                    "date": moment(it.date).format('DD/MM/YYYY'),
+                                    "counter_visit": it.counter_visit,
+                                    "counter_vote": it.counter_vote,
+                                    "usuario": it.nombreUsuario,
+                                    "idUsuarioQ": it.id_userq,
+                                    "imagen": it.imagen,
+                                    "tags": []
+                                };
+                            if (it.nombreTag) array[it.id].tags.push(it.nombreTag);
+                        }
+
+                        result = array;
+                        callback(null, result);
+                    }
+                });
+
+            }
+        });
+    }
     getQuestionFilterTag(tag, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else {
+                let sql = "SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario', u.imagen,t.name as 'nombreTag' " +
+                    "FROM question q " +
+                    "left join usuario u on (u.id = q.id_user) " +
+                    " left join question_tag qt on (qt.id_question = q.id) " +
+                    "left join tag t on (t.id = qt.id_tag)" +
+                    "WHERE q.id in " +
+                    "(select qq.id from question qq " +
+                    "left join question_tag qt on (qt.id_question = qq.id) " +
+                    "left join tag t on (t.id = qt.id_tag)" +
+                    " WHERE t.name = ?" +
+                    "GROUP BY qq.id)";
 
-                let sql = "SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario', u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) " +
-                    " WHERE t.name = ?";
+                //   let sql = "SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario', u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) " +
+                //       " WHERE t.name = ?";
                 connection.query(sql, [tag], function (err, result) {
                     connection.release();
                     if (err) {

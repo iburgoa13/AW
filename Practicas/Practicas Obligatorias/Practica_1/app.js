@@ -150,6 +150,39 @@ app.get("/sinRespuesta",comprobarUsuario,comprobarNombre, function(request,respo
         }
     });
 });
+app.get("/questions/:id_question",comprobarUsuario,comprobarNombre, function(request, response){
+    let id = request.params.id_question;
+    daoQ.setQuestionVote(id, function(err,r){
+        if(err){
+            response.status(500).send(err);
+        }
+        else{
+            daoQ.getQuestion(id, function(err, result){
+                if(err){
+                    response.status(500).send(err);
+                }
+                else{
+                    
+                    daoQ.getResponse(id,function(err,res){
+                        if(err){
+                            response.status(500).send(err);
+                        }
+                        else{  
+                           
+                            result = result.filter(el=> el!= '');
+                            res = res.filter(el=> el!= '');
+                            let usuario={nombre:response.locals.userNombre};
+                            response.render("information_question",{ usuario, pregunta:result[0], respuestas: res});
+                        }
+                        
+                    });
+                 
+                }
+            });
+        }
+    });
+    
+});
 app.get("/questions",comprobarUsuario,comprobarNombre, function(request,response){
     daoQ.getAllQuestion(function(err,results){
         if(err){
@@ -182,7 +215,33 @@ app.get("/fotoId/:userId",comprobarUsuario,function(request,response){
         }
     });
 });
+app.get("/like",comprobarUsuario,comprobarNombre,function(request,response){
+    console.log(request);
+    let email = response.locals.email;
 
+    //like == 1 dislike == 0
+    let like = request.query.like.split("_");
+    console.log(like[0] +"  "+ like[1]);
+    daoQ.comprobarVoto(email,like[1],function(err,res){
+        if(err){
+            console.log("Error al comprobar");
+            console.log(err.message);
+        }
+        else{
+            daoQ.setResponseVote(like[0],like[1],email,function(err,res){
+                if(err){
+                    console.log("Error al isnertar");
+                    console.log(err.message);
+                }
+                else{
+                    response.redirect(`/questions/${like[2]}`);
+                }
+            });
+        }
+    });
+   
+    
+});
 app.post("/login",function(request,response){
     daoU.isUserCorrect(request.body.correo,request.body.password,
         function(error,userCorrect){
