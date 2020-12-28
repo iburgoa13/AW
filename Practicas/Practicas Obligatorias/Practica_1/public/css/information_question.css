@@ -117,23 +117,14 @@ textarea{
 .info_usuario{
     text-align: center;
     margin-right: auto;
-    margin-left:75%;
+    margin-left:79%;
     width: 25%;
 }
 
 img{
     width: 30%;
 }
-.tagButton{
-    margin-left:25px;
-    padding:3px;
-    width: 10px;
-    text-decoration: none;
-    border: 1px solid rgb(43, 2, 121);
-    color:white;
-    background-color: rgb(0, 4, 253);
-    font-size: 1em;
-}
+
 input{
     width: 85%;
     padding:3px;
@@ -179,6 +170,7 @@ nav{
   padding-bottom: 2%;
   margin-left:4%;
   margin-bottom: 0.5%;
+  
 }
 
 .pregunta_start{
@@ -213,6 +205,13 @@ nav{
 
 #contenido_pregunta{
     margin-bottom:10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100ch;
+    word-wrap: break-word;
+    
+    white-space: initial;
+
 }
 
 .tag{
@@ -220,14 +219,7 @@ nav{
    margin-bottom: 10px;
    margin-left:5px;
 }
-a{
-    text-decoration: none;
-    padding:3px;
-    width: 10px;
-    border: 1px solid rgb(43, 2, 121);
-    color:white;
-    background-color: rgb(0, 4, 253);
-}
+
 #numero_respuestas{
     font-size: 1.5em;
     margin-bottom:30px;
@@ -261,4 +253,49 @@ a{
 
 .numero_votos{
     margin-right: 10px;
+}
+
+
+
+.pregunta_start{
+    color:rgb(43, 2, 121);
+    font-size: 1.2em;
+    padding:1%;
+    margin-left:4%;
+    font-size: 1.4em;
+
+}
+
+.tagButton{
+    padding:3px;
+    text-decoration: none;
+    border: 1px solid rgb(43, 2, 121);
+    color:white;
+    background-color: rgb(0, 4, 253);
+    font-size: 1em;
+    margin-right:10px;
+}
+
+.tag{
+    margin-top:15px;
+    display:flex;
+    margin-bottom: 10px;
+}
+
+#nombre{
+    margin-top:5px;
+    font-size: 1.25em;
+    margin-bottom: 3px;
+    font-weight: bold;
+    color:black;
+
+}
+
+.border_principal{
+    border:1px solid rgb(34, 177, 158);
+    border-radius: 5px;
+    padding:10px;
+    margin-bottom: 20px;
+    background-color: rgb(233, 232, 230);
+    
 }

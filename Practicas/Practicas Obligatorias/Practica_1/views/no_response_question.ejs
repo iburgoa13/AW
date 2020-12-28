@@ -57,7 +57,7 @@
                 <!--la pregunta-->
                     <div class="preguntas_container">
                         <div class="pregunta">           
-                            <p class="pregunta_start"><%= pregunta.title %></p> 
+                            <a class="pregunta_start" href="/questions/<%= pregunta.id %>"><%= pregunta.title %></a>  
                             <p class="contenido_pregunta"><%= pregunta.body %>
                             </p>
                             <div class="tag">

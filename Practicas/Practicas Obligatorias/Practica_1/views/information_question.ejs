@@ -52,6 +52,7 @@
                 <img class="img_like" src="/img/like.png"  />
                 <img class="img_like" src="/img/dislike.png" />
             </div>
+            <div class="border_principal">
             <p id="contenido_pregunta"> <%= pregunta.body %></p>
             <div class="tag">
                 <% pregunta.tags.forEach(tag =>{%>
@@ -67,16 +68,17 @@
                 <p class="pregunta_user"><%= pregunta.usuario %></p>
             </div>
         </div>
+        </div>
         <p id="numero_respuestas"><%= respuestas.length %> Respuestas</p>
         <% respuestas.forEach(respuesta => {%>
         <div id="respuestas_totales">
             <div class="votos">
                 <p class="numero_votos"> <%= respuesta.counter_vote %> votos</p>
                 <form method="GET" action="/like">
-                    <button type="submit" name="like" value ="1_<%= respuesta.id %>_<%= pregunta.id %>"><img src="/img/like.png" alt="Like" class="img_like"/></button>
+                    <button class="like_b" type="submit" name="like" value ="1_<%= respuesta.id %>_<%= pregunta.id %>"><img src="/img/like.png" alt="Like" class="img_like"/></button>
                     </form>
                 <form method="GET" action="/like">
-                    <button type="submit" name="like" value="0_<%= respuesta.id %>_<%= pregunta.id %>"><img src="/img/dislike.png" alt="Dislike" class="img_like"/></button>
+                    <button class="like_b" type="submit" name="like" value="0_<%= respuesta.id %>_<%= pregunta.id %>"><img src="/img/dislike.png" alt="Dislike" class="img_like"/></button>
                 </form>
                
             </div>

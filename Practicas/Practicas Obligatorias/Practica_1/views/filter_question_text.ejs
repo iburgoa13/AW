@@ -57,7 +57,7 @@
             <% questions.forEach(pregunta => {%>
             <div class="preguntas_filtro_text">
                 <div class="pregunta">           
-                    <p class="pregunta_start"><%= pregunta.title %></p> 
+                    <a class="pregunta_start" href="/questions/<%= pregunta.id %>"><%= pregunta.title %></a> 
                     <p class="contenido_pregunta"><%= pregunta.body %>
                     </p>
                     <div class="tag">
@@ -66,8 +66,8 @@
                                 <button type="submit"  class="tagButton" name ="tagName" value="<%= tag %>"><%= tag %></button>
                             </form>  
                         <%})%>
-                   
-                    </div>
+                       
+                        </div>
                 </div>
                 <div class="info_usuario">
                     <p class="pregunta_formulada">Formulada el <%= pregunta.date %></p>
