@@ -58,8 +58,11 @@
                 <div class="preguntas_container">
                     <div class="pregunta">           
                         <a class="pregunta_start" href="/questions/<%= pregunta.id %>"><%= pregunta.title %></a> 
-                        <p class="contenido_pregunta"><%= pregunta.body %>
-                        </p>
+                        <% if (pregunta.body.length <= 150){ %>
+                            <p class="contenido_pregunta"><%= pregunta.body %></p>
+                            <% } else { %>
+                                <p class="contenido_pregunta"><%= pregunta.body.slice(0,150)+"..." %></p>
+                            <%}%>
                         <div class="tag">
                         <% pregunta.tags.forEach(tag =>{%>
                             <form action="/searchTag" method="GET">
