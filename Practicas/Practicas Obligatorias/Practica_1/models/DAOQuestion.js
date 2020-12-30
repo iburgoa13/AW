@@ -25,19 +25,20 @@ class DAOQuestion {
                     else {
                         let sql_update = "UPDATE usuario set publicate_questions = publicate_questions + 1 where email = ?";
                         connection.query(sql_update, [id_user], function (err, upd) {
-                            connection.release();
+                           // connection.release();
                             if (err) {
                                 callback(new Error("Error de acceso a la base de datos al update usuario sumar una pregunta"));
                             }
                             else {
                                 if (tags.length > 0) {
+                                    let i = 0;
                                     tags.forEach(it => {
                                         let sql2 = "INSERT INTO tag (name) SELECT * FROM (SELECT ?) " +
                                             "AS tmp WHERE NOT EXISTS ( " +
                                             "SELECT name FROM tag WHERE name = ? " +
                                             ") LIMIT 1"
                                         connection.query(sql2, [it, it], function (err, res) {
-
+                                            if(i  == tags.length -1) connection.release();
                                             if (err) {
 
                                                 callback(new Error("Error de acceso a la base de datos al insertar tags"));
@@ -53,6 +54,7 @@ class DAOQuestion {
                                                 });
                                             }
                                         });
+                                        i = i + 1;
                                     });
 
                                     callback(null, "Insertados");
