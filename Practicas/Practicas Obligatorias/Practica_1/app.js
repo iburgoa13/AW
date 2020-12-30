@@ -225,6 +225,10 @@ app.get("/questions/:id_question", comprobarUsuario, comprobarNombre, function (
 });
 /*
 app.get("/usuarios", comprobarUsuario, comprobarNombre, function (request, response) {
+
+    SQL BUENO =
+    SELECT u.email,u.name, u.imagen, u.reputation, GROUP_CONCAT(tag.name) AS tags FROM usuario u LEFT JOIN question ON question.id_user = u.id LEFT JOIN question_tag qt on (qt.id_question = question.id) left join tag ON tag.id = qt.id_tag GROUP BY email
+
     daoQ.getAllUsers(function(err, results){
         if (err) {
             response.status(500).send(err);

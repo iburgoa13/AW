@@ -25,6 +25,7 @@ class DAOQuestion {
                     else {
                         let sql_update = "UPDATE usuario set publicate_questions = publicate_questions + 1 where email = ?";
                         connection.query(sql_update, [id_user], function (err, upd) {
+                            connection.release();
                             if (err) {
                                 callback(new Error("Error de acceso a la base de datos al update usuario sumar una pregunta"));
                             }
@@ -44,7 +45,7 @@ class DAOQuestion {
                                             else {
                                                 let sql3 = "insert into question_tag(id_question, id_tag) values(?, (select id from tag WHERE name = ?))"
                                                 connection.query(sql3, [quest.insertId, it], function (err, result) {
-                                                    connection.release();
+                                                   
                                                     if (err) {
 
                                                         callback(new Error("Error de acceso a la base de datos al insertar question-tags"));
