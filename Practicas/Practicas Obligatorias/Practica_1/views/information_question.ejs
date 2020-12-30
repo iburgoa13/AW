@@ -10,36 +10,7 @@
     <title>404</title>
 </head>
 <body>
-    <header>
-        <div class="header_button"> 
-            <form action="/questions" method="GET">
-                 <button type="submit" class="button_principal">Preguntas</button>
-             </form>
-            <form action ="/sinRespuesta" method="GET">
-                 <button type="submit" class="button_principal">Sin responder</button>
-             </form>
-           <form action="/usuarios" method="GET">
-                 <button type="submit" class="button_principal">Usuarios</button>
-           </form>
-            
-        </div> 
-        <div><h1>404</h1></div>
-        <div class="information" >
-         <img id="avatar" src="/imagenUsuario" alt="image"/>
-         <p id="nombre" ><%= usuario.nombre %></p>
-         <form action="/logout" method="GET">
-             <button id="cerrar" type="submit">Cerrar sesión</button>
-         </form>
-         
-     </div>
-     </header>
-     <nav>
-        <form action="/searchText" method="GET">
-            <button type="submit" id="button_nav">Buscar</button> 
-            <input id="buscar" type="search" placeholder="Buscar por titulo/cuerpo de preguntas" name="texto">
-        </form>
-      
-    </nav>
+    <%- include("header"); -%>
     <main>
        <div>
         <div id="principal">

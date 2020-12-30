@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/css/search_users.css" rel="stylesheet" type="text/css">
+        <link rel="icon" type="image/gif" href="/img/favi.PNG">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <title>404</title>
+    </head>
+    <body>
+        <%- include("header"); -%>
+    </body>
+    <main>
+        <div class="centro">
+            <h2>Usuarios</h2>
+            <nav>
+                <input id="filtrar_user" type="search" placeholder="Filtrar por usuario">
+                <button type="button" id="button_nav">Filtrar</button> 
+            </nav>
+            <div class= "container">
+                <% usuarios.forEach(usu => {%>
+                <div class="cajas"> 
+                    <img class="avatar" src="../public/images/user.png" alt="imagen usuario">
+                    <p ><%= usu.usuario.name %></p>
+                    <p><%= usu.usuario.reputation %></p>
+                    <div class="tag">
+                    <a href="">JavaScript</a>
+                    </div>
+
+                </div>
+                <% })%>
+              
+            </div>
+            
+        </div>
+    </main>
+</html>

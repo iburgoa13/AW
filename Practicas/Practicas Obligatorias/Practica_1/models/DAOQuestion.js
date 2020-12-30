@@ -120,6 +120,41 @@ class DAOQuestion {
             });
         });
     }
+   
+   /* getAllUsers(callback){
+        this.pool.getConnection(function (err, connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+                let sql = "SELECT u.id, u.name, u.imagen, u.reputation FROM usuario u";
+                connection.query(sql,function(err,result){
+                    connection.release();
+                    if (err) {
+
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else {
+                        let array = [];
+                        for (let it of result) {
+                            if (!array[it.id])
+                                array[it.id] = {
+                                    "id": it.id,
+                                    "name": it.name,
+                                    "imagen": it.imagen,
+                                    "reputation": it.reputation
+                                };
+                            
+                        }
+                        result = array;
+                       
+                        callback(null,result);
+                    }
+                });
+            }
+        });
+       
+    }*/
     getAllQuestion(callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -774,6 +809,38 @@ class DAOQuestion {
                     }
                 });
 
+            }
+        });
+    }
+    insertResponse(id_question,body_response,email,callback){
+        this.pool.getConnection(function(err, connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+                let sql = "INSERT INTO response (message, id_question, id_user, date) VALUES ( ?, ?, (SELECT id from usuario where email = ?), ?);"
+                const e = Date.now();
+                const today = new Date(e);
+                console.log(sql);
+                connection.query(sql,[body_response,id_question,email,today],function(err, result){
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        console.log("ha hecho insert");
+                        let sql1 = "UPDATE  usuario set publicate_response = publicate_response +1 where email = ?";
+                        connection.query(sql1,email,function(err,result){
+                            connection.release();
+                            if (err) {
+                                callback(new Error("Error de acceso a la base de datos"));
+                            }
+                            else{
+                                console.log("ha hecho update");
+                                callback(null,"Pregunta realizada");
+                            }
+                        });
+                    }
+                });
             }
         });
     }

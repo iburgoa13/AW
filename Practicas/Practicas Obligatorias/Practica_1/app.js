@@ -223,6 +223,48 @@ app.get("/questions/:id_question", comprobarUsuario, comprobarNombre, function (
 
 
 });
+/*
+app.get("/usuarios", comprobarUsuario, comprobarNombre, function (request, response) {
+    daoQ.getAllUsers(function(err, results){
+        if (err) {
+            response.status(500).send(err);
+        }
+        else{
+            results = results.filter(el => el != '');
+           
+            var usu = [];
+            for(let it of results){
+              
+                daoU.getTopTagUser(it.id,function(err,result){
+                    if (err) {
+                        response.status(500).send(err);
+                    }
+                    else{
+                        usu[it]
+                        if (!usu[it.id])
+                        usu[it.id] = {
+                            "id": it.id,
+                            "name": it.name,
+                            "imagen": it.imagen,
+                            "reputation": it.reputation
+                        };
+                        console.log(it, result);
+                      //  usu.push([{"usuario": it, "tag" :result}]); 
+                        console.log(usu.length);
+                    }
+                  
+                });
+            }
+            console.log(usu);
+            usu.forEach(e =>{
+                console.log(e.usuario);
+            });
+            
+            let usuario = { nombre: response.locals.userNombre };
+            response.render("search_users", {usuario, usuarios: usu});
+        }
+    });
+});*/
 app.get("/questions", comprobarUsuario, comprobarNombre, function (request, response) {
     daoQ.getAllQuestion(function (err, results) {
         if (err) {
@@ -325,11 +367,24 @@ app.post("/login", function (request, response) {
 });
 
 app.post("/formResponse", comprobarUsuario, comprobarNombre, function (request, response) {
-    let id = request.body.id_question;
-    console.log(id);
-    let texto = request.body.texto;
-    console.log(texto);
+    let id_question = request.body.id_question;
+    
+    let body_response = request.body.texto;
+    
     let email = response.locals.email;
+    console.log(email);
+    daoQ.insertResponse(id_question,body_response,email,function(err,res){
+        if(err){
+            console.log(err.message);
+            response.status(500);
+            response.end();
+        }
+        else{
+            console.log(res);
+            response.status(200);
+            response.redirect(`/questions/${id_question}`);
+        }
+    });
 
 });
 app.post("/formQuestion", comprobarUsuario, comprobarNombre, function (request, response) {

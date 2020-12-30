@@ -246,7 +246,28 @@ class DAOUsers {
             }
         });
     }
-
+    /*getTopTagUser(id_user,callback){
+        this.pool.getConnection(function (err,connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+                let sql = "select qt.id_tag 'id_tag', count(qt.id_tag) 'count_tag', t.name 'name_tag' from question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (q.id = qt.id_question) left join tag t on (t.id = qt.id_tag) where u.id = ? group by qt.id_tag ORDER BY count(qt.id_tag) DESC LIMIT 1";
+                connection.query(sql,id_user,function(err,result){
+                    connection.release();
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        if(result.length == 0){
+                            callback(null,null)
+                        }
+                        else callback(null,result[0].name_tag);
+                    }
+                });
+            }
+        });
+    }*/
     getUserImageNameId(id, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
