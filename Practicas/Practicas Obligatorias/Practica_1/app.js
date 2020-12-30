@@ -11,6 +11,7 @@ const fs = require("fs");
 const session = require("express-session");
 const mysqlSession = require("express-mysql-session");
 const MySQLStore = require("express-mysql-session");
+const e = require("express");
 const MYSQLStore = mysqlSession(session);
 const sessionStore = MySQLStore(config.mysqlConfig);
 
@@ -223,52 +224,53 @@ app.get("/questions/:id_question", comprobarUsuario, comprobarNombre, function (
 
 
 });
-/*
+
 app.get("/usuarios", comprobarUsuario, comprobarNombre, function (request, response) {
 
-    SQL BUENO =
-    SELECT u.email,u.name, u.imagen, u.reputation, GROUP_CONCAT(tag.name) AS tags FROM usuario u LEFT JOIN question ON question.id_user = u.id LEFT JOIN question_tag qt on (qt.id_question = question.id) left join tag ON tag.id = qt.id_tag GROUP BY email
-
+   
     daoQ.getAllUsers(function(err, results){
         if (err) {
             response.status(500).send(err);
         }
         else{
             results = results.filter(el => el != '');
-           
-            var usu = [];
+        
+            console.log(results);
             for(let it of results){
-              
-                daoU.getTopTagUser(it.id,function(err,result){
-                    if (err) {
-                        response.status(500).send(err);
-                    }
-                    else{
-                        usu[it]
-                        if (!usu[it.id])
-                        usu[it.id] = {
-                            "id": it.id,
-                            "name": it.name,
-                            "imagen": it.imagen,
-                            "reputation": it.reputation
-                        };
-                        console.log(it, result);
-                      //  usu.push([{"usuario": it, "tag" :result}]); 
-                        console.log(usu.length);
-                    }
-                  
-                });
+                let arr = [];
+                if(it.tags!= null)
+                { 
+                    arr= it.tags.split(",");
+                    const tags = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
+                    const counterTags = tags.map(_tag => {
+                        return {tag: _tag, count: 0};
+                    });
+                    
+                    counterTags.map((count, i) =>{
+                        const actualTagLength = arr.filter(number => number === count.tag).length;
+                        count.count = actualTagLength;
+                    })
+                    let max = 0;
+                    let nombre;
+                    counterTags.forEach(e =>{
+                        if(max < e.count){
+                            max = e.count;
+                            nombre = e.tag;
+                            it.tags = nombre;
+                        } 
+                    });
+                    console.log("El usuario " +it.name + " ha usado mas veces el tag: "+ nombre + " con un total de :"+ max);
+
+                }
+                else console.log("El usuario " +it.name + "  no ha usado tags");
+                console.log(it);
             }
-            console.log(usu);
-            usu.forEach(e =>{
-                console.log(e.usuario);
-            });
-            
-            let usuario = { nombre: response.locals.userNombre };
-            response.render("search_users", {usuario, usuarios: usu});
+            console.log(results);
+            //let tags = results.tags.split(",");
+         
         }
     });
-});*/
+});
 app.get("/questions", comprobarUsuario, comprobarNombre, function (request, response) {
     daoQ.getAllQuestion(function (err, results) {
         if (err) {
