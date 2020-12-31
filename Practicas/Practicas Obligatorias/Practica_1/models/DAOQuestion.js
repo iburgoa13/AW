@@ -74,7 +74,7 @@ class DAOQuestion {
 
     getAllQuestionNoAnswer(callback) {
         this.pool.getConnection(function (err, connection) {
-            let sql = "SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario' ,u.imagen, t.name as 'nombreTag' FROM question q left join response res on (res.id_question = q.id) left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) WHERE res.id IS NULL order by q.date desc";
+            let sql = "SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario' ,u.imagen, t.name as 'nombreTag' FROM question q left join response res on (res.id_question = q.id) left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) WHERE res.id IS NULL order by q.date desc, q.id desc";
             connection.query(sql, function (err, result) {
                 connection.release();
                 if (err) {
@@ -107,7 +107,8 @@ class DAOQuestion {
                         //mismo año
                         if (aa[2] == bb[2]) {
                             if (aa[1] == bb[1]) {
-                                return bb[0] - aa[0];
+                                if(aa[0] == bb[0]) return b.id - a.id;
+                                else return bb[0] - aa[0];
                             }
                             else {
                                 return bb[1] - aa[1];
@@ -132,7 +133,7 @@ class DAOQuestion {
             else{
       
             
-                let sql = "SELECT u.email,u.name, u.imagen, u.reputation, GROUP_CONCAT(tag.name) AS tags FROM usuario u LEFT JOIN question ON question.id_user = u.id LEFT JOIN question_tag qt on (qt.id_question = question.id) left join tag ON tag.id = qt.id_tag GROUP BY email";
+                let sql = "SELECT u.id, u.email,u.name as 'nombre', u.imagen, u.reputation, GROUP_CONCAT(tag.name) AS tags FROM usuario u LEFT JOIN question ON question.id_user = u.id LEFT JOIN question_tag qt on (qt.id_question = question.id) left join tag ON tag.id = qt.id_tag GROUP BY email";
                 connection.query(sql,function(err,result){
                     connection.release();
                     if (err) {
@@ -157,7 +158,7 @@ class DAOQuestion {
             else {
 
                 let sql = "SELECT q.id, q.title, q.body, q.id_user, q.date, u.name as 'NombreUsuario'" +
-                    ",u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) order by q.date desc";
+                    ",u.imagen, t.name as 'nombreTag' FROM question q left join usuario u on (u.id = q.id_user) left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) order by q.date desc , q.id desc";
                 connection.query(sql, function (err, result) {
                     connection.release();
                     if (err) {
@@ -190,7 +191,11 @@ class DAOQuestion {
                             //mismo año
                             if (aa[2] == bb[2]) {
                                 if (aa[1] == bb[1]) {
-                                    return bb[0] - aa[0];
+                                    if(aa[0] == bb[0])
+                                        {return b.id - a.id;}
+                                    else{
+                                        return bb[0] - aa[0];
+                                    }
                                 }
                                 else {
                                     return bb[1] - aa[1];
@@ -789,7 +794,8 @@ class DAOQuestion {
                             //mismo año
                             if (aa[2] == bb[2]) {
                                 if (aa[1] == bb[1]) {
-                                    return bb[0] - aa[0];
+                                    if(aa[0] == bb[0]) return b.id - a.id;
+                                    else return bb[0] - aa[0];
                                 }
                                 else {
                                     return bb[1] - aa[1];
@@ -879,7 +885,8 @@ class DAOQuestion {
                             //mismo año
                             if (aa[2] == bb[2]) {
                                 if (aa[1] == bb[1]) {
-                                    return bb[0] - aa[0];
+                                    if(bb[0] == aa[0]) return b.id - a.id;
+                                    else return bb[0] - aa[0];
                                 }
                                 else {
                                     return bb[1] - aa[1];

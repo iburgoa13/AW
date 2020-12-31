@@ -22,13 +22,14 @@
             <div class= "container">
                 <% usuarios.forEach(usu => {%>
                 <div class="cajas"> 
-                    <img class="avatar" src="../public/images/user.png" alt="imagen usuario">
-                    <p ><%= usu.usuario.name %></p>
-                    <p><%= usu.usuario.reputation %></p>
+                    <img src="/fotoId/<%=usu.id%>" alt="Foto usuario">
+                    <p ><%= usu.nombre %></p>
+                    <p><%= usu.reputation %></p>
+                    <% if (usu.tags != null){ %>
                     <div class="tag">
-                    <a href="">JavaScript</a>
+                    <a href=""><%= usu.tags %></a>
                     </div>
-
+                    <%}%>
                 </div>
                 <% })%>
               

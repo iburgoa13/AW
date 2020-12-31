@@ -267,6 +267,8 @@ app.get("/usuarios", comprobarUsuario, comprobarNombre, function (request, respo
             }
             console.log(results);
             //let tags = results.tags.split(",");
+            let usuario = { nombre: response.locals.userNombre };
+           // response.status(200).render("search_users",{usuario, usuarios: results});
          
         }
     });
@@ -278,6 +280,7 @@ app.get("/questions", comprobarUsuario, comprobarNombre, function (request, resp
         }
         else {
             results = results.filter(el => el != '');
+            //console.log(results);
             let usuario = { nombre: response.locals.userNombre };
             response.render("questions", { usuario, questions: results });
         }
