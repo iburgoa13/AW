@@ -215,3 +215,6 @@ nav{
     background-color: rgb(0, 4, 253);
     font-size: 1em;
 }
+#nombre:hover{
+    color: darkblue;
+}

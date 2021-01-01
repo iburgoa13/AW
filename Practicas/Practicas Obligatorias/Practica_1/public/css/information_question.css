@@ -112,8 +112,12 @@ textarea{
 
 .pregunta_user{
     padding:2%;
+    text-decoration: none;
+    color: black;
 }
-    
+.pregunta_user:hover{
+    color: darkblue;
+}
 .info_usuario{
     text-align: center;
     margin-right: auto;
@@ -288,9 +292,11 @@ nav{
     margin-bottom: 3px;
     font-weight: bold;
     color:black;
-
+    text-decoration: none;
 }
-
+#nombre:hover{
+    color: darkblue;
+}
 .border_principal{
     border:1px solid rgb(34, 177, 158);
     border-radius: 5px;

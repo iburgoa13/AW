@@ -3,53 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../public/stylesheet/user_profile.css" rel="stylesheet" type="text/css">
-    <link rel="icon" type="image/gif" href="../public/images/favi.PNG">
+    <link href="/css/user_profile.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/gif" href="/img/favi.PNG">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <title>404</title>
 </head>
+
 <body>
-    <header>
-       <div class="header_button"> 
-           <button type="button" class="button_principal">Preguntas</button>
-           <button type="button" class="button_principal">Sin responder</button>
-           <button type="button" class="button_principal">Usuarios</button>
-       </div> 
-       <div><h1>404</h1></div>
-       <div class="information">
-        <img id="avatar" src="../public/images/user.png" alt="imagen usuario">
-        <p >Alfonso001</p>
-        <button id="cerrar" type="button">Cerrar sesión</button>
-        
-    </div>
-    </header>
-    <nav>
-        <button type="button" id="button_nav">Buscar</button> 
-        <input type="search" placeholder="Buscar por titulo/cuerpo de preguntas">
-    </nav>
+    <%- include("header"); -%>
+
     <main>
         <div id="contenido">
            <div id="usuario">
                <div id="info_user">
-                    <img src="../public/images/user.png" alt="Foto usuario">
-                    <p class="nombre_user">SFG</p>    
-                    <p class="registrado">Miembro desde 1/10/2020</p>               
+                <img  src="/fotoId/<%=perfil.id%>" alt="Foto usuario">
+                    <p class="nombre_user"><%= perfil.name %></p>    
+                    <p class="registrado">Miembro desde <%= perfil.date %></p>               
                </div>
                <div id="estadisticas">
                     <p class="titulo naranja">ESTADISTICAS</p>
                     <div id="resumen">
                         <div id="reputacion">
                            <p class="titulo">Reputación</p>
-                           <p class="numero">278</p> 
+                           <p class="numero"><%= perfil.reputation %></p> 
                         </div>
                         <div id="preguntas">
                             <p class="titulo">Preguntas</p>
-                            <p class="numero">30</p>
+                            <p class="numero"><%=  perfil.publicate_questions %></p>
                         </div>
                         <div id="respuestas">
                             <p class="titulo">Respuestas</p>
-                            <p class="numero">10</p>
+                            <p class="numero"><%= perfil.publicate_response %></p>
                         </div>
                     </div>
                </div>
@@ -119,6 +104,6 @@
 
         </div>
     </main>
-
 </body>
+
 </html>

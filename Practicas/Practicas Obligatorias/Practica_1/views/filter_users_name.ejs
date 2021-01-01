@@ -3,18 +3,18 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="css/search_users.css" rel="stylesheet" type="text/css">
-        <link rel="icon" type="image/gif" href="img/favi.PNG">
+        <link href="/css/search_users.css" rel="stylesheet" type="text/css">
         <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="icon" type="image/gif" href="/img/favi.PNG">
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <title>404</title>
     </head>
     <body>
         <%- include("header"); -%>
-  
+   
     <main>
         <div class="centro">
-            <p id="titulo">Usuarios</p>
+            <p id="titulo">Usuarios filtrados por ["<%= filtro %>"]</p>
             <nav>
                 <form action="/searchUser" method="GET">
                     <input id="filtrar_user" type="search" placeholder="Filtrar por usuario" name = "userSearch" required>
@@ -27,7 +27,7 @@
                     <img id="foto_usuarios" src="/fotoId/<%=usu.id%>" alt="Foto usuario">
                     <div>
                         <a href="/usuarios/<%= usu.id %>" class="perfilUsuario"><%= usu.nombre %></a>
-                    </div>       
+                    </div> 
                     <p><%= usu.reputation %></p>
                     <% if (usu.tags != null){ %>
                     <div class="tag">

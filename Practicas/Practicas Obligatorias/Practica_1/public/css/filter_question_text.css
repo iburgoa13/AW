@@ -129,8 +129,12 @@ font-size: 1em;
 
 .pregunta_user{
     padding:2%;
+    color: black;
+    text-decoration: none;
 }
-    
+.pregunta_user:hover{
+    color:darkblue;
+}
 .info_usuario{
     text-align: center;
     margin-right: auto;
@@ -192,7 +196,9 @@ nav{
 #num_preguntas{
     font-size:1.5em;
 }
-
+#nombre:hover{
+    color: darkblue;
+}
 .pregunta_start{
     color:rgb(43, 2, 121);
     font-size: 1.2em;
@@ -224,4 +230,5 @@ nav{
     margin-bottom: 3px;
     font-weight: bold;
     color:black;
+    text-decoration: none;
 }

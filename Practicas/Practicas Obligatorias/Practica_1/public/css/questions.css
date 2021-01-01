@@ -177,6 +177,11 @@ input{
 
 .pregunta_user{
     padding:2%;
+    text-decoration: none;
+    color: black;
+}
+.pregunta_user:hover{
+    color: darkblue;
 }
     
 
@@ -244,4 +249,7 @@ nav{
     font-weight: bold;
     color:black;
 
+}
+#nombre:hover{
+    color: darkblue;
 }

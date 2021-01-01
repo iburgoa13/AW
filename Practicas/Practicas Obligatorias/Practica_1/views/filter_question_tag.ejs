@@ -46,7 +46,9 @@
                 <div class="info_usuario">
                     <p class="pregunta_formulada">Formulada el <%= pregunta.date %></p>
                     <img src="/fotoId/<%=pregunta.idUsuario%>" alt="Foto usuario">
-                    <p class="pregunta_user"><%= pregunta.usuario %></>
+                    <div>
+                        <a href="/usuarios/<%=pregunta.idUsuario%>" class="pregunta_user"><%= pregunta.usuario %></a>
+                    </div> 
                 </div>
             </div>
             <%})%> 

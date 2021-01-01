@@ -1,6 +1,6 @@
 "use strict"
 const path = require("path");
-
+const moment = require("moment");
 
 
 
@@ -194,7 +194,7 @@ class DAOUsers {
 
             }
             else {
-                const sql = "SELECT name FROM usuario WHERE email = ?";
+                const sql = "SELECT name , id FROM usuario WHERE email = ?";
                 connection.query(sql, [email], function (err, resultado) {
                     connection.release();
                     if (err) {
@@ -205,7 +205,7 @@ class DAOUsers {
                         if (resultado.length > 0)//tenemos img{
                         {
 
-                            callback(null, resultado[0].name);
+                            callback(null, resultado[0]);
                         }
                         else { //es cero
 
@@ -216,7 +216,95 @@ class DAOUsers {
             }
         });
     }
+    getInfoUser(id,callback){
+        this.pool.getConnection(function (err, connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+                let sql ="SELECT u.id, u.name , u.imagen , u.reputation, u.publicate_questions, u.publicate_response, u.date FROM usuario u where u.id = ?";
+                connection.query(sql,id,function(err,res){
+                    connection.release();
+                    if (err) {
 
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        res[0].date = moment(res[0].date).format('DD/MM/YYYY');
+                        callback(null,res);      
+                    }
+                });
+            }
+        }); 
+    }
+    infoUserPrincipal(email, callback){
+        this.pool.getConnection(function (err, connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+                let sql ="SELECT u.id, u.name , u.imagen , u.reputation, u.publicate_questions, u.publicate_response, u.date FROM usuario u where u.email = ?";
+                connection.query(sql,email,function(err,res){
+                    connection.release();
+                    if (err) {
+
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        res[0].date = moment(res[0].date).format('DD/MM/YYYY');
+                        callback(null,res);      
+                    }
+                });
+            }
+        });
+    }
+    getAllUsers(callback){
+        this.pool.getConnection(function (err, connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            }
+            else{
+      
+            
+                let sql = "SELECT u.id, u.email,u.name as 'nombre', u.imagen, u.reputation, GROUP_CONCAT(tag.name) AS tags FROM usuario u LEFT JOIN question ON question.id_user = u.id LEFT JOIN question_tag qt on (qt.id_question = question.id) left join tag ON tag.id = qt.id_tag GROUP BY email";
+                connection.query(sql,function(err,result){
+                    connection.release();
+                    if (err) {
+
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else {
+                    
+                       
+                        callback(null,result);
+                    }
+                });
+            }
+        });
+       
+    }
+    getFilterUser(texto, callback){
+        this.pool.getConnection( function (err, connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"))
+            }
+            else{
+                let sql = `SELECT u.id, u.email,u.name as 'nombre', u.imagen, u.reputation, GROUP_CONCAT(tag.name) AS tags FROM usuario u LEFT JOIN question ON question.id_user = u.id LEFT JOIN question_tag qt on (qt.id_question = question.id) left join tag ON tag.id = qt.id_tag where u.name like '%${texto}%'  GROUP BY email`;
+                connection.query(sql, function (err, resultado){
+                    connection.release();
+                    if (err) {
+
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else {
+                    
+                       
+                        callback(null,resultado);
+                    }
+                });
+            }
+        });
+    }
     getUserImageName(email, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {

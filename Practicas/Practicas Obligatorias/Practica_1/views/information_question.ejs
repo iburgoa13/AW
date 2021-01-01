@@ -40,7 +40,9 @@
             <div class="info_usuario">
                 <p class="pregunta_formulada">Formulada el <%= pregunta.date %></p>
                 <img src="/fotoId/<%=pregunta.idUsuarioQ%>" alt="Foto usuario">
-                <p class="pregunta_user"><%= pregunta.usuario %></p>
+                <div>
+                    <a href="/usuarios/<%= pregunta.idUsuarioQ %>" class="pregunta_user"><%= pregunta.usuario %></a>
+                </div>
             </div>
         </div>
         </div>
@@ -62,7 +64,9 @@
                 <div class="info_usuario">
                     <p class="pregunta_formulada">Respondida el <%= respuesta.date %></p>
                     <img src="/fotoId/<%=respuesta.idUsuarioQ%>" alt="Foto usuario">
-                    <p class="pregunta_user"><%= respuesta.usuario %></p>
+                    <div>
+                        <a href="/usuarios/<%= respuesta.idUsuarioQ %>" class="pregunta_user"><%= respuesta.usuario %></a>
+                    </div>
                 </div>
             </div>
            

@@ -125,31 +125,6 @@ class DAOQuestion {
         });
     }
    
-    getAllUsers(callback){
-        this.pool.getConnection(function (err, connection){
-            if (err) {
-                callback(new Error("Error de conexión a la base de datos"));
-            }
-            else{
-      
-            
-                let sql = "SELECT u.id, u.email,u.name as 'nombre', u.imagen, u.reputation, GROUP_CONCAT(tag.name) AS tags FROM usuario u LEFT JOIN question ON question.id_user = u.id LEFT JOIN question_tag qt on (qt.id_question = question.id) left join tag ON tag.id = qt.id_tag GROUP BY email";
-                connection.query(sql,function(err,result){
-                    connection.release();
-                    if (err) {
-
-                        callback(new Error("Error de acceso a la base de datos"));
-                    }
-                    else {
-                    
-                       
-                        callback(null,result);
-                    }
-                });
-            }
-        });
-       
-    }
     getAllQuestion(callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {

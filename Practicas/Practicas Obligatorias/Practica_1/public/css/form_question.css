@@ -150,7 +150,9 @@ input{
     color: white;
     font-size: 1em;
 }
-
+#nombre:hover{
+    color: darkblue;
+}
 nav{
     margin-top:1%;
     margin-left:3%;
@@ -187,4 +189,5 @@ nav{
     margin-bottom: 3px;
     font-weight: bold;
     color:black;
+    text-decoration: none;
 }

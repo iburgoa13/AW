@@ -59,23 +59,36 @@ app.set("views", path.join(__dirname, "views"));
 var nameUser;
 function comprobarUsuario(request, response, next) {
     if (request.session.currentUser) {
-        response.locals.userEmail = request.session.currentUser;
-        next();
+        daoU.getUserName(request.session.currentUser,
+            function (err, res) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    response.locals.userNombre = res.name;
+                    response.locals.email = request.session.currentUser;
+                    response.locals.id = res.id;
+                    next();
+                }
+            });
+           
     }
     else {
         response.status(403).redirect("/login");
     }
 }
+/*
 function comprobarNombre(request, response, next) {
     if (request.session.currentUser) {
         daoU.getUserName(request.session.currentUser,
-            function (err, nombre) {
+            function (err, res) {
                 if (err) {
                     console.log(err);
                 }
                 else {
-                    response.locals.userNombre = nombre;
+                    response.locals.userNombre = res.name;
                     response.locals.email = request.session.currentUser;
+                    response.locals.id = res.id;
                     next();
                 }
             });
@@ -84,22 +97,22 @@ function comprobarNombre(request, response, next) {
     else {
         response.status(403).redirect("/login");
     }
-}
+}*/
 app.get("/", function (request, response) {
     response.status(200).redirect("/login");
 });
-app.get("/home", comprobarUsuario, comprobarNombre, function (request, response) {
-    let usuario = { nombre: response.locals.userNombre };
+app.get("/home", comprobarUsuario, function (request, response) {
+    let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
     response.status(200).render("home",
         { usuario });
 });
 
-app.get("/formular", comprobarUsuario, comprobarNombre, function (request, response) {
-    let usuario = { nombre: response.locals.userNombre };
+app.get("/formular", comprobarUsuario, function (request, response) {
+    let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
     response.status(200).render("form_question",
         { usuario });
 });
-app.get("/searchTag", comprobarUsuario, comprobarNombre, function (request, response) {
+app.get("/searchTag", comprobarUsuario, function (request, response) {
 
     daoQ.getQuestionFilterTag(request.query.tagName, function (err, results) {
         if (err) {
@@ -109,13 +122,12 @@ app.get("/searchTag", comprobarUsuario, comprobarNombre, function (request, resp
 
             results = results.filter(el => el != '');
             let textoTag = request.query.tagName;
-            let usuario = { nombre: response.locals.userNombre };
-
+            let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
             response.render("filter_question_tag", { usuario, questions: results, textoTag });
         }
     });
 });
-app.get("/searchText", comprobarUsuario, comprobarNombre, function (request, response) {
+app.get("/searchText", comprobarUsuario, function (request, response) {
 
     daoQ.getQuestionFilterText(request.query.texto, function (err, results) {
         if (err) {
@@ -125,7 +137,7 @@ app.get("/searchText", comprobarUsuario, comprobarNombre, function (request, res
 
             results = results.filter(el => el != '');
             let texto = request.query.texto;
-            let usuario = { nombre: response.locals.userNombre };
+            let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
 
             response.render("filter_question_text", { usuario, questions: results, texto });
         }
@@ -141,19 +153,19 @@ app.get("/formQuestion", function (request, response) {
 app.get("/register", function (request, response) {
     response.status(200).render("register", { errorMsg: null })
 });
-app.get("/sinRespuesta", comprobarUsuario, comprobarNombre, function (request, response) {
+app.get("/sinRespuesta", comprobarUsuario, function (request, response) {
     daoQ.getAllQuestionNoAnswer(function (err, results) {
         if (err) {
             response.status(500).send(err);
         }
         else {
             results = results.filter(el => el != '');
-            let usuario = { nombre: response.locals.userNombre };
+            let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
             response.render("no_response_question", { usuario, questions: results });
         }
     });
 });
-app.get("/questions/:id_question", comprobarUsuario, comprobarNombre, function (request, response) {
+app.get("/questions/:id_question", comprobarUsuario, function (request, response) {
     let id = request.params.id_question;
 
     let email = response.locals.email;
@@ -182,7 +194,7 @@ app.get("/questions/:id_question", comprobarUsuario, comprobarNombre, function (
 
                                         result = result.filter(el => el != '');
                                         res = res.filter(el => el != '');
-                                        let usuario = { nombre: response.locals.userNombre };
+                                        let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
                                         response.render("information_question", { usuario, pregunta: result[0], respuestas: res });
                                     }
 
@@ -208,7 +220,7 @@ app.get("/questions/:id_question", comprobarUsuario, comprobarNombre, function (
 
                                 result = result.filter(el => el != '');
                                 res = res.filter(el => el != '');
-                                let usuario = { nombre: response.locals.userNombre };
+                                let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
                                 response.render("information_question", { usuario, pregunta: result[0], respuestas: res });
                             }
 
@@ -225,17 +237,15 @@ app.get("/questions/:id_question", comprobarUsuario, comprobarNombre, function (
 
 });
 
-app.get("/usuarios", comprobarUsuario, comprobarNombre, function (request, response) {
+app.get("/usuarios", comprobarUsuario, function (request, response) {
 
    
-    daoQ.getAllUsers(function(err, results){
+    daoU.getAllUsers(function(err, results){
         if (err) {
             response.status(500).send(err);
         }
         else{
             results = results.filter(el => el != '');
-        
-            console.log(results);
             for(let it of results){
                 let arr = [];
                 if(it.tags!= null)
@@ -250,6 +260,7 @@ app.get("/usuarios", comprobarUsuario, comprobarNombre, function (request, respo
                         const actualTagLength = arr.filter(number => number === count.tag).length;
                         count.count = actualTagLength;
                     })
+                   
                     let max = 0;
                     let nombre;
                     counterTags.forEach(e =>{
@@ -259,21 +270,88 @@ app.get("/usuarios", comprobarUsuario, comprobarNombre, function (request, respo
                             it.tags = nombre;
                         } 
                     });
-                    console.log("El usuario " +it.name + " ha usado mas veces el tag: "+ nombre + " con un total de :"+ max);
+                 
 
                 }
-                else console.log("El usuario " +it.name + "  no ha usado tags");
-                console.log(it);
             }
-            console.log(results);
-            //let tags = results.tags.split(",");
-            let usuario = { nombre: response.locals.userNombre };
-           // response.status(200).render("search_users",{usuario, usuarios: results});
+            let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
+            response.status(200).render("search_users",{usuario, usuarios: results});
          
         }
     });
 });
-app.get("/questions", comprobarUsuario, comprobarNombre, function (request, response) {
+app.get("/usuarios/:id_user",comprobarUsuario, function (request, response) {
+    let id = request.params.id_user;
+    daoU.getInfoUser(id,function(err, result){
+        if (err) {
+            response.status(500).send(err);
+        }
+        else{
+            let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
+            console.log(result);
+            response.status(200).render("user_profile",{usuario, perfil: result[0]});
+         
+        } 
+    });
+});
+/*
+app.get("/infoUsuario",comprobarUsuario, function (request, response) {
+    let email = response.locals.email;
+    daoU.infoUserPrincipal(email , function(err, result){
+        if (err) {
+            response.status(500).send(err);
+        }
+        else{
+            let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
+            console.log(result);
+            response.status(200).render("user_profile",{usuario, perfil: result[0]});
+         
+        } 
+    });
+});*/
+app.get("/searchUser",comprobarUsuario, function (request, response) {
+    let texto =request.query.userSearch;
+    daoU.getFilterUser(texto, function (err, results){
+        if (err) {
+            response.status(500).send(err);
+        }
+        else{
+            results = results.filter(el => el != '');
+            for(let it of results){
+                let arr = [];
+                if(it.tags!= null)
+                { 
+                    arr= it.tags.split(",");
+                    const tags = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
+                    const counterTags = tags.map(_tag => {
+                        return {tag: _tag, count: 0};
+                    });
+                    
+                    counterTags.map((count, i) =>{
+                        const actualTagLength = arr.filter(number => number === count.tag).length;
+                        count.count = actualTagLength;
+                    })
+                   
+                    let max = 0;
+                    let nombre;
+                    counterTags.forEach(e =>{
+                        if(max < e.count){
+                            max = e.count;
+                            nombre = e.tag;
+                            it.tags = nombre;
+                        } 
+                    });
+                 
+
+                }
+            }
+            let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
+            response.status(200).render("filter_users_name",{usuario, usuarios: results, filtro: texto});
+         
+        }
+    });
+});
+app.get("/questions", comprobarUsuario, function (request, response) {
     daoQ.getAllQuestion(function (err, results) {
         if (err) {
             response.status(500).send(err);
@@ -281,7 +359,7 @@ app.get("/questions", comprobarUsuario, comprobarNombre, function (request, resp
         else {
             results = results.filter(el => el != '');
             //console.log(results);
-            let usuario = { nombre: response.locals.userNombre };
+            let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
             response.render("questions", { usuario, questions: results });
         }
     });
@@ -305,7 +383,7 @@ app.get("/fotoId/:userId", comprobarUsuario, function (request, response) {
         }
     });
 });
-app.get("/likeQuestion", comprobarUsuario, comprobarNombre, function (request, response) {
+app.get("/likeQuestion", comprobarUsuario, function (request, response) {
     let email = response.locals.email;
     console.log(email);
     let like = request.query.like.split("_");
@@ -327,7 +405,7 @@ app.get("/likeQuestion", comprobarUsuario, comprobarNombre, function (request, r
     });
 });
 
-app.get("/like", comprobarUsuario, comprobarNombre, function (request, response) {
+app.get("/like", comprobarUsuario, function (request, response) {
 
     let email = response.locals.email;
 
@@ -375,7 +453,7 @@ app.post("/login", function (request, response) {
         });
 });
 
-app.post("/formResponse", comprobarUsuario, comprobarNombre, function (request, response) {
+app.post("/formResponse", comprobarUsuario, function (request, response) {
     let id_question = request.body.id_question;
     
     let body_response = request.body.texto;
@@ -396,7 +474,7 @@ app.post("/formResponse", comprobarUsuario, comprobarNombre, function (request, 
     });
 
 });
-app.post("/formQuestion", comprobarUsuario, comprobarNombre, function (request, response) {
+app.post("/formQuestion", comprobarUsuario, function (request, response) {
 
     //array de tags
     let tags = [];
@@ -459,7 +537,7 @@ app.post("/register", upload.single('imagen'), function (request, response) {
 });
 
 app.get("/imagenUsuario", comprobarUsuario, function (request, response) {
-    daoU.getUserImageName(response.locals.userEmail, function (error, usuario) {
+    daoU.getUserImageName(response.locals.email, function (error, usuario) {
         if (error) {
             response.status(500);
             response.end();
