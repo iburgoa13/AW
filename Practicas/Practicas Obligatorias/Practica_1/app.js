@@ -179,34 +179,36 @@ app.get("/questions/:id_question", comprobarUsuario, function (request, response
                     if (err) {
                         response.status(500).send(err);
                     }
-                    daoU.insertMedalQuestionVisit(id, function(err, result){
-                        if (err) {
-                            response.status(500).send(err);
-                        }
-                        else {
-                            daoQ.getQuestion(id, function (err, result) {
-                                if (err) {
-                                    response.status(500).send(err);
-                                }
-                                else {
-                                    daoQ.getResponse(id, function (err, res) {
-                                        if (err) {
-                                            response.status(500).send(err);
-                                        }
-                                        else {
-    
-                                            result = result.filter(el => el != '');
-                                            res = res.filter(el => el != '');
-                                            let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
-                                            response.render("information_question", { usuario, pregunta: result[0], respuestas: res });
-                                        }
-    
-                                    });
-    
-                                }
-                            });
-                        }
-                    });
+                    else{
+                        daoU.insertMedalQuestionVisit(id, function(err, result){
+                            if (err) {
+                                response.status(500).send(err);
+                            }
+                            else {
+                                daoQ.getQuestion(id, function (err, result) {
+                                    if (err) {
+                                        response.status(500).send(err);
+                                    }
+                                    else {
+                                        daoQ.getResponse(id, function (err, res) {
+                                            if (err) {
+                                                response.status(500).send(err);
+                                            }
+                                            else {
+                                                result = result.filter(el => el != '');
+                                                res = res.filter(el => el != '');
+                                                let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
+                                                response.render("information_question", { usuario, pregunta: result[0], respuestas: res });
+                                            }
+        
+                                        });
+        
+                                    }
+                                });
+                            }
+                        });
+                    }
+                   
                    // insertMedall primero te saque las visitas y 3 ifs ==2 4 6
                     
                 });

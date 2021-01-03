@@ -210,9 +210,13 @@ class DAOUsers {
                                   callback(new Error("Error de acceso a la base de datos"));
                               }
                               else{
-                                  callback(null);
+                                  callback(null,true);
                               }
                             });
+                        }
+                        else{
+                            connection.release();
+                            callback(null,true);
                         }
 
                     }
@@ -244,9 +248,13 @@ class DAOUsers {
                                   callback(new Error("Error de acceso a la base de datos"));
                               }
                               else{
-                                  callback(null);
+                                  callback(null,true);
                               }
                             });
+                        }
+                        else{
+                            connection.release();
+                            callback(null,true);
                         }
 
                     }
@@ -261,6 +269,7 @@ class DAOUsers {
             }
             else{
                 const sql ="select counter_visit, id_user from question where id = ?";
+                console.log(sql);
                 connection.query(sql,[id_question], function(err, result){
                     if (err) {
                         callback(new Error("Error de acceso a la base de datos"));
@@ -271,6 +280,8 @@ class DAOUsers {
                         const visitas = result[0].counter_visit;
                         const id_user = result[0].id_user;
                         const sql1 = "insert into user_medal_question values(?,(select id from medals where merit = 'Pregunta con ? visitas'),?,?)";
+                        console.log(sql1);
+                        console.log(visitas);
                         if(visitas === 2 || visitas === 4 || visitas === 6){
                           connection.query(sql1,[id_user,visitas,id_question,today], function(err, res){
                               connection.release();
@@ -278,10 +289,14 @@ class DAOUsers {
                                 callback(new Error("Error de acceso a la base de datos"));
                             }
                             else{
-                                callback(null);
+                                callback(null,true);
                             }
                           });
                         }
+                        else{
+                            connection.release();
+                            callback(null,true);
+                        } 
                         
                     }
                 });
