@@ -179,30 +179,36 @@ app.get("/questions/:id_question", comprobarUsuario, function (request, response
                     if (err) {
                         response.status(500).send(err);
                     }
-                    else {
-                        daoQ.getQuestion(id, function (err, result) {
-                            if (err) {
-                                response.status(500).send(err);
-                            }
-                            else {
-
-                                daoQ.getResponse(id, function (err, res) {
-                                    if (err) {
-                                        response.status(500).send(err);
-                                    }
-                                    else {
-
-                                        result = result.filter(el => el != '');
-                                        res = res.filter(el => el != '');
-                                        let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
-                                        response.render("information_question", { usuario, pregunta: result[0], respuestas: res });
-                                    }
-
-                                });
-
-                            }
-                        });
-                    }
+                    daoU.insertMedalQuestionVisit(id, function(err, result){
+                        if (err) {
+                            response.status(500).send(err);
+                        }
+                        else {
+                            daoQ.getQuestion(id, function (err, result) {
+                                if (err) {
+                                    response.status(500).send(err);
+                                }
+                                else {
+                                    daoQ.getResponse(id, function (err, res) {
+                                        if (err) {
+                                            response.status(500).send(err);
+                                        }
+                                        else {
+    
+                                            result = result.filter(el => el != '');
+                                            res = res.filter(el => el != '');
+                                            let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
+                                            response.render("information_question", { usuario, pregunta: result[0], respuestas: res });
+                                        }
+    
+                                    });
+    
+                                }
+                            });
+                        }
+                    });
+                   // insertMedall primero te saque las visitas y 3 ifs ==2 4 6
+                    
                 });
             }
             else {
@@ -288,8 +294,96 @@ app.get("/usuarios/:id_user",comprobarUsuario, function (request, response) {
         }
         else{
             let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
+            if(result.bronce!= null)
+            { 
+                let arr= result.bronce.split(",");
+                console.log(arr);
+                const medallas = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
+                const counterMedallas = medallas.map(_medal => {
+                    return {medalla: _medal, count: 0};
+                });
+                console.log(medallas);
+
+                counterMedallas.map((count, i) =>{
+                    const actualTagLength = arr.filter(number => number === count.medalla).length;
+                    count.count = actualTagLength;
+                })
+                
+                var hash = {};
+                var x = counterMedallas.filter(function(current) {
+                var exists = !hash[current.medalla];
+                hash[current.medalla] = true;
+                return exists;
+                });
+                result.bronce = x;
+              /* result.bronce = counterMedallas.filter(function(item, index, array) {
+                    return array.indexOf(item) === index;
+                  });*/
+                  let suma = 0;
+                  for(let e of result.bronce){
+                      suma = suma + e.count;
+                  }
+                  result.totalBronce = suma;
+              // result.bronce = counterMedallas;
+             
+
+            }
+            if(result.plata!= null)
+            { 
+                let arr= result.plata.split(",");
+                const medallas = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
+                const counterMedallas = medallas.map(_medal => {
+                    return {medalla: _medal, count: 0};
+                });
+                
+                counterMedallas.map((count, i) =>{
+                    const actualTagLength = arr.filter(number => number === count.medalla).length;
+                    count.count = actualTagLength;
+                })
+                var hash = {};
+                var x = counterMedallas.filter(function(current) {
+                var exists = !hash[current.medalla];
+                hash[current.medalla] = true;
+                return exists;
+                });
+                result.plata = x;
+                let suma = 0;
+                for(let e of result.plata){
+                    suma = suma + e.count;
+                }
+                result.totalPlata = suma;
+             
+
+            }
+            if(result.oro!= null)
+            { 
+                let arr= result.oro.split(",");
+                const medallas = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
+                const counterMedallas = medallas.map(_medal => {
+                    return {medalla: _medal, count: 0};
+                });
+                
+                counterMedallas.map((count, i) =>{
+                    const actualTagLength = arr.filter(number => number === count.medalla).length;
+                    count.count = actualTagLength;
+                })
+                var hash = {};
+                var x = counterMedallas.filter(function(current) {
+                var exists = !hash[current.medalla];
+                hash[current.medalla] = true;
+                return exists;
+                });
+                result.oro = x;
+                let suma = 0;
+                for(let e of result.oro){
+                    suma = suma + e.count;
+                }
+                result.totalOro = suma;
+             
+
+            }
             console.log(result);
-            response.status(200).render("user_profile",{usuario, perfil: result[0]});
+            response.status(200).render("user_profile",{usuario, perfil: result});
          
         } 
     });
@@ -398,7 +492,15 @@ app.get("/likeQuestion", comprobarUsuario, function (request, response) {
                     console.log(err.message);
                 }
                 else {
-                    response.redirect(`/questions/${like[1]}`);
+                    daoU.insertMedalVoteQuestion(like[1], function(err, res){
+                        if (err) {
+                            console.log(err.message);
+                        }
+                        else{
+                            response.redirect(`/questions/${like[1]}`);
+                        }
+                    });
+                   
                 }
             });
         }
@@ -422,8 +524,16 @@ app.get("/like", comprobarUsuario, function (request, response) {
 
                     console.log(err.message);
                 }
-                else {
-                    response.redirect(`/questions/${like[2]}`);
+                else{
+                    daoU.insertMedalVoteResponse(like[1],function(err,res){
+                        if (err) {
+    
+                            console.log(err.message);
+                        }
+                        else {
+                            response.redirect(`/questions/${like[2]}`);
+                        }
+                    });
                 }
             });
         }

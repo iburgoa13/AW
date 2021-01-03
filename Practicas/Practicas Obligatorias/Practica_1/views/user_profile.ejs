@@ -43,61 +43,86 @@
                <p class="titulo naranja tam_med">MEDALLAS</p>
                <div id="medallas">
                    <div class="med_grupo">
+
                    <div class="med_row rosa">
                     <p class="titulo">BRONCE</p>
-                    <p class="numero">5</p>
+                    <p class="numero"><%= perfil.totalBronce %></p>
                    </div>
-                   <div class="bronce">
-                   <h1 class="circulo rosa"></h1>
-                   <p  >Pregunta popular</p>
+                   <% if(perfil.bronce != null || perfil.bronce != undefined){ %>
+                   <% perfil.bronce.forEach(bronce =>{ %>
+                    <% if(bronce.count ===1){ %>
+                    <div class="bronce">
+                        <h1 class="circulo rosa"></h1>
+                        <p  ><%= bronce.medalla %></p>
+                    </div>
+                        <% } else if(bronce.count > 1){ %>
+     
+     
+                        <div class="varias">
+                        <div class="bronce">
+                         <h1 class="circulo rosa"></h1>
+                        <p ><%= bronce.medalla %></p>
+                        </div>
+                        <p class="varias_nr">+<%= bronce.count %></p>
+                        </div> 
+                        <% } %>
+                    <% }) %>
                    </div>
-                   <div class="varias">
-                   <div class="bronce">
-                    <h1 class="circulo rosa"></h1>
-                   <p >Respuesta interesante</p>
-                   </div>
-                   <p class="varias_nr">+2</p>
-                   </div> 
-                   <div class="bronce">
-                    <h1 class="circulo rosa"></h1>
-                   <p >Estudiante</p>
-                   </div>
-                   <div class="bronce">
-                    <h1 class="circulo rosa"></h1>
-                   <p >Pregunta interesante</p>
-                   </div>
-                   </div>
+                   <% } %>
+                  
+                   
                    <div  class="med_grupo">
                    <div class="med_row azul"> 
                     <p class="titulo">PLATA</p>
-                    <p class="numero">3</p>
+                    <p class="numero"><%= perfil.totalPlata %></p>
                    </div>
-                   <div class="bronce">
-                    <h1 class="circulo azul"></h1>
-                   <p >Pregunta destacada</p>
-                   </div>
-                   <div class="varias">
+                   <% if(perfil.plata != null || perfil.plata != undefined){ %>
+                   <% perfil.plata.forEach(plata =>{ %>
+                    <% if(plata.count ===1){ %>
                     <div class="bronce">
                         <h1 class="circulo azul"></h1>
-                   <p >Buena pregunta</p>
+                        <p  ><%= plata.medalla %></p>
+                    </div>
+                        <% } else if(plata.count > 1){ %>
+     
+     
+                        <div class="varias">
+                        <div class="bronce">
+                         <h1 class="circulo azul"></h1>
+                        <p ><%= plata.medalla %></p>
+                        </div>
+                        <p class="varias_nr">+<%= plata.count %></p>
+                        </div> 
+                        <% } %>
+                    <% }) %>
                    </div>
-                   <p class="varias_nr">+2</p>
-                   </div>
-                   </div>
+                   <% } %>
                    <div  class="med_grupo">
-                   <div class="med_row amarillo">
-                    <p class="titulo">ORO</p>
-                    <p class="numero">2</p>
-                   </div>
-                   <div class="bronce">
-                    <h1 class="circulo amarillo"></h1>
-                   <p >Excelente pregunta</p>
-                   </div>
-                   <div class="bronce">
-                    <h1 class="circulo amarillo"></h1>
-                   <p >Pregunta famosa</p>
-                   </div>
-                   </div>
+                    <div class="med_row amarillo"> 
+                     <p class="titulo">ORO</p>
+                     <p class="numero"><%= perfil.totalOro %></p>
+                    </div>
+                    <% if(perfil.oro != null || perfil.oro != undefined){ %>
+                    <% perfil.oro.forEach(oro =>{ %>
+                     <% if(oro.count ===1){ %>
+                     <div class="bronce">
+                         <h1 class="circulo amarillo"></h1>
+                         <p  ><%= oro.medalla %></p>
+                     </div>
+                         <% } else if(oro.count > 1){ %>
+      
+      
+                         <div class="varias">
+                         <div class="bronce">
+                          <h1 class="circulo amarillo"></h1>
+                         <p ><%= oro.medalla %></p>
+                         </div>
+                         <p class="varias_nr">+<%= oro.count %></p>
+                         </div> 
+                         <% } %>
+                     <% }) %>
+                    </div>
+                    <% } %>
                </div>
            </div>
 

@@ -400,7 +400,6 @@ class DAOQuestion {
 
                         connection.query(sql2, [email, id, today], function (err, res) {
                             connection.release();
-                            console.log("hace release");
                             if (err) {
                                 callback(new Error("Error de acceso a la base de datos"));
                             }

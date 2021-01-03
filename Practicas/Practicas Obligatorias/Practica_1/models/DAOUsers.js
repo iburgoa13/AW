@@ -186,12 +186,112 @@ class DAOUsers {
             }
         });
     }
+    insertMedalVoteResponse(id_response,callback){
+        this.pool.getConnection(function (err, connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"))
+            }
+            else{
+                const sql ="select counter_vote, id_user from response where id = ?";
+                connection.query(sql,[id_response],function (err, result){
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        const e = Date.now();
+                        const today = new Date(e);
+                        const votos = result[0].counter_vote;
+                        const id_user = result[0].id_user;
+                        const sql1 = "insert into user_medal_response values(?,(select id from medals where merit like '%Respuesta con ? punto%'),?,?)";
+                        if(votos === 2 || votos === 4 || votos === 6){
+                            connection.query(sql1,[id_user,votos,id_response,today], function(err, res){
+                                connection.release();
+                                if (err) {
+                                  callback(new Error("Error de acceso a la base de datos"));
+                              }
+                              else{
+                                  callback(null);
+                              }
+                            });
+                        }
 
+                    }
+                });
+            }
+        });
+    }
+    insertMedalVoteQuestion(id_question,callback){
+        this.pool.getConnection(function (err, connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"))
+            }
+            else{
+                const sql ="select counter_vote, id_user from question where id = ?";
+                connection.query(sql,[id_question],function (err, result){
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        const e = Date.now();
+                        const today = new Date(e);
+                        const votos = result[0].counter_vote;
+                        const id_user = result[0].id_user;
+                        const sql1 = "insert into user_medal_question values(?,(select id from medals where merit like '%Pregunta con ? punto%'),?,?)";
+                        if(votos === 1 || votos === 2 || votos === 4 || votos === 6){
+                            connection.query(sql1,[id_user,votos,id_question,today], function(err, res){
+                                connection.release();
+                                if (err) {
+                                  callback(new Error("Error de acceso a la base de datos"));
+                              }
+                              else{
+                                  callback(null);
+                              }
+                            });
+                        }
+
+                    }
+                });
+            }
+        });
+    }
+    insertMedalQuestionVisit(id_question,callback){
+        this.pool.getConnection(function (err, connection){
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"))
+            }
+            else{
+                const sql ="select counter_visit, id_user from question where id = ?";
+                connection.query(sql,[id_question], function(err, result){
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"));
+                    }
+                    else{
+                        const e = Date.now();
+                        const today = new Date(e);
+                        const visitas = result[0].counter_visit;
+                        const id_user = result[0].id_user;
+                        const sql1 = "insert into user_medal_question values(?,(select id from medals where merit = 'Pregunta con ? visitas'),?,?)";
+                        if(visitas === 2 || visitas === 4 || visitas === 6){
+                          connection.query(sql1,[id_user,visitas,id_question,today], function(err, res){
+                              connection.release();
+                              if (err) {
+                                callback(new Error("Error de acceso a la base de datos"));
+                            }
+                            else{
+                                callback(null);
+                            }
+                          });
+                        }
+                        
+                    }
+                });
+            }
+        });
+    }
     getUserName(email, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
-
             }
             else {
                 const sql = "SELECT name , id FROM usuario WHERE email = ?";
@@ -222,7 +322,14 @@ class DAOUsers {
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else{
-                let sql ="SELECT u.id, u.name , u.imagen , u.reputation, u.publicate_questions, u.publicate_response, u.date FROM usuario u where u.id = ?";
+                let sql = "SELECT u.id, u.name , u.imagen , u.reputation, u.publicate_questions, u.publicate_response, u.date , "+
+                "GROUP_CONCAT(bronce.name) as 'bronce', GROUP_CONCAT(plata.name) as 'plata', GROUP_CONCAT(oro.name) as 'oro' "+
+                "FROM usuario u  LEFT join user_medal_response umr on (u.id = umr.id_user) LEFT join user_medal_question umq on (u.id = umq.id_user) "+
+                "LEFT join medals bronce on ((bronce.id = umr.id_medal or bronce.id = umq.id_medal) and bronce.medal = 'BRONCE') "+
+                "LEFT join medals plata on ((plata.id = umr.id_medal or plata.id = umq.id_medal) and plata.medal = 'PLATA') "+
+                "LEFT join medals oro on ((oro.id = umr.id_medal or oro.id = umq.id_medal) and oro.medal = 'ORO') "+
+               "where u.id = ? ";
+                //let sql ="SELECT u.id, u.name , u.imagen , u.reputation, u.publicate_questions, u.publicate_response, u.date FROM usuario u where u.id = ?";
                 connection.query(sql,id,function(err,res){
                     connection.release();
                     if (err) {
@@ -231,7 +338,7 @@ class DAOUsers {
                     }
                     else{
                         res[0].date = moment(res[0].date).format('DD/MM/YYYY');
-                        callback(null,res);      
+                        callback(null,res[0]);      
                     }
                 });
             }
@@ -356,6 +463,7 @@ class DAOUsers {
             }
         });
     }*/
+    
     getUserImageNameId(id, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
