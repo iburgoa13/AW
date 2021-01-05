@@ -14,7 +14,7 @@ const MySQLStore = require("express-mysql-session");
 const e = require("express");
 const MYSQLStore = mysqlSession(session);
 const sessionStore = MySQLStore(config.mysqlConfig);
-
+/*
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'profile_imgs/')
@@ -28,7 +28,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-
+*/
 const middlewareSession = session({
     saveUninitialized: false,
     secret: "foobar34",
@@ -57,6 +57,7 @@ app.set("views", path.join(__dirname, "views"));
 
 
 var nameUser;
+/*
 function comprobarUsuario(request, response, next) {
     if (request.session.currentUser) {
         daoU.getUserName(request.session.currentUser,
@@ -77,6 +78,7 @@ function comprobarUsuario(request, response, next) {
         response.status(403).redirect("/login");
     }
 }
+*/
 /*
 function comprobarNombre(request, response, next) {
     if (request.session.currentUser) {
@@ -98,20 +100,26 @@ function comprobarNombre(request, response, next) {
         response.status(403).redirect("/login");
     }
 }*/
+/*
 app.get("/", function (request, response) {
     response.status(200).redirect("/login");
 });
+*/
+/*
 app.get("/home", comprobarUsuario, function (request, response) {
     let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
     response.status(200).render("home",
         { usuario });
 });
-
+*/
+/*
 app.get("/formular", comprobarUsuario, function (request, response) {
     let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
     response.status(200).render("form_question",
         { usuario });
 });
+*/
+/*
 app.get("/searchTag", comprobarUsuario, function (request, response) {
 
     daoQ.getQuestionFilterTag(request.query.tagName, function (err, results) {
@@ -127,6 +135,8 @@ app.get("/searchTag", comprobarUsuario, function (request, response) {
         }
     });
 });
+*/
+/*
 app.get("/searchText", comprobarUsuario, function (request, response) {
 
     daoQ.getQuestionFilterText(request.query.texto, function (err, results) {
@@ -142,17 +152,22 @@ app.get("/searchText", comprobarUsuario, function (request, response) {
             response.render("filter_question_text", { usuario, questions: results, texto });
         }
     });
-});
+});*/
+/*
 app.get("/login", function (request, response) {
     response.status(200).render("login", { errorMsg: null })
 });
-
+*/
+/*
 app.get("/formQuestion", function (request, response) {
     response.status(200).render("home", { errorMsg: null })
 })
+*/
+/*
 app.get("/register", function (request, response) {
     response.status(200).render("register", { errorMsg: null })
-});
+});*/
+/*
 app.get("/sinRespuesta", comprobarUsuario, function (request, response) {
     daoQ.getAllQuestionNoAnswer(function (err, results) {
         if (err) {
@@ -164,7 +179,8 @@ app.get("/sinRespuesta", comprobarUsuario, function (request, response) {
             response.render("no_response_question", { usuario, questions: results });
         }
     });
-});
+});*/
+/*
 app.get("/questions/:id_question", comprobarUsuario, function (request, response) {
     let id = request.params.id_question;
 
@@ -244,7 +260,8 @@ app.get("/questions/:id_question", comprobarUsuario, function (request, response
 
 
 });
-
+*/
+/*
 app.get("/usuarios", comprobarUsuario, function (request, response) {
 
    
@@ -288,6 +305,8 @@ app.get("/usuarios", comprobarUsuario, function (request, response) {
         }
     });
 });
+*/
+/*
 app.get("/usuarios/:id_user",comprobarUsuario, function (request, response) {
     let id = request.params.id_user;
     daoU.getInfoUser(id,function(err, result){
@@ -320,7 +339,7 @@ app.get("/usuarios/:id_user",comprobarUsuario, function (request, response) {
                 result.bronce = x;
               /* result.bronce = counterMedallas.filter(function(item, index, array) {
                     return array.indexOf(item) === index;
-                  });*/
+                  });
                   let suma = 0;
                   for(let e of result.bronce){
                       suma = suma + e.count;
@@ -390,6 +409,7 @@ app.get("/usuarios/:id_user",comprobarUsuario, function (request, response) {
         } 
     });
 });
+*/
 /*
 app.get("/infoUsuario",comprobarUsuario, function (request, response) {
     let email = response.locals.email;
@@ -405,6 +425,7 @@ app.get("/infoUsuario",comprobarUsuario, function (request, response) {
         } 
     });
 });*/
+/*
 app.get("/searchUser",comprobarUsuario, function (request, response) {
     let texto =request.query.userSearch;
     daoU.getFilterUser(texto, function (err, results){
@@ -446,7 +467,8 @@ app.get("/searchUser",comprobarUsuario, function (request, response) {
          
         }
     });
-});
+});*/
+/*
 app.get("/questions", comprobarUsuario, function (request, response) {
     daoQ.getAllQuestion(function (err, results) {
         if (err) {
@@ -460,8 +482,8 @@ app.get("/questions", comprobarUsuario, function (request, response) {
         }
     });
 
-});
-
+});*/
+/*
 app.get("/fotoId/:userId", comprobarUsuario, function (request, response) {
 
     daoU.getUserImageNameId(request.params.userId, function (error, usuario) {
@@ -479,6 +501,8 @@ app.get("/fotoId/:userId", comprobarUsuario, function (request, response) {
         }
     });
 });
+*/
+/*
 app.get("/likeQuestion", comprobarUsuario, function (request, response) {
     let email = response.locals.email;
     console.log(email);
@@ -508,7 +532,8 @@ app.get("/likeQuestion", comprobarUsuario, function (request, response) {
         }
     });
 });
-
+*/
+/*
 app.get("/like", comprobarUsuario, function (request, response) {
 
     let email = response.locals.email;
@@ -543,6 +568,8 @@ app.get("/like", comprobarUsuario, function (request, response) {
 
 
 });
+*/
+/*
 app.post("/login", function (request, response) {
     daoU.isUserCorrect(request.body.correo, request.body.password,
         function (error, userCorrect) {
@@ -564,7 +591,8 @@ app.post("/login", function (request, response) {
             }
         });
 });
-
+*/
+/*
 app.post("/formResponse", comprobarUsuario, function (request, response) {
     let id_question = request.body.id_question;
     
@@ -585,7 +613,8 @@ app.post("/formResponse", comprobarUsuario, function (request, response) {
         }
     });
 
-});
+});*/
+/*
 app.post("/formQuestion", comprobarUsuario, function (request, response) {
 
     //array de tags
@@ -620,12 +649,12 @@ app.post("/formQuestion", comprobarUsuario, function (request, response) {
 
 });
 
-
+*/
 app.get("/logout", function (request, response) {
     request.session.destroy();
     response.redirect("/login");
 });
-
+/*
 app.post("/register", upload.single('imagen'), function (request, response) {
     let imagenFich = null;
     if (request.file) {
@@ -646,8 +675,8 @@ app.post("/register", upload.single('imagen'), function (request, response) {
 
             }
         });
-});
-
+});*/
+/*
 app.get("/imagenUsuario", comprobarUsuario, function (request, response) {
     daoU.getUserImageName(response.locals.email, function (error, usuario) {
         if (error) {
@@ -663,7 +692,7 @@ app.get("/imagenUsuario", comprobarUsuario, function (request, response) {
             }
         }
     });
-});
+});*/
 
 
 // Arrancar el servidor
