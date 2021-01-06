@@ -323,7 +323,7 @@ class DAOUsers {
                             callback(null, resultado[0]);
                         }
                         else { //es cero
-
+                             console.log("entra aqui");
                             callback(new Error("No existe el usuario"));
                         }
                     }

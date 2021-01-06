@@ -7,7 +7,7 @@ const pool = mysql.createPool(config.mysqlConfig);
 const daoQ = new questionModel(pool);
 const daoU = new userModel(pool);
 
-function getQuestionFilterTag(request,response){
+function getQuestionFilterTag(request,response,next){
     daoQ.getQuestionFilterTag(request.query.tagName, function (err, results) {
         if (err) {
             response.status(500).send(err);
@@ -21,12 +21,12 @@ function getQuestionFilterTag(request,response){
         }
     });
 }
-function formular(request,response){
+function formular(request,response,next){
     let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
     response.status(200).render("form_question",
         { usuario });
 }
-function getQuestionFilterText(request , response){
+function getQuestionFilterText(request , response,next){
     daoQ.getQuestionFilterText(request.query.texto, function (err, results) {
         if (err) {
             response.status(500).send(err);
@@ -43,7 +43,7 @@ function getQuestionFilterText(request , response){
 }
 
 
-function getAllQuestionNoAnswer(request,response){
+function getAllQuestionNoAnswer(request,response,next){
     daoQ.getAllQuestionNoAnswer(function (err, results) {
         if (err) {
             response.status(500).send(err);
@@ -56,7 +56,7 @@ function getAllQuestionNoAnswer(request,response){
     });
 }
 
-function getQuestionID(request,response){
+function getQuestionID(request,response,next){
     let id = request.params.id_question;
     let email = response.locals.email;
     console.log(id)
@@ -139,7 +139,7 @@ function getQuestionID(request,response){
         }
     });
 }
-function getAllQuestion(request,response){
+function getAllQuestion(request,response,next){
     daoQ.getAllQuestion(function (err, results) {
         if (err) {
             response.status(500).send(err);
@@ -153,7 +153,7 @@ function getAllQuestion(request,response){
     });
 }
 
-function likeQuestion(request,response){
+function likeQuestion(request,response,next){
     let email = response.locals.email;
     console.log(email);
     let like = request.query.like.split("_");
@@ -183,7 +183,7 @@ function likeQuestion(request,response){
     });
 }
 
-function like(request,response){
+function like(request,response,next){
     let email = response.locals.email;
 
     //like == 1 dislike == 0
@@ -215,7 +215,7 @@ function like(request,response){
     });
 }
 
-function insertResponse(request,response){
+function insertResponse(request,response,next){
     let id_question = request.body.id_question;
     
     let body_response = request.body.texto;
@@ -237,7 +237,7 @@ function insertResponse(request,response){
 
 }
 
-function insertQuestion(request,response){
+function insertQuestion(request,response,next){
       //array de tags
       let tags = [];
       let texto = request.body.etiquetas;

@@ -6,6 +6,7 @@ const pool = mysql.createPool(config.mysqlConfig);
 const daoU = new userModel(pool);
 
 function comprobarUsuario(request, response, next) {
+
     if (request.session.currentUser) {
         daoU.getUserName(request.session.currentUser,
             function (err, res) {
@@ -13,6 +14,7 @@ function comprobarUsuario(request, response, next) {
                     console.log(err);
                 }
                 else {
+                   
                     response.locals.userNombre = res.name;
                     response.locals.email = request.session.currentUser;
                     response.locals.id = res.id;
@@ -26,7 +28,7 @@ function comprobarUsuario(request, response, next) {
     }
 }
 
-function loginPost(request,response){
+function loginPost(request,response,next){
     daoU.isUserCorrect(request.body.correo, request.body.password,
         function (error, userCorrect) {
             if (error) { // error de acceso a la base de datos
@@ -47,10 +49,10 @@ function loginPost(request,response){
             }
         });
 }
-function loginGet(request,response){
+function loginGet(request,response,next){
     response.status(200).render("login", { errorMsg: null })
 }
-function getUserId(request,response){
+function getUserId(request,response,next){
     console.log("entra")
     let id = request.params.id_user;
     daoU.getInfoUser(id,function(err, result){
@@ -239,7 +241,7 @@ function getFilterUser(request,response,next){
     });
 }
 
-function getUserImageNameId(request,response){
+function getUserImageNameId(request,response,next){
     daoU.getUserImageNameId(request.params.userId, function (error, usuario) {
         if (error) {
             response.status(500);
@@ -282,12 +284,12 @@ function register(request,response,next){
             }
         });
 }
-function home(request,response){
+function home(request,response,next){
     let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
     response.status(200).render("home",
         { usuario });
 }
-function formQuestionHome(request,response){
+function formQuestionHome(request,response,next){
     response.status(200).render("home", { errorMsg: null })
 }
 function getUserImageName(request,response,next){
@@ -307,28 +309,15 @@ function getUserImageName(request,response,next){
         }
     });
 }
-function registerGet(request,response){
+function registerGet(request,response,next){
     console.log("entra")
     response.status(200).render("register", { errorMsg: null })
 }
-function logout(request,response){
+function logout(request,response,next){
     request.session.destroy();
     response.redirect("/login");
 }
-function comprobarUsuario(request,response,next){
-    daoU.getUserName(request.session.currentUser,
-        function (err, res) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                response.locals.userNombre = res.name;
-                response.locals.email = request.session.currentUser;
-                response.locals.id = res.id;
-                next();
-            }
-        });
-}
+
 module.exports = {
     loginGet,
     loginPost,
