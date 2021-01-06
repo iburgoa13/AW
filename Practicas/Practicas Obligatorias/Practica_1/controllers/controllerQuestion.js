@@ -1,9 +1,11 @@
 const questionModel = require("../models/DAOQuestion");
 const userModel = require("../models/DAOUsers");
+const config = require("../config");
 const path = require("path");
-const controllerUsuario = require("./controllerUsuario");
-const daoQ = new questionModel();
-const daoU = new userModel();
+const mysql = require("mysql");
+const pool = mysql.createPool(config.mysqlConfig);
+const daoQ = new questionModel(pool);
+const daoU = new userModel(pool);
 
 function getQuestionFilterTag(request,response){
     daoQ.getQuestionFilterTag(request.query.tagName, function (err, results) {
@@ -56,21 +58,25 @@ function getAllQuestionNoAnswer(request,response){
 
 function getQuestionID(request,response){
     let id = request.params.id_question;
-
     let email = response.locals.email;
+    console.log(id)
+    console.log(email)
     daoQ.isVisit(id, email, function (err, res) {
         if (err) {
+            
             response.status(500).send(err);
         }
         else {
             if (!res) { //si es false == votas
                 daoQ.setQuestionVisit(id, email, function (err, r) {
                     if (err) {
+                       
                         response.status(500).send(err);
                     }
                     else{
                         daoU.insertMedalQuestionVisit(id, function(err, result){
                             if (err) {
+                               
                                 response.status(500).send(err);
                             }
                             else {
@@ -87,6 +93,7 @@ function getQuestionID(request,response){
                                                 result = result.filter(el => el != '');
                                                 res = res.filter(el => el != '');
                                                 let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
+                                                console.log("netra aqui")
                                                 response.render("information_question", { usuario, pregunta: result[0], respuestas: res });
                                             }
         
@@ -116,6 +123,7 @@ function getQuestionID(request,response){
                             else {
 
                                 result = result.filter(el => el != '');
+                                console.log("entra aqui")
                                 res = res.filter(el => el != '');
                                 let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
                                 response.render("information_question", { usuario, pregunta: result[0], respuestas: res });

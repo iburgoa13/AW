@@ -5,22 +5,13 @@ const express = require("express");
 var multer = require('multer');
 const bodyParser = require("body-parser");
 const fs = require("fs");
-//const session = require("express-session");
-//const mysqlSession = require("express-mysql-session");
-//const MySQLStore = require("express-mysql-session");
-//const e = require("express");
-//const MYSQLStore = mysqlSession(session);
-//const sessionStore = MySQLStore(config.mysqlConfig);
-//const mysql = require("mysql");
-
+const mysql = require("mysql");
 const userRouter = express.Router();
-const ficherosEst = path.join(__dirname, "public");
 
-userRouter.use(express.static(ficherosEst));
+// parse application/json
+userRouter.use(bodyParser.json())
+
 userRouter.use(bodyParser.urlencoded({ extended: false }));
-userRouter.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -37,24 +28,29 @@ var upload = multer({ storage: storage });
 
 
 
+
 /*login */
-userRouter.get("/login", userController.loginGet);
+userRouter.get("/login",userController.loginGet);
 userRouter.post("/login",userController.loginPost);
 
 userRouter.get("/", userController.loginGet);
 
-userRouter.get("/home",userController.home);
+userRouter.get("/home", userController.comprobarUsuario,userController.home);
 
-userRouter.get("/formQuestion",userController.formQuestionHome);
+userRouter.get("/formQuestion", userController.comprobarUsuario,userController.formQuestionHome);
 
 userRouter.get("/register",userController.registerGet);
 
-userRouter.get("usuarios/:id_user",userController.getUserId);
-userRouter.get("/searchUser",userController.getFilterUser);
+userRouter.get("/usuarios", userController.comprobarUsuario,userController.getAllUsers);
 
-userRouter.get("/fotoId/:userId",userController.getUserImageNameId);
+userRouter.get("usuarios/:id_user", userController.comprobarUsuario,userController.getUserId);
+userRouter.get("/searchUser", userController.comprobarUsuario,userController.getFilterUser);
 
-userRouter.get("/logout",userController.logout);
+userRouter.get("/fotoId/:userId", userController.comprobarUsuario,userController.getUserImageNameId);
+
+userRouter.get("/logout", userController.comprobarUsuario,userController.logout);
 
 userRouter.post("/register",userController.register);
-userRouter.get("/imagenUsuario",userController.getUserImageName);
+userRouter.get("/imagenUsuario", userController.comprobarUsuario,userController.getUserImageName);
+
+module.exports= userRouter;

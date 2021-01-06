@@ -1,10 +1,30 @@
 const userModel = require("../models/DAOUsers");
-
+const config = require("../config");
 const path = require("path");
+const mysql = require("mysql");
+const pool = mysql.createPool(config.mysqlConfig);
+const daoU = new userModel(pool);
 
-const daoU = new userModel();
-
-
+function comprobarUsuario(request, response, next) {
+    if (request.session.currentUser) {
+        daoU.getUserName(request.session.currentUser,
+            function (err, res) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    response.locals.userNombre = res.name;
+                    response.locals.email = request.session.currentUser;
+                    response.locals.id = res.id;
+                    next();
+                }
+            });
+           
+    }
+    else {
+        response.status(403).redirect("/login");
+    }
+}
 
 function loginPost(request,response){
     daoU.isUserCorrect(request.body.correo, request.body.password,
@@ -31,6 +51,7 @@ function loginGet(request,response){
     response.status(200).render("login", { errorMsg: null })
 }
 function getUserId(request,response){
+    console.log("entra")
     let id = request.params.id_user;
     daoU.getInfoUser(id,function(err, result){
         if (err) {
@@ -226,21 +247,26 @@ function getUserImageNameId(request,response){
         }
         else {
             if (!usuario) {
-                response.status(200).sendFile(path.join(__dirname, "public", "img", "NoPerfil.png"));
+                response.status(200).sendFile(path.join(__dirname, "../","public", "img", "NoPerfil.png"));
             }
             else {
-                response.status(200).sendFile(path.join(__dirname, "profile_imgs", usuario));
+                response.status(200).sendFile(path.join(__dirname, "../","profile_imgs", usuario));
             }
         }
     });
 }
 
-function register(request,response){
+function register(request,response,next){
+
+    console.log("entra")
     let imagenFich = null;
     if (request.file) {
 
         imagenFich = request.file.filename;
     }
+    console.log(request.body.correo)
+    console.log(request.body.password)
+    console.log(request.body.password2)
     daoU.insertUser(request.body.correo, request.body.password, request.body.password2,
         request.body.nombre, imagenFich, function (error, usuario) {
             if (error) {
@@ -264,7 +290,8 @@ function home(request,response){
 function formQuestionHome(request,response){
     response.status(200).render("home", { errorMsg: null })
 }
-function getUserImageName(request,response){
+function getUserImageName(request,response,next){
+    
     daoU.getUserImageName(response.locals.email, function (error, usuario) {
         if (error) {
             response.status(500);
@@ -272,15 +299,16 @@ function getUserImageName(request,response){
         }
         else {
             if (!usuario) {
-                response.status(200).sendFile(path.join(__dirname, "public", "img", "NoPerfil.png"));
+                response.status(200).sendFile(path.join(__dirname, "../","public", "img", "NoPerfil.png"));
             }
             else {
-                response.status(200).sendFile(path.join(__dirname, "profile_imgs", usuario));
+                response.status(200).sendFile(path.join(__dirname,"../", "profile_imgs", usuario));
             }
         }
     });
 }
 function registerGet(request,response){
+    console.log("entra")
     response.status(200).render("register", { errorMsg: null })
 }
 function logout(request,response){
