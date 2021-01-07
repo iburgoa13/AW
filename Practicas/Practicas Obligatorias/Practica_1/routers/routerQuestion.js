@@ -7,8 +7,6 @@ const questionRouter = express.Router();
 questionRouter.use(bodyParser.json())
 questionRouter.use(bodyParser.urlencoded({ extended: false }));
 
-
-/*login */
 questionRouter.get("/formular",userController.comprobarUsuario,questionController.formular);
 questionRouter.get("/searchTag",userController.comprobarUsuario,questionController.getQuestionFilterTag);
 
