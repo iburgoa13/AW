@@ -42,38 +42,45 @@
            <div>
                <p class="titulo naranja tam_med">MEDALLAS</p>
                <div id="medallas">
-                   <div class="med_grupo">
 
-                   <div class="med_row rosa">
-                    <p class="titulo">BRONCE</p>
-                    <p class="numero"><%= perfil.totalBronce %></p>
-                   </div>
-                   <% if(perfil.bronce != null || perfil.bronce != undefined){ %>
-                   <% perfil.bronce.forEach(bronce =>{ %>
-                    <% if(bronce.count ===1){ %>
-                    <div class="bronce">
-                        <h1 class="circulo rosa"></h1>
-                        <p  ><%= bronce.medalla %></p>
-                    </div>
-                        <% } else if(bronce.count > 1){ %>
-     
-     
-                        <div class="varias">
-                        <div class="bronce">
-                         <h1 class="circulo rosa"></h1>
-                        <p ><%= bronce.medalla %></p>
-                        </div>
-                        <p class="varias_nr">+<%= bronce.count %></p>
-                        </div> 
+
+                   <div  class="med_grupo">
+                    <div class="med_row rosa"> 
+                     <p class="titulo">BRONCE</p>
+                     <% if(perfil.bronce === null || perfil.bronce === undefined){ %>
+                        <p class="numero">0</p>
                         <% } %>
-                    <% }) %>
-                   </div>
-                   <% } %>
-                  
+                     <p class="numero"><%= perfil.totalBronce %></p>
+                    </div>
+                    <% if(perfil.bronce != null || perfil.bronce != undefined){ %>
+                    <% perfil.bronce.forEach(bronce =>{ %>
+                     <% if(bronce.count ===1){ %>
+                     <div class="bronce">
+                         <h1 class="circulo rosa"></h1>
+                         <p  ><%= bronce.medalla %></p>
+                     </div>
+                         <% } else if(bronce.count > 1){ %>
+      
+      
+                         <div class="varias">
+                         <div class="bronce">
+                          <h1 class="circulo rosa"></h1>
+                         <p ><%= bronce.medalla %></p>
+                         </div>
+                         <p class="varias_nr">+<%= bronce.count %></p>
+                         </div> 
+                         <% } %>
+                     <% }) %>
+                   
+                    <% } %>
+                </div>
                    
                    <div  class="med_grupo">
                    <div class="med_row azul"> 
                     <p class="titulo">PLATA</p>
+                    <% if(perfil.plata === null || perfil.plata === undefined){ %>
+                        <p class="numero">0</p>
+                        <% } %>
                     <p class="numero"><%= perfil.totalPlata %></p>
                    </div>
                    <% if(perfil.plata != null || perfil.plata != undefined){ %>
@@ -95,11 +102,16 @@
                         </div> 
                         <% } %>
                     <% }) %>
-                   </div>
+                  
                    <% } %>
+                </div>
+
                    <div  class="med_grupo">
                     <div class="med_row amarillo"> 
                      <p class="titulo">ORO</p>
+                     <% if(perfil.oro === null || perfil.oro === undefined){ %>
+                        <p class="numero">0</p>
+                        <% } %>
                      <p class="numero"><%= perfil.totalOro %></p>
                     </div>
                     <% if(perfil.oro != null || perfil.oro != undefined){ %>
@@ -121,13 +133,12 @@
                          </div> 
                          <% } %>
                      <% }) %>
-                    </div>
+                    
                     <% } %>
-               </div>
+                </div>
+                </div>
            </div>
 
-
-        </div>
     </main>
 </body>
 

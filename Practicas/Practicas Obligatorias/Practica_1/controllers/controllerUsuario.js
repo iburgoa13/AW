@@ -53,7 +53,7 @@ function loginGet(request,response,next){
     response.status(200).render("login", { errorMsg: null })
 }
 function getUserId(request,response,next){
-    console.log("entra")
+
     let id = request.params.id_user;
     daoU.getInfoUser(id,function(err, result){
         if (err) {
@@ -64,12 +64,12 @@ function getUserId(request,response,next){
             if(result.bronce!= null)
             { 
                 let arr= result.bronce.split(",");
-                console.log(arr);
+                
                 const medallas = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
                 const counterMedallas = medallas.map(_medal => {
                     return {medalla: _medal, count: 0};
                 });
-                console.log(medallas);
+             
 
                 counterMedallas.map((count, i) =>{
                     const actualTagLength = arr.filter(number => number === count.medalla).length;
@@ -149,7 +149,7 @@ function getUserId(request,response,next){
              
 
             }
-            console.log(result);
+           
             response.status(200).render("user_profile",{usuario, perfil: result});
          
         } 
@@ -258,17 +258,16 @@ function getUserImageNameId(request,response,next){
     });
 }
 
-function register(request,response,next){
 
-    console.log("entra")
+function registerPost(request,response,next){
+
+  
     let imagenFich = null;
     if (request.file) {
 
         imagenFich = request.file.filename;
     }
-    console.log(request.body.correo)
-    console.log(request.body.password)
-    console.log(request.body.password2)
+
     daoU.insertUser(request.body.correo, request.body.password, request.body.password2,
         request.body.nombre, imagenFich, function (error, usuario) {
             if (error) {
@@ -310,7 +309,6 @@ function getUserImageName(request,response,next){
     });
 }
 function registerGet(request,response,next){
-    console.log("entra")
     response.status(200).render("register", { errorMsg: null })
 }
 function logout(request,response,next){
@@ -325,7 +323,7 @@ module.exports = {
     getUserId,
     getFilterUser,
     getUserImageNameId,
-    register,
+    registerPost,
     getUserImageName,
     home,
     formQuestionHome,

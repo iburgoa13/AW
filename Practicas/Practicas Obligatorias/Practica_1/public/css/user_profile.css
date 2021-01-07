@@ -130,12 +130,15 @@ img{
 #medallas{
     display: flex;
     flex-direction: row;
-    
+    padding-left: 2%;
 }
 
 .med_grupo{
     height: 60%;
-    align-items: center;
+    /* align-items: center; */
+    display: flex;
+    flex-direction: column;
+    width: 35%;
 }
 #info_user{
     text-align: center;

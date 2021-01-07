@@ -20,10 +20,10 @@
             </div>
             <div class="votos">
                 <p class="numero_votos"> <%= pregunta.counter_vote %> votos</p>
-                <form method="GET" action="/likeQuestion">
+                <form method="GET" class="form_like" action="/likeQuestion">
                     <button class="like_b" type="submit" name="like" value ="1_<%= pregunta.id %>"><img src="/img/like.png" alt="Like" class="img_like"/></button>
                     </form>
-                <form method="GET" action="/likeQuestion">
+                <form method="GET" class="form_like" action="/likeQuestion">
                     <button class="like_b" type="submit" name="like" value="0_<%= pregunta.id %>"><img src="/img/dislike.png" alt="Dislike" class="img_like"/></button>
                 </form>
             </div>
@@ -51,10 +51,10 @@
         <div id="respuestas_totales">
             <div class="votos">
                 <p class="numero_votos"> <%= respuesta.counter_vote %> votos</p>
-                <form method="GET" action="/like">
+                <form method="GET" class="form_like" action="/like">
                     <button class="like_b" type="submit" name="like" value ="1_<%= respuesta.id %>_<%= pregunta.id %>"><img src="/img/like.png" alt="Like" class="img_like"/></button>
                     </form>
-                <form method="GET" action="/like">
+                <form method="GET" class="form_like"  action="/like">
                     <button class="like_b" type="submit" name="like" value="0_<%= respuesta.id %>_<%= pregunta.id %>"><img src="/img/dislike.png" alt="Dislike" class="img_like"/></button>
                 </form>
                

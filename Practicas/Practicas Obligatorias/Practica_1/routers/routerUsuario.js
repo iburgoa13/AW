@@ -4,14 +4,7 @@ const path = require("path");
 const express = require("express");
 var multer = require('multer');
 const bodyParser = require("body-parser");
-const fs = require("fs");
-const mysql = require("mysql");
 const userRouter = express.Router();
-
-// parse application/json
-userRouter.use(bodyParser.json())
-
-userRouter.use(bodyParser.urlencoded({ extended: false }));
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -24,7 +17,10 @@ var storage = multer.diskStorage({
     }
 })
 
-var upload = multer({ storage: storage });
+var multerFactory = multer({ storage: storage });
+userRouter.use(bodyParser.json())
+userRouter.use(bodyParser.urlencoded({ extended: false }));
+
 
 
 
@@ -40,17 +36,18 @@ userRouter.get("/home", userController.comprobarUsuario,userController.home);
 userRouter.get("/formQuestion", userController.comprobarUsuario,userController.formQuestionHome);
 
 userRouter.get("/register",userController.registerGet);
+userRouter.post("/register",multerFactory.single('imagen'),userController.registerPost);
 
 userRouter.get("/usuarios", userController.comprobarUsuario,userController.getAllUsers);
 
-userRouter.get("usuarios/:id_user", userController.comprobarUsuario,userController.getUserId);
+userRouter.get("/usuarios/:id_user", userController.comprobarUsuario,userController.getUserId);
 userRouter.get("/searchUser", userController.comprobarUsuario,userController.getFilterUser);
 
 userRouter.get("/fotoId/:userId", userController.comprobarUsuario,userController.getUserImageNameId);
 
 userRouter.get("/logout", userController.comprobarUsuario,userController.logout);
 
-userRouter.post("/register",userController.register);
+
 userRouter.get("/imagenUsuario", userController.comprobarUsuario,userController.getUserImageName);
 
 module.exports= userRouter;

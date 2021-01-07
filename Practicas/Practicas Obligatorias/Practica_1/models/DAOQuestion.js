@@ -336,46 +336,7 @@ class DAOQuestion {
             }
         });
     }
-    /*
-    setQuestionVisit(id,email,callback){
-        this.pool.getConnection(function(err,connection){
-            if (err) {
-                callback(new Error("Error de conexión a la base de datos"));
-            }
-            else{
 
-                let sql = "UPDATE question q "+
-                "set q.counter_visit = q.counter_visit + 1 "+
-                "where q.id = ?";
-                connection.query(sql,[id],function(err,res){
-                   //  connection.release();
-                    if(err){
-                        console.log("error");
-                     
-                        callback(new Error("Error de acceso a la base de datos"));
-                    }
-                    else{
-                        const e = Date.now();
-                        const today = new Date(e);
-                        let sql2 ="insert into visit_question_user values (( SELECT u.id from usuario u  where u.email = ?) , (SELECT q.id from question q where q.id = ?) ,?)";
-                        connection.query(sql[email,id,today], function(err,res){
-                            console.log("hace release");
-                            connection.release();
-                            if(err){
-                                callback(new Error("Error de acceso a la base de datos"));
-                            }
-                            else{
-                                callback(null,true);
-                            }
-                        
-                        });
-                       
-                    }
-                });
-            }
-        });
-    }
-     */
     setQuestionVisit(id, email, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -795,13 +756,13 @@ class DAOQuestion {
                 let sql = "INSERT INTO response (message, id_question, id_user, date) VALUES ( ?, ?, (SELECT id from usuario where email = ?), ?);"
                 const e = Date.now();
                 const today = new Date(e);
-                console.log(sql);
+              
                 connection.query(sql,[body_response,id_question,email,today],function(err, result){
                     if (err) {
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else{
-                        console.log("ha hecho insert");
+                       
                         let sql1 = "UPDATE  usuario set publicate_response = publicate_response +1 where email = ?";
                         connection.query(sql1,email,function(err,result){
                             connection.release();
@@ -809,7 +770,7 @@ class DAOQuestion {
                                 callback(new Error("Error de acceso a la base de datos"));
                             }
                             else{
-                                console.log("ha hecho update");
+                              
                                 callback(null,"Pregunta realizada");
                             }
                         });

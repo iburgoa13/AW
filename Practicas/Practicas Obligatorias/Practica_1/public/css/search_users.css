@@ -188,10 +188,10 @@ img{
 }
 .cajas{
     float: left;
-    width: 160px;
+    width: 14%;
     height:160px;
     margin-top: 20px;
-    margin-left: 25px;
+    margin-left: 2%;
     border-radius: 5px;
     border: 1px  rgba(9, 3, 68, 0.5) solid;
     padding-bottom: 10px;

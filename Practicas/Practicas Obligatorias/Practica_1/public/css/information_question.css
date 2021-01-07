@@ -58,8 +58,18 @@ main{
     width: 10%;
 
 }
+.form_like{
+    width: 5%;
+    margin-left:10px;
+    
+}
 
-
+.like_b{
+    cursor: pointer;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+}
 #num_preguntas{
     font-size:1.5em;
 }
@@ -248,11 +258,13 @@ nav{
 }
 
 .img_like{
-    margin-right:10px;
-    border-radius: 50%;
-    width: 3%;
-    height: 20px;
-    border: 1px solid blue;
+      /* margin-right: 10px; */
+      border-radius: 50%;
+      width: 100%;
+      height: 20px;
+      /* border: 1px solid blue; */
+      cursor: pointer;
+  }
 }
 
 .numero_votos{

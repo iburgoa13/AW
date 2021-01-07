@@ -1,7 +1,6 @@
 const questionModel = require("../models/DAOQuestion");
 const userModel = require("../models/DAOUsers");
 const config = require("../config");
-const path = require("path");
 const mysql = require("mysql");
 const pool = mysql.createPool(config.mysqlConfig);
 const daoQ = new questionModel(pool);
@@ -59,8 +58,6 @@ function getAllQuestionNoAnswer(request,response,next){
 function getQuestionID(request,response,next){
     let id = request.params.id_question;
     let email = response.locals.email;
-    console.log(id)
-    console.log(email)
     daoQ.isVisit(id, email, function (err, res) {
         if (err) {
             
@@ -93,7 +90,7 @@ function getQuestionID(request,response,next){
                                                 result = result.filter(el => el != '');
                                                 res = res.filter(el => el != '');
                                                 let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
-                                                console.log("netra aqui")
+                                                
                                                 response.render("information_question", { usuario, pregunta: result[0], respuestas: res });
                                             }
         
@@ -123,7 +120,7 @@ function getQuestionID(request,response,next){
                             else {
 
                                 result = result.filter(el => el != '');
-                                console.log("entra aqui")
+                               
                                 res = res.filter(el => el != '');
                                 let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
                                 response.render("information_question", { usuario, pregunta: result[0], respuestas: res });
@@ -146,7 +143,6 @@ function getAllQuestion(request,response,next){
         }
         else {
             results = results.filter(el => el != '');
-            //console.log(results);
             let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
             response.render("questions", { usuario, questions: results });
         }
@@ -155,7 +151,6 @@ function getAllQuestion(request,response,next){
 
 function likeQuestion(request,response,next){
     let email = response.locals.email;
-    console.log(email);
     let like = request.query.like.split("_");
     daoQ.comprobarVotoQuestion(like[1], email, function (err, res) {
         if (err) {
@@ -219,9 +214,7 @@ function insertResponse(request,response,next){
     let id_question = request.body.id_question;
     
     let body_response = request.body.texto;
-    
     let email = response.locals.email;
-    console.log(email);
     daoQ.insertResponse(id_question,body_response,email,function(err,res){
         if(err){
             console.log(err.message);
@@ -229,7 +222,6 @@ function insertResponse(request,response,next){
             response.end();
         }
         else{
-            console.log(res);
             response.status(200);
             response.redirect(`/questions/${id_question}`);
         }
