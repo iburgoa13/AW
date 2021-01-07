@@ -40,7 +40,9 @@ app.use(bodyParser.json()); // support json encoded bodies
 
 app.use('/usuarios',routerUsuarios)
 app.use('/questions',routerQuestions)
-
+app.use('/',function(request,response){
+    response.status(200).redirect('/usuarios/login');
+})
 
 // Arrancar el servidor
 app.listen(config.port, function (err) {

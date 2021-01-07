@@ -13,7 +13,7 @@
     </div> 
     <div><h1>404</h1></div>
     <div class="information" >
-     <img id="avatar" src="/usuarios/imagenUsuario" alt="image"/>
+     <img id="avatar" src="/usuarios/fotoId/<%= usuario.id %>" alt="image"/>
      <a id="nombre" href="/usuarios/<%= usuario.id %>" ><%= usuario.nombre %></a>
      <form action="/usuarios/logout" method="GET">
          <button id="cerrar" type="submit">Cerrar sesión</button>

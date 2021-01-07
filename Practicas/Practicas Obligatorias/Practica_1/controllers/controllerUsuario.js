@@ -314,9 +314,8 @@ function registerGet(request,response,next){
     response.status(200).render("register", { errorMsg: null })
 }
 function logoutU(request,response,next){
-
     request.session.destroy();
-    response.redirect("/login");
+    response.redirect("/usuarios/login");
 }
 
 module.exports = {

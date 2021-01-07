@@ -29,10 +29,10 @@ userRouter.use(bodyParser.urlencoded({ extended: false }));
 userRouter.get("/login",userController.loginGet);
 userRouter.post("/login",userController.loginPost);
 
-userRouter.get("/", userController.loginGet);
-
+//userRouter.get("/", userController.loginGet);
+userRouter.get("/logout", userController.comprobarUsuario,userController.logoutU);
 userRouter.get("/home", userController.comprobarUsuario,userController.home);
-
+userRouter.get("/searchUser", userController.comprobarUsuario,userController.getFilterUser);
 userRouter.get("/formQuestion", userController.comprobarUsuario,userController.formQuestionHome);
 
 userRouter.get("/register",userController.registerGet);
@@ -41,11 +41,11 @@ userRouter.post("/register",multerFactory.single('imagen'),userController.regist
 userRouter.get("/usuarios", userController.comprobarUsuario,userController.getAllUsers);
 
 userRouter.get("/:id_user", userController.comprobarUsuario,userController.getUserId);
-userRouter.get("/searchUser", userController.comprobarUsuario,userController.getFilterUser);
+
 
 userRouter.get("/fotoId/:userId", userController.comprobarUsuario,userController.getUserImageNameId);
 
-userRouter.get("/logout", userController.comprobarUsuario,userController.logoutU);
+
 
 
 userRouter.get("/imagenUsuario", userController.comprobarUsuario,userController.getUserImageName);
