@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="css/filter_question_text.css" rel="stylesheet" type="text/css">
+        <link href="/css/filter_question_text.css" rel="stylesheet" type="text/css">
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link rel="icon" type="image/gif" href="img/favi.PNG">
+        <link rel="icon" type="image/gif" href="/img/favi.PNG">
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <title>404</title>
     </head>
@@ -17,7 +17,7 @@
        <!--La pregunta y boton-->
        <div id ="preguntas">    
         <p id="num_preguntas"><%= questions.length %> Preguntas</p>
-        <form action="/formular" method="GET">
+        <form action="/questions/formular" method="GET">
             <button type="submit" class="boton">Formular una pregunta</button>
         </form>
         
@@ -36,7 +36,7 @@
                         <%}%>
                     <div class="tag">
                         <% pregunta.tags.forEach(tag =>{%>
-                            <form action="/searchTag" method="GET">
+                            <form action="/questions/searchTag" method="GET">
                                 <button type="submit"  class="tagButton" name ="tagName" value="<%= tag %>"><%= tag %></button>
                             </form>  
                         <%})%>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="info_usuario">
                     <p class="pregunta_formulada">Formulada el <%= pregunta.date %></p>
-                    <img src="/fotoId/<%=pregunta.idUsuario%>" alt="Foto usuario">
+                    <img src="/usuarios/fotoId/<%=pregunta.idUsuario%>" alt="Foto usuario">
                     <div>
                         <a href="/usuarios/<%=pregunta.idUsuario%>" class="pregunta_user"><%= pregunta.usuario %></a>
                     </div> 

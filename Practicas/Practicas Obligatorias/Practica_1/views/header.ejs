@@ -3,26 +3,26 @@
         <form action="/questions" method="GET">
              <button type="submit" class="button_principal">Preguntas</button>
          </form>
-        <form action ="/sinRespuesta" method="GET">
+        <form action ="/questions/sinRespuesta" method="GET">
              <button type="submit" class="button_principal">Sin responder</button>
          </form>
-       <form action="/usuarios" method="GET">
+       <form action="/usuarios/usuarios" method="GET">
              <button type="submit" class="button_principal">Usuarios</button>
        </form>
         
     </div> 
     <div><h1>404</h1></div>
     <div class="information" >
-     <img id="avatar" src="/imagenUsuario" alt="image"/>
+     <img id="avatar" src="/usuarios/imagenUsuario" alt="image"/>
      <a id="nombre" href="/usuarios/<%= usuario.id %>" ><%= usuario.nombre %></a>
-     <form action="/logout" method="GET">
+     <form action="/usuarios/logout" method="GET">
          <button id="cerrar" type="submit">Cerrar sesión</button>
      </form>
      
  </div>
  </header> 
  <nav>
-    <form action="/searchText" method="GET">
+    <form action="/questions/searchText" method="GET">
         <button type="submit" id="button_nav">Buscar</button> 
         <input id="buscar" type="search" placeholder="Buscar por titulo/cuerpo de preguntas" name="texto" required>
     </form>

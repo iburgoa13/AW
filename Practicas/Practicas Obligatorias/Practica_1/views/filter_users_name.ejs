@@ -16,7 +16,7 @@
         <div class="centro">
             <p id="titulo">Usuarios filtrados por ["<%= filtro %>"]</p>
             <nav>
-                <form action="/searchUser" method="GET">
+                <form action="/usuarios/searchUser" method="GET">
                     <input id="filtrar_user" type="search" placeholder="Filtrar por usuario" name = "userSearch" required>
                     <button type="submit" id="button_nav">Filtrar</button> 
                 </form>
@@ -24,14 +24,14 @@
             <div class= "container">
                 <% usuarios.forEach(usu => {%>
                 <div class="cajas"> 
-                    <img id="foto_usuarios" src="/fotoId/<%=usu.id%>" alt="Foto usuario">
+                    <img id="foto_usuarios" src="/usuarios/fotoId/<%=usu.id%>" alt="Foto usuario">
                     <div>
                         <a href="/usuarios/<%= usu.id %>" class="perfilUsuario"><%= usu.nombre %></a>
                     </div> 
                     <p><%= usu.reputation %></p>
                     <% if (usu.tags != null){ %>
                     <div class="tag">
-                        <form action="/searchTag" method="GET">
+                        <form action="/questions/searchTag" method="GET">
                             <button type="submit"  class="tagButton" name ="tagName" value="<%= usu.tags %>"><%= usu.tags %></button>
                         </form> 
                     </div>

@@ -14,9 +14,9 @@ questionRouter.get("/searchText",userController.comprobarUsuario,questionControl
 
 questionRouter.get("/sinRespuesta",userController.comprobarUsuario,questionController.getAllQuestionNoAnswer);
 
-questionRouter.get("/questions/:id_question",userController.comprobarUsuario,questionController.getQuestionID);
+questionRouter.get("/:id_question",userController.comprobarUsuario,questionController.getQuestionID);
 
-questionRouter.get("/questions",userController.comprobarUsuario,questionController.getAllQuestion);
+questionRouter.get("/", userController.comprobarUsuario,questionController.getAllQuestion);
 
 questionRouter.get("/likeQuestion",userController.comprobarUsuario,questionController.likeQuestion);
 

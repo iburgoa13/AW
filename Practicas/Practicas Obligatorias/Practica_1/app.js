@@ -1,7 +1,5 @@
 "use strict"
 const config = require("./config");
-const DAOQuestion = require("./models/DAOQuestion");
-const DAOUsers = require("./models/DAOUsers");
 const path = require("path");
 const mysql = require("mysql");
 const express = require("express");
@@ -26,6 +24,7 @@ const app = express();
 
 const routerUsuarios= require("./routers/routerUsuario");
 const routerQuestions= require("./routers/routerQuestion");
+const { allowedNodeEnvironmentFlags } = require("process");
 
 //estaticos
 const ficherosEst = path.join(__dirname, "public");
@@ -38,8 +37,9 @@ app.set("views", path.join(__dirname, "views"));
 app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(bodyParser.json()); // support json encoded bodies
 
-app.use('/',routerUsuarios)
-app.use('/',routerQuestions)
+
+app.use('/usuarios',routerUsuarios)
+app.use('/questions',routerQuestions)
 
 
 // Arrancar el servidor

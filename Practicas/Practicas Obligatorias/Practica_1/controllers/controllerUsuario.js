@@ -24,7 +24,7 @@ function comprobarUsuario(request, response, next) {
            
     }
     else {
-        response.status(403).redirect("/login");
+        response.redirect("/login");
     }
 }
 
@@ -40,7 +40,7 @@ function loginPost(request,response,next){
 
                 request.session.currentUser = request.body.correo;
 
-                response.redirect("/home");
+                response.redirect("/usuarios/home");
             }
             else {
                 response.status(200);
@@ -199,6 +199,7 @@ function getAllUsers(request,response,next){
 }
 
 function getFilterUser(request,response,next){
+    console.log("entra bien")
     let texto =request.query.userSearch;
     daoU.getFilterUser(texto, function (err, results){
         if (err) {
@@ -234,6 +235,7 @@ function getFilterUser(request,response,next){
 
                 }
             }
+            
             let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
             response.status(200).render("filter_users_name",{usuario, usuarios: results, filtro: texto});
          
@@ -278,7 +280,7 @@ function registerPost(request,response,next){
             }
             else {
                 request.session.currentUser = request.body.correo;
-                response.status(200).redirect("/home");
+                response.status(200).redirect("/usuarios/home");
 
             }
         });
@@ -292,7 +294,7 @@ function formQuestionHome(request,response,next){
     response.status(200).render("home", { errorMsg: null })
 }
 function getUserImageName(request,response,next){
-    
+    console.log("entra ien")
     daoU.getUserImageName(response.locals.email, function (error, usuario) {
         if (error) {
             response.status(500);
@@ -311,7 +313,8 @@ function getUserImageName(request,response,next){
 function registerGet(request,response,next){
     response.status(200).render("register", { errorMsg: null })
 }
-function logout(request,response,next){
+function logoutU(request,response,next){
+
     request.session.destroy();
     response.redirect("/login");
 }
@@ -328,6 +331,6 @@ module.exports = {
     home,
     formQuestionHome,
     registerGet,
-    logout,
+    logoutU,
     comprobarUsuario
 }

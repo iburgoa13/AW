@@ -137,6 +137,7 @@ function getQuestionID(request,response,next){
     });
 }
 function getAllQuestion(request,response,next){
+    console.log("entra")
     daoQ.getAllQuestion(function (err, results) {
         if (err) {
             response.status(500).send(err);
@@ -241,7 +242,7 @@ function insertQuestion(request,response,next){
       }
       if (tags.length > 5) {
           response.status(500);
-          response.redirect("/home");
+          response.redirect("/usuarios/home");
       }
       else {
   
@@ -255,7 +256,7 @@ function insertQuestion(request,response,next){
   
               }
               else {
-                  response.status(200).redirect("/home");
+                  response.status(200).redirect("/usuarios/home");
               }
           });
       }

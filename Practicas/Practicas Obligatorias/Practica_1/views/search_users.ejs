@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="css/search_users.css" rel="stylesheet" type="text/css">
-        <link rel="icon" type="image/gif" href="img/favi.PNG">
+        <link href="/css/search_users.css" rel="stylesheet" type="text/css">
+        <link rel="icon" type="image/gif" href="/img/favi.PNG">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <title>404</title>
@@ -16,7 +16,7 @@
         <div class="centro">
             <p id="titulo">Usuarios</p>
             <nav>
-                <form action="/searchUser" method="GET">
+                <form action="/usuarios/searchUser" method="GET">
                     <input id="filtrar_user" type="search" placeholder="Filtrar por usuario" name = "userSearch" required>
                     <button type="submit" id="button_nav">Filtrar</button> 
                 </form>
@@ -24,14 +24,14 @@
             <div class= "container">
                 <% usuarios.forEach(usu => {%>
                 <div class="cajas"> 
-                    <img id="foto_usuarios" src="/fotoId/<%=usu.id%>" alt="Foto usuario">
+                    <img id="foto_usuarios" src="/usuarios/fotoId/<%=usu.id%>" alt="Foto usuario">
                     <div>
                         <a href="/usuarios/<%= usu.id %>" class="perfilUsuario"><%= usu.nombre %></a>
                     </div>       
                     <p><%= usu.reputation %></p>
                     <% if (usu.tags != null){ %>
                     <div class="tag">
-                        <form action="/searchTag" method="GET">
+                        <form action="/questions/searchTag" method="GET">
                             <button type="submit"  class="tagButton" name ="tagName" value="<%= usu.tags %>"><%= usu.tags %></button>
                         </form> 
                     </div>
