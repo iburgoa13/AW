@@ -38,7 +38,7 @@ userRouter.get("/formQuestion", userController.comprobarUsuario,userController.f
 userRouter.get("/register",userController.registerGet);
 userRouter.post("/register",multerFactory.single('imagen'),userController.registerPost);
 
-userRouter.get("/usuarios", userController.comprobarUsuario,userController.getAllUsers);
+userRouter.get("/", userController.comprobarUsuario,userController.getAllUsers);
 
 userRouter.get("/:id_user", userController.comprobarUsuario,userController.getUserId);
 

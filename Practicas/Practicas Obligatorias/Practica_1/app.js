@@ -24,6 +24,8 @@ const app = express();
 
 const routerUsuarios= require("./routers/routerUsuario");
 const routerQuestions= require("./routers/routerQuestion");
+const routerIndex= require("./routers/index");
+
 const { allowedNodeEnvironmentFlags } = require("process");
 
 //estaticos
@@ -40,9 +42,7 @@ app.use(bodyParser.json()); // support json encoded bodies
 
 app.use('/usuarios',routerUsuarios)
 app.use('/questions',routerQuestions)
-app.use('/',function(request,response){
-    response.status(200).redirect('/usuarios/login');
-})
+app.use('/',routerIndex)
 
 // Arrancar el servidor
 app.listen(config.port, function (err) {
