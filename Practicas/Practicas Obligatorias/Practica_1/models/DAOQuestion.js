@@ -559,7 +559,7 @@ class DAOQuestion {
                                     connection.query(sql2, [email, id_response, today], function (err, res) {
                                         if (err) {
                                             //  connection.release();
-                                            callback(new Error("Error de acceso a la base de datos"));
+                                            callback(new Error("No puedes votar más de una vez a la misma respuesta."));
                                         }
                                         else {
                                             let sql3 = "update response res set res.votes = res.votes + 1 where res.id = ?";

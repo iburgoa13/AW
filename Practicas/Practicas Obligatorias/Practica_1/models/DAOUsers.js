@@ -18,7 +18,7 @@ class DAOUsers {
             }
             else {
                 if (password != password2) {
-                    callback(new Error("Las contraseñas no coinciden"));
+                    callback(new Error("Las contraseñas no coinciden, inserte de nuevo"));
                 }
                 else {
                     const e = Date.now();

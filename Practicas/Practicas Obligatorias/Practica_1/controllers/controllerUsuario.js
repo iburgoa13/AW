@@ -294,7 +294,6 @@ function formQuestionHome(request,response,next){
     response.status(200).render("home", { errorMsg: null })
 }
 function getUserImageName(request,response,next){
-    console.log("entra ien")
     daoU.getUserImageName(response.locals.email, function (error, usuario) {
         if (error) {
             response.status(500);
@@ -315,7 +314,7 @@ function registerGet(request,response,next){
 }
 function logoutU(request,response,next){
     request.session.destroy();
-    response.redirect("/usuarios/login");
+    response.redirect("/");
 }
 
 module.exports = {

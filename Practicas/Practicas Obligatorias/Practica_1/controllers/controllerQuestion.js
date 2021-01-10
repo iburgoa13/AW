@@ -137,7 +137,6 @@ function getQuestionID(request,response,next){
     });
 }
 function getAllQuestion(request,response,next){
-    console.log("entra")
     daoQ.getAllQuestion(function (err, results) {
         if (err) {
             response.status(500).send(err);
@@ -152,24 +151,26 @@ function getAllQuestion(request,response,next){
 
 function likeQuestion(request,response,next){
     let email = response.locals.email;
-    let like = request.query.like.split("_");
-    daoQ.comprobarVotoQuestion(like[1], email, function (err, res) {
+    let like = request.params.id_like;
+    let id_question = request.params.id_question;
+    //let like = request.query.like.split("_");
+    daoQ.comprobarVotoQuestion(id_question, email, function (err, res) {
         if (err) {
             console.log(err.message);
         }
         else {
-            daoQ.setResponseVoteQuestion(like[0], like[1], email, function (err, res) {
+            daoQ.setResponseVoteQuestion(like, id_question, email, function (err, res) {
                 if (err) {
-
+                    console.log("eew");
                     console.log(err.message);
                 }
                 else {
-                    daoU.insertMedalVoteQuestion(like[1], function(err, res){
+                    daoU.insertMedalVoteQuestion(id_question, function(err, res){
                         if (err) {
                             console.log(err.message);
                         }
                         else{
-                            response.redirect(`/questions/${like[1]}`);
+                            response.redirect(`/questions/${id_question}`);
                         }
                     });
                    
@@ -181,28 +182,26 @@ function likeQuestion(request,response,next){
 
 function like(request,response,next){
     let email = response.locals.email;
+    let like = request.params.id_like;
+    let id_response = request.params.id_response;
+    let id_question = request.params.id_question;
 
-    //like == 1 dislike == 0
-    let like = request.query.like.split("_");
-
-    daoQ.comprobarVoto(email, like[1], function (err, res) {
+    daoQ.comprobarVoto(email,id_response, function (err, res) {
         if (err) {
             console.log(err.message);
         }
         else {
-            daoQ.setResponseVote(like[0], like[1], email, function (err, res) {
+            daoQ.setResponseVote(like,id_response, email, function (err, res) {
                 if (err) {
-
                     console.log(err.message);
                 }
                 else{
-                    daoU.insertMedalVoteResponse(like[1],function(err,res){
+                    daoU.insertMedalVoteResponse(id_response,function(err,res){
                         if (err) {
-    
                             console.log(err.message);
                         }
                         else {
-                            response.redirect(`/questions/${like[2]}`);
+                            response.redirect(`/questions/${id_question}`);
                         }
                     });
                 }

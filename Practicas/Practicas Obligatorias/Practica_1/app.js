@@ -43,7 +43,9 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use('/usuarios',routerUsuarios)
 app.use('/questions',routerQuestions)
 app.use('/',routerIndex)
-
+app.use(function(request,response,next){
+    response.status(404).render("404");
+})
 // Arrancar el servidor
 app.listen(config.port, function (err) {
     if (err) {

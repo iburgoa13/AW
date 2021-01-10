@@ -18,9 +18,9 @@ questionRouter.get("/:id_question",userController.comprobarUsuario,questionContr
 
 questionRouter.get("/", userController.comprobarUsuario,questionController.getAllQuestion);
 
-questionRouter.get("/likeQuestion",userController.comprobarUsuario,questionController.likeQuestion);
+questionRouter.get("/likeQuestion/:id_like/:id_question",userController.comprobarUsuario,questionController.likeQuestion);
 
-questionRouter.get("/like",userController.comprobarUsuario,questionController.like);
+questionRouter.get("/like/:id_like/:id_response/:id_question",userController.comprobarUsuario,questionController.like);
 questionRouter.post("/formResponse",userController.comprobarUsuario,questionController.insertResponse);
 
 questionRouter.post("/formQuestion",userController.comprobarUsuario,questionController.insertQuestion);
