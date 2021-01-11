@@ -1,5 +1,5 @@
 /*
-Práctica 4
+Práctica 5
 Grupo 03
 Miembros: Daniela Nicoleta Boldureanu
           Iker Burgoa Muñoz 
@@ -30,11 +30,9 @@ const middlewareSession = session({
     resave: false,
     store: sessionStore
     });
+
 // Crear un servidor Express.js
-
-
 const app = express();
-const correo = "usuario@ucm.es"
 // Crear un pool de conexiones a la base de datos de MySQL
 const pool = mysql.createPool(config.mysqlConfig);
 

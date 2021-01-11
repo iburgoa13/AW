@@ -34,7 +34,7 @@ header h1:hover{
 .usuario{
     display: flex;
     float: right;
-    margin-right:40px;
+    width: 20%;
 }
 .usuario img{
     border-radius: 100%;

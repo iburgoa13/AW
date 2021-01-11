@@ -31,19 +31,27 @@ header h1{
 header h1:hover{
     text-shadow: 0 0 10px white;
 }
+.input_form{
+    border-radius: 5px;
+}
 
-.container{
+.container {
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
-    margin: 180px 20% 0 33%;
-    color:black;
+    /* margin: 180px 20% 0 33%; */
+    color: black;
     background-color: cadetblue;
     align-content: center;
     align-items: center;
-    height: auto;
+    /* height: auto; */
     width: 30%;
     padding: 2%;
-    border: 1px solid black;
+    /* margin-top: auto; */
+    margin-left: auto;
+    margin-top: 20%;
+    margin-right: auto;
+    border: 2px solid black;
 }
 .items{
     margin-bottom: 5%;
