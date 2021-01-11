@@ -351,8 +351,12 @@ class DAOUsers {
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else{
-                        res[0].date = moment(res[0].date).format('DD/MM/YYYY');
-                        callback(null,res[0]);      
+                        if(res[0].name === null)callback(new Error("El identificador introducido no existe"));
+                        else{
+                            res[0].date = moment(res[0].date).format('DD/MM/YYYY');
+                            callback(null,res[0]); 
+                        }
+                            
                     }
                 });
             }

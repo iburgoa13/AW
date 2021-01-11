@@ -11,7 +11,7 @@ function comprobarUsuario(request, response, next) {
         daoU.getUserName(request.session.currentUser,
             function (err, res) {
                 if (err) {
-                    console.log(err);
+                    next(err);
                 }
                 else {
                    
@@ -55,111 +55,116 @@ function loginGet(request,response,next){
 function getUserId(request,response,next){
 
     let id = request.params.id_user;
-    daoU.getInfoUser(id,function(err, result){
-        if (err) {
-            response.status(500).send(err);
-        }
-        else{
-            let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
-            if(result.bronce!= null)
-            { 
-                let arr= result.bronce.split(",");
-                
-                const medallas = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
-                const counterMedallas = medallas.map(_medal => {
-                    return {medalla: _medal, count: 0};
-                });
-             
-
-                counterMedallas.map((count, i) =>{
-                    const actualTagLength = arr.filter(number => number === count.medalla).length;
-                    count.count = actualTagLength;
-                })
-                
-                var hash = {};
-                var x = counterMedallas.filter(function(current) {
-                var exists = !hash[current.medalla];
-                hash[current.medalla] = true;
-                return exists;
-                });
-                result.bronce = x;
-              /* result.bronce = counterMedallas.filter(function(item, index, array) {
-                    return array.indexOf(item) === index;
-                  });*/
-                  let suma = 0;
-                  for(let e of result.bronce){
-                      suma = suma + e.count;
-                  }
-                  result.totalBronce = suma;
-              // result.bronce = counterMedallas;
-             
-
+    id = parseInt(id);
+    if(typeof id != 'number')next();
+    else{
+        daoU.getInfoUser(id,function(err, result){
+            if (err) {
+                next(err);//response.status(500).send(err);
             }
-            if(result.plata!= null)
-            { 
-                let arr= result.plata.split(",");
-                const medallas = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
-                const counterMedallas = medallas.map(_medal => {
-                    return {medalla: _medal, count: 0};
-                });
-                
-                counterMedallas.map((count, i) =>{
-                    const actualTagLength = arr.filter(number => number === count.medalla).length;
-                    count.count = actualTagLength;
-                })
-                var hash = {};
-                var x = counterMedallas.filter(function(current) {
-                var exists = !hash[current.medalla];
-                hash[current.medalla] = true;
-                return exists;
-                });
-                result.plata = x;
-                let suma = 0;
-                for(let e of result.plata){
-                    suma = suma + e.count;
+            else{
+                let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
+                if(result.bronce!= null)
+                { 
+                    let arr= result.bronce.split(",");
+                    
+                    const medallas = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
+                    const counterMedallas = medallas.map(_medal => {
+                        return {medalla: _medal, count: 0};
+                    });
+                 
+    
+                    counterMedallas.map((count, i) =>{
+                        const actualTagLength = arr.filter(number => number === count.medalla).length;
+                        count.count = actualTagLength;
+                    })
+                    
+                    var hash = {};
+                    var x = counterMedallas.filter(function(current) {
+                    var exists = !hash[current.medalla];
+                    hash[current.medalla] = true;
+                    return exists;
+                    });
+                    result.bronce = x;
+                  /* result.bronce = counterMedallas.filter(function(item, index, array) {
+                        return array.indexOf(item) === index;
+                      });*/
+                      let suma = 0;
+                      for(let e of result.bronce){
+                          suma = suma + e.count;
+                      }
+                      result.totalBronce = suma;
+                  // result.bronce = counterMedallas;
+                 
+    
                 }
-                result.totalPlata = suma;
-             
-
-            }
-            if(result.oro!= null)
-            { 
-                let arr= result.oro.split(",");
-                const medallas = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
-                const counterMedallas = medallas.map(_medal => {
-                    return {medalla: _medal, count: 0};
-                });
-                
-                counterMedallas.map((count, i) =>{
-                    const actualTagLength = arr.filter(number => number === count.medalla).length;
-                    count.count = actualTagLength;
-                })
-                var hash = {};
-                var x = counterMedallas.filter(function(current) {
-                var exists = !hash[current.medalla];
-                hash[current.medalla] = true;
-                return exists;
-                });
-                result.oro = x;
-                let suma = 0;
-                for(let e of result.oro){
-                    suma = suma + e.count;
+                if(result.plata!= null)
+                { 
+                    let arr= result.plata.split(",");
+                    const medallas = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
+                    const counterMedallas = medallas.map(_medal => {
+                        return {medalla: _medal, count: 0};
+                    });
+                    
+                    counterMedallas.map((count, i) =>{
+                        const actualTagLength = arr.filter(number => number === count.medalla).length;
+                        count.count = actualTagLength;
+                    })
+                    var hash = {};
+                    var x = counterMedallas.filter(function(current) {
+                    var exists = !hash[current.medalla];
+                    hash[current.medalla] = true;
+                    return exists;
+                    });
+                    result.plata = x;
+                    let suma = 0;
+                    for(let e of result.plata){
+                        suma = suma + e.count;
+                    }
+                    result.totalPlata = suma;
+                 
+    
                 }
-                result.totalOro = suma;
+                if(result.oro!= null)
+                { 
+                    let arr= result.oro.split(",");
+                    const medallas = arr.filter((number, i) => i == 0 ? true : number[i - 1] != number);
+                    const counterMedallas = medallas.map(_medal => {
+                        return {medalla: _medal, count: 0};
+                    });
+                    
+                    counterMedallas.map((count, i) =>{
+                        const actualTagLength = arr.filter(number => number === count.medalla).length;
+                        count.count = actualTagLength;
+                    })
+                    var hash = {};
+                    var x = counterMedallas.filter(function(current) {
+                    var exists = !hash[current.medalla];
+                    hash[current.medalla] = true;
+                    return exists;
+                    });
+                    result.oro = x;
+                    let suma = 0;
+                    for(let e of result.oro){
+                        suma = suma + e.count;
+                    }
+                    result.totalOro = suma;
+                 
+    
+                }
+               
+                response.status(200).render("user_profile",{usuario, perfil: result});
              
-
-            }
-           
-            response.status(200).render("user_profile",{usuario, perfil: result});
-         
-        } 
-    });
+            } 
+        });
+    }
+   
 }
 
 function getAllUsers(request,response,next){
     daoU.getAllUsers(function(err, results){
         if (err) {
-            response.status(500).send(err);
+            next(err);//response.status(500).send(err);
         }
         else{
             results = results.filter(el => el != '');
@@ -203,7 +208,7 @@ function getFilterUser(request,response,next){
     let texto =request.query.userSearch;
     daoU.getFilterUser(texto, function (err, results){
         if (err) {
-            response.status(500).send(err);
+            next(err);//response.status(500).send(err);
         }
         else{
             results = results.filter(el => el != '');
@@ -246,8 +251,7 @@ function getFilterUser(request,response,next){
 function getUserImageNameId(request,response,next){
     daoU.getUserImageNameId(request.params.userId, function (error, usuario) {
         if (error) {
-            response.status(500);
-            response.end();
+            next(err);
         }
         else {
             if (!usuario) {
@@ -296,8 +300,7 @@ function formQuestionHome(request,response,next){
 function getUserImageName(request,response,next){
     daoU.getUserImageName(response.locals.email, function (error, usuario) {
         if (error) {
-            response.status(500);
-            response.end();
+            next(err);
         }
         else {
             if (!usuario) {
