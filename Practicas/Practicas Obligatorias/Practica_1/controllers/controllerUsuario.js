@@ -24,7 +24,7 @@ function comprobarUsuario(request, response, next) {
            
     }
     else {
-        response.redirect("/login");
+        response.redirect("/usuarios/login");
     }
 }
 
