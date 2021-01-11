@@ -283,7 +283,7 @@ class DAOQuestion {
             }
             else {
                 let sql = "SELECT r.id, r.message, r.date, r.votes, u.name as 'nombreUsuario', u.imagen, u.id as 'id_user' from response r LEFT join usuario u on (u.id = r.id_user) where r.id_question = ?";
-                //     console.log(sql);
+               
                 connection.query(sql, [id_question], function (err, result) {
                     connection.release();
                     if (err) {
@@ -415,7 +415,7 @@ class DAOQuestion {
                         callback(new Error("Error de acceso a la base de datos1"));
                     }
                     else {
-                        //    console.log(res);
+                      
                         if (res.length > 0) {
 
                             callback(new Error("No puedes votar de nuevo"));
@@ -637,7 +637,7 @@ class DAOQuestion {
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else {
-                //   console.log("Estoy dentro de getquestion");
+                
                 let sql = "SELECT q.id, q.title, q.body, q.date, q.counter_visit, q.votes, u.name as 'nombreUsuario', u.imagen, u.id as 'id_userq', t.name as 'nombreTag' from question q left join question_tag qt on (qt.id_question = q.id) left join tag t on (t.id = qt.id_tag) left join usuario u on (u.id = q.id_user) where q.id = ?";
 
 
@@ -811,8 +811,7 @@ class DAOQuestion {
                             if (it.nombreTag) array[it.id].tags.push(it.nombreTag);
                         }
                         array.sort(function (a, b) {
-                            // Turn your strings into dates, and then subtract them
-                            // to get a value that is either negative, positive, or zero.
+                          
                             let bb = [];
                             bb = b.date.split("/");
                             let aa = [];

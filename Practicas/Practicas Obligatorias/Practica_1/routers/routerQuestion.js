@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const questionRouter = express.Router();
 
+
 questionRouter.use(bodyParser.json())
 questionRouter.use(bodyParser.urlencoded({ extended: false }));
 
@@ -24,6 +25,7 @@ questionRouter.get("/like/:id_like/:id_response/:id_question",userController.com
 questionRouter.post("/formResponse",userController.comprobarUsuario,questionController.insertResponse);
 
 questionRouter.post("/formQuestion",userController.comprobarUsuario,questionController.insertQuestion);
+
 
 
 module.exports= questionRouter;

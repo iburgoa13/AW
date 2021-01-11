@@ -50,4 +50,5 @@ userRouter.get("/fotoId/:userId", userController.comprobarUsuario,userController
 
 userRouter.get("/imagenUsuario", userController.comprobarUsuario,userController.getUserImageName);
 
+
 module.exports= userRouter;

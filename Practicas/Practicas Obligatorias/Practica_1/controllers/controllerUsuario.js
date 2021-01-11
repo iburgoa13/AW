@@ -199,7 +199,7 @@ function getAllUsers(request,response,next){
 }
 
 function getFilterUser(request,response,next){
-    console.log("entra bien")
+  
     let texto =request.query.userSearch;
     daoU.getFilterUser(texto, function (err, results){
         if (err) {

@@ -2,6 +2,7 @@ const questionModel = require("../models/DAOQuestion");
 const userModel = require("../models/DAOUsers");
 const config = require("../config");
 const mysql = require("mysql");
+const { render } = require("ejs");
 const pool = mysql.createPool(config.mysqlConfig);
 const daoQ = new questionModel(pool);
 const daoU = new userModel(pool);
@@ -23,7 +24,7 @@ function getQuestionFilterTag(request,response,next){
 function formular(request,response,next){
     let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
     response.status(200).render("form_question",
-        { usuario });
+        { usuario, errorMsg:null });
 }
 function getQuestionFilterText(request , response,next){
     daoQ.getQuestionFilterText(request.query.texto, function (err, results) {
@@ -156,12 +157,12 @@ function likeQuestion(request,response,next){
     //let like = request.query.like.split("_");
     daoQ.comprobarVotoQuestion(id_question, email, function (err, res) {
         if (err) {
-            console.log(err.message);
+            response.redirect(`/questions/${id_question}`)
         }
         else {
             daoQ.setResponseVoteQuestion(like, id_question, email, function (err, res) {
                 if (err) {
-                    console.log("eew");
+                    
                     console.log(err.message);
                 }
                 else {
@@ -188,7 +189,7 @@ function like(request,response,next){
 
     daoQ.comprobarVoto(email,id_response, function (err, res) {
         if (err) {
-            console.log(err.message);
+            response.redirect(`/questions/${id_question}`);
         }
         else {
             daoQ.setResponseVote(like,id_response, email, function (err, res) {
@@ -240,8 +241,9 @@ function insertQuestion(request,response,next){
           tags = (texto.match(/@\w+/g) || []).map(n => n.replace("@", ""));
       }
       if (tags.length > 5) {
-          response.status(500);
-          response.redirect("/usuarios/home");
+          let errorMsg= "El maximo de tags es 5";
+          let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
+          response.render("form_question",{usuario,errorMsg});
       }
       else {
   
