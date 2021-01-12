@@ -47,7 +47,7 @@ app.use(function(request,response,next){
     response.status(404).render("404");
 })
 app.use(function(error,request,response,next){
-    response.status(500).render("500", {errorMsg: error.message});
+    response.status(500).render("500");
 })
 
 // Arrancar el servidor
