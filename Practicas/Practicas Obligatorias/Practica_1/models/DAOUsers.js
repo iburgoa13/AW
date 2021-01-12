@@ -347,11 +347,12 @@ class DAOUsers {
                 connection.query(sql,id,function(err,res){
                     connection.release();
                     if (err) {
-
                         callback(new Error("Error de acceso a la base de datos"));
                     }
                     else{
-                        if(res[0].name === null)callback(new Error("El identificador introducido no existe"));
+                        if(res[0].name === null){
+                            callback(new Error("El identificador introducido no existe"));
+                        }
                         else{
                             res[0].date = moment(res[0].date).format('DD/MM/YYYY');
                             callback(null,res[0]); 

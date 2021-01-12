@@ -56,11 +56,13 @@ function getUserId(request,response,next){
 
     let id = request.params.id_user;
     id = parseInt(id);
-    if(typeof id != 'number')next();
+    if(!Number.isInteger(parseInt(id))){//if(typeof id != 'number'){
+        response.status(404).render('404');
+    } 
     else{
         daoU.getInfoUser(id,function(err, result){
             if (err) {
-                next(err);//response.status(500).send(err);
+                next(err);//response.status(404).render('404');// next(err);//response.status(500).send(err);
             }
             else{
                 let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
