@@ -22,10 +22,10 @@
                 <p class="numero_votos"> <%= pregunta.counter_vote %> votos</p>
 
                 <form method="GET" class="form_like" action="/questions/likeQuestion/1/<%=pregunta.id%>">
-                    <button class="like_b" type="submit" name="like" value ="1_<%= pregunta.id %>"><img src="/img/like.png" alt="Like" class="img_like"/></button>
+                    <button class="like_b" type="submit"  ><img src="/img/like.png" alt="Like" class="img_like"/></button>
                     </form>
                 <form method="GET" class="form_like" action="/questions/likeQuestion/0/<%=pregunta.id%>">
-                    <button class="like_b" type="submit" name="like" value="0_<%= pregunta.id %>"><img src="/img/dislike.png" alt="Dislike" class="img_like"/></button>
+                    <button class="like_b" type="submit"  ><img src="/img/dislike.png" alt="Dislike" class="img_like"/></button>
                 </form>
             </div>
             <div class="border_principal">
@@ -53,10 +53,10 @@
             <div class="votos">
                 <p class="numero_votos"> <%= respuesta.counter_vote %> votos</p>
                 <form method="GET" class="form_like" action="/questions/like/1/<%= respuesta.id %>/<%= pregunta.id %>">
-                    <button class="like_b" type="submit" name="like" value ="1_<%= respuesta.id %>_<%= pregunta.id %>"><img src="/img/like.png" alt="Like" class="img_like"/></button>
+                    <button class="like_b" type="submit"  ><img src="/img/like.png" alt="Like" class="img_like"/></button>
                     </form>
                 <form method="GET" class="form_like"  action="/questions/like/0/<%= respuesta.id %>/<%= pregunta.id %>">
-                    <button class="like_b" type="submit" name="like" value="0_<%= respuesta.id %>_<%= pregunta.id %>"><img src="/img/dislike.png" alt="Dislike" class="img_like"/></button>
+                    <button class="like_b" type="submit"  ><img src="/img/dislike.png" alt="Dislike" class="img_like"/></button>
                 </form>
                
             </div>

@@ -3,6 +3,7 @@ const userModel = require("../models/DAOUsers");
 const config = require("../config");
 const mysql = require("mysql");
 const { render } = require("ejs");
+const { text } = require("body-parser");
 const pool = mysql.createPool(config.mysqlConfig);
 const daoQ = new questionModel(pool);
 const daoU = new userModel(pool);
@@ -238,18 +239,23 @@ function insertQuestion(request,response,next){
           //queremos recoger el tag
           tags = (texto.match(/@\w+/g) || []).map(n => n.replace("@", ""));
       }
+      
       if (tags.length > 5) {
           let errorMsg= "El maximo de tags es 5";
           let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
           response.render("form_question",{usuario,errorMsg});
+      }
+      else if (tags.length===0 && texto.length>0){
+        let errorMsg= "El tag debe estar seguido de un @, por ejemplo: @AW";
+        let usuario = { nombre: response.locals.userNombre, id: response.locals.id };
+        response.render("form_question",{usuario,errorMsg});
       }
       else {
   
           daoQ.insertQuestion(request.body.pregunta, request.body.texto, response.locals.email, tags, function (error, usuario) {
               usuario = { nombre: response.locals.userNombre };
               if (error) {
-                  response.status(500);
-                  response.end();
+                  next(error)
                   response.render("form_question",
                       { errorMsg: error.message });
   
