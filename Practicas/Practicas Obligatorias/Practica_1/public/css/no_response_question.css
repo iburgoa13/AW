@@ -52,13 +52,14 @@
 }
 
 .information {
+    margin-top: 2%;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     float: right;
-    width: 10%;
-
+    width: 8%;
+    font-size: 1em;
 }
 
 
@@ -67,16 +68,16 @@
 }
 #avatar{
     border-radius: 10%;
-    width: 50%;
+    width: 60%;
 }
 
-#cerrar{
-    padding:3px;
+#cerrar {
+    padding: 3px;
     border-radius: 5px;
     background-color: rgb(52, 116, 189);
     box-shadow: 4px 4px 4px rgb(37, 37, 37);
     color: white;
-    margin-top: 7px;
+    margin-top: 1%;
     font-size: 1em;
 }
 #buscar{
@@ -201,7 +202,6 @@ nav{
     color:rgb(43, 2, 121);
     font-size: 1.2em;
     padding:1%;
-    margin-left:4%;
 }
 .tagButton{
     justify-content: space-between;
