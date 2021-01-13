@@ -29,8 +29,8 @@ userRouter.use(bodyParser.urlencoded({ extended: false }));
 userRouter.get("/login",userController.loginGet);
 userRouter.post("/login",userController.loginPost);
 
-//userRouter.get("/", userController.loginGet);
-userRouter.get("/logout", userController.comprobarUsuario,userController.logoutU);
+
+userRouter.get("/logout",userController.logoutU);
 userRouter.get("/home", userController.comprobarUsuario,userController.home);
 userRouter.get("/searchUser", userController.comprobarUsuario,userController.getFilterUser);
 userRouter.get("/formQuestion", userController.comprobarUsuario,userController.formQuestionHome);

@@ -10,7 +10,7 @@ const daoU = new userModel(pool);
 function getQuestionFilterTag(request,response,next){
     daoQ.getQuestionFilterTag(request.query.tagName, function (err, results) {
         if (err) {
-            response.status(500).send(err);
+            next(err);
         }
         else {
 
@@ -29,7 +29,7 @@ function formular(request,response,next){
 function getQuestionFilterText(request , response,next){
     daoQ.getQuestionFilterText(request.query.texto, function (err, results) {
         if (err) {
-            response.status(500).send(err);
+            next(err);
         }
         else {
     
@@ -46,7 +46,7 @@ function getQuestionFilterText(request , response,next){
 function getAllQuestionNoAnswer(request,response,next){
     daoQ.getAllQuestionNoAnswer(function (err, results) {
         if (err) {
-            response.status(500).send(err);
+            next(err);
         }
         else {
             results = results.filter(el => el != '');
@@ -62,30 +62,30 @@ function getQuestionID(request,response,next){
     daoQ.isVisit(id, email, function (err, res) {
         if (err) {
             
-            response.status(500).send(err);
+            next(err);
         }
         else {
             if (!res) { //si es false == votas
                 daoQ.setQuestionVisit(id, email, function (err, r) {
                     if (err) {
                        
-                        response.status(500).send(err);
+                        next(err);
                     }
                     else{
                         daoU.insertMedalQuestionVisit(id, function(err, result){
                             if (err) {
                                
-                                response.status(500).send(err);
+                                next(err);
                             }
                             else {
                                 daoQ.getQuestion(id, function (err, result) {
                                     if (err) {
-                                        response.status(500).send(err);
+                                        next(err);
                                     }
                                     else {
                                         daoQ.getResponse(id, function (err, res) {
                                             if (err) {
-                                                response.status(500).send(err);
+                                                next(err);
                                             }
                                             else {
                                                 result = result.filter(el => el != '');
@@ -110,13 +110,13 @@ function getQuestionID(request,response,next){
             else {
                 daoQ.getQuestion(id, function (err, result) {
                     if (err) {
-                        response.status(500).send(err);
+                        next(err);
                     }
                     else {
 
                         daoQ.getResponse(id, function (err, res) {
                             if (err) {
-                                response.status(500).send(err);
+                                next(err);
                             }
                             else {
 
@@ -140,7 +140,7 @@ function getQuestionID(request,response,next){
 function getAllQuestion(request,response,next){
     daoQ.getAllQuestion(function (err, results) {
         if (err) {
-            response.status(500).send(err);
+            next(err);
         }
         else {
             results = results.filter(el => el != '');
@@ -163,12 +163,12 @@ function likeQuestion(request,response,next){
             daoQ.setResponseVoteQuestion(like, id_question, email, function (err, res) {
                 if (err) {
                     
-                    console.log(err.message);
+                    next(err);
                 }
                 else {
                     daoU.insertMedalVoteQuestion(id_question, function(err, res){
                         if (err) {
-                            console.log(err.message);
+                            next(err);
                         }
                         else{
                             response.redirect(`/questions/${id_question}`);
@@ -194,12 +194,12 @@ function like(request,response,next){
         else {
             daoQ.setResponseVote(like,id_response, email, function (err, res) {
                 if (err) {
-                    console.log(err.message);
+                    next(err);
                 }
                 else{
                     daoU.insertMedalVoteResponse(id_response,function(err,res){
                         if (err) {
-                            console.log(err.message);
+                            next(err);
                         }
                         else {
                             response.redirect(`/questions/${id_question}`);
@@ -218,9 +218,7 @@ function insertResponse(request,response,next){
     let email = response.locals.email;
     daoQ.insertResponse(id_question,body_response,email,function(err,res){
         if(err){
-            console.log(err.message);
-            response.status(500);
-            response.end();
+            next(err);
         }
         else{
             response.status(200);

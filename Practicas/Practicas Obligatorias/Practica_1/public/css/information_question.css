@@ -260,8 +260,8 @@ nav{
 .img_like{
       /* margin-right: 10px; */
       border-radius: 50%;
-      width: 100%;
-      height: 20px;
+      width: 80%;
+      height: 80%;
       /* border: 1px solid blue; */
       cursor: pointer;
   }
