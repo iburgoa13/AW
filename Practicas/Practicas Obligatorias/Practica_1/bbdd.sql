@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-01-2021 a las 19:34:34
+-- Tiempo de generación: 13-01-2021 a las 19:43:19
 -- Versión del servidor: 10.4.8-MariaDB
 -- Versión de PHP: 7.3.10
 
@@ -140,14 +140,6 @@ CREATE TABLE `sessions` (
   `data` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `sessions`
---
-
-INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('9ZY5PyiEOo67u8w9tYlv7medHMPcsO4S', 1610568156, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"iker@ucm.es\"}'),
-('OvS14wPClMhEpjkpFm4FdhhnAOEp2flf', 1610649245, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"lucas@404.es\"}');
-
 -- --------------------------------------------------------
 
 --
@@ -164,7 +156,6 @@ CREATE TABLE `tag` (
 --
 
 INSERT INTO `tag` (`id`, `name`) VALUES
-(1, 'dedede'),
 (2, 'css'),
 (3, 'css3'),
 (4, 'html'),
