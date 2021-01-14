@@ -1,0 +1,14 @@
+$(function){
+    inicio declaracion manejador por evento
+    
+    
+    tareas de inicializar la pagina, variables que se necesiten 
+
+}
+
+La filosofia general de jquery ==> hacer una seleccion , a continuacion una accion sobre esta seleccion 
+esta seleccion se hace ==> $(selector css) => devuelve una colección SIEMPRE (Objeto jquery)
+apartir de estas selecciones hacemos las acciones
+children --> obtener los hijos del nodo
+puedes escoger al padre directamente, y a todos los antecesores al nodo (parent y parents)
+/////////
