@@ -65,7 +65,7 @@ CREATE TABLE `question` (
   `counter_vote` int(11) NOT NULL DEFAULT 0,
   `votes` int(11) NOT NULL DEFAULT 0,
   `id_user` int(11) NOT NULL,
-  `date` date not null
+  `date` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -117,7 +117,7 @@ CREATE TABLE `response` (
   `votes` int(11) NOT NULL DEFAULT 0,
   `id_question` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `date` date NOT NULL 
+  `date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -198,7 +198,7 @@ CREATE TABLE `user_medal_response` (
 
 CREATE TABLE `usuario` (
   `id` int(11) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `email` varchar(200) NOT NULL,
   `password` varchar(25) NOT NULL,
   `name` varchar(50) NOT NULL,
   `imagen` varchar(250) DEFAULT NULL,
