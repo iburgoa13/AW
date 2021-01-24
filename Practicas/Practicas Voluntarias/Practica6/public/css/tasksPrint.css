@@ -1,0 +1,101 @@
+*{
+    padding: 0;
+    margin: 0;  
+}
+body{
+    padding: 1cm;
+    font-family:  Helvetica ;
+}
+
+.usuario{
+    display: none;
+}
+
+.informacion-usuario{
+    display: none;
+}
+
+header{
+    margin-left: 2%;
+    margin-bottom: 20px;
+}
+
+header h1{
+    font-weight: bolder;
+    font-weight: 400;
+    font-size: 18px;
+    text-transform: lowercase;
+    text-decoration: none;
+}
+
+header h1::first-letter{
+    text-transform: uppercase;
+}
+
+.tareas h3::after{
+    content: ":";
+}
+
+h3::first-letter{
+    text-transform: uppercase;
+}
+
+#eliminar {
+    display: none;
+}
+
+.tareas h3{
+    font-weight: bolder;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.tarea_finalizada h3{
+    font-weight: bolder;
+    font-size: 12px;
+}
+
+.tareas{
+    text-transform: lowercase;
+    margin-left: 4%;
+    display: list-item;  
+    margin-bottom: 20px;
+}
+
+
+#tarea2 {
+    text-decoration: line-through;
+}
+
+.tarea_finalizada{
+    text-transform: lowercase;
+    display: list-item;
+    margin-left: 6%;
+    margin-bottom: 20px;
+}
+
+span::before{
+    content: " ( ";
+}
+
+span::after{
+    content: " ) ";
+}
+
+span{
+    display: inline-block;
+    text-decoration: none;
+    margin-left: 10px; 
+}
+
+.boton_tarea{
+    display: none;
+}
+
+.buscar{
+    display: none;
+}
+
+.eliminarCompletadas{
+    display: none;
+}

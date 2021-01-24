@@ -1,0 +1,75 @@
+<!-- Práctica 5 Grupo 03 Miembros: Daniela Nicoleta Boldureanu , Iker Burgoa Muñoz  -->
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>PRACTICA 6 VOLUNTARIA</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/tasksScreen.css" media="screen">
+        <link rel="stylesheet" href="css/tasksPrint.css" media="print">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="img/favicon.png">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="/javascript/tasks.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>TAREAS</h1>
+            <div class="usuario">
+                <img src="/imagenUsuario" alt="image"/>
+                <div class="informacion-usuario">
+                    <p id="mail" ><%= user%></p>
+                    <a id="desconectar" href="/logout">DESCONECTAR</a>
+                </div>
+            </div>   
+        </header>
+        <main>
+            <div class="container">
+                <% if(taskList.length>0) {%>
+                    <% taskList.forEach(task => {%>
+                        <% if(task.done){%>
+                        <div class ="tarea_finalizada" id="tarea2"> 
+                            <h3 class="finalizarTarea"><%= task.text%></h3>
+                        </div>
+                        
+                        <%} else {%>
+
+                        <div class ="tareas">
+                            <h3><%= task.text %></h3>
+                            <%task.tags.forEach(tag => {%>
+                                <span class="tag"> <%=tag%> </span>
+                            <% }) %>
+                            <a href="/finish/<%=task.id%>" id ="marcar"class="boton_tarea">MARCAR FINALIZADA</a>
+                        </div>
+                    <% }}) %>
+                <%}%>  
+                    <div id="s1" class="buscar">
+                        <form class="form-div" action="/addTask" method="POST">
+                            <label for="taskName">Nombre de la tarea:</label>
+                            <input type="text" id="taskName" placeholder="Introduce nombre de la tarea..." />
+                            <label for="tags">Tags:</label>
+                            <div class="tags-container">
+                                <input type="text" name="" id="tagName" placeholder="Introduce tag...">
+                                <button id="addTag">Añadir tag</button>
+                            </div>
+                            <div class="task" id="preview">
+                                <h2>
+                                    <div id="taskText"></div>
+                                </h2>
+                            </div>
+                            <input type="hidden" id="taskDesc" name='taskDesc'>
+                            <button type="submit" class="boton_anadir">AÑADIR</button>
+                        </form>
+                        <div class="eliminarCompletadas">
+                            <a href="/deleteCompleted" id="eliminar">ELIMINAR TAREAS COMPLETADAS</a>
+                        </div>
+                    </div>
+
+                   
+                    
+            </div>
+          
+            
+        </main>
+    </body>
+</html>

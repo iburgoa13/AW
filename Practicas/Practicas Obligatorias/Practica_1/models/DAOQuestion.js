@@ -45,8 +45,7 @@ class DAOQuestion {
                                             }
                                             else {
                                                 let sql3 = "insert into question_tag(id_question, id_tag) values(?, (select id from tag WHERE name = ?))"
-                                                connection.query(sql3, [quest.insertId, it], function (err, result) {
-                                                   
+                                                connection.query(sql3, [quest.insertId, it], function (err, result) {                      
                                                     if (err) {
 
                                                         callback(new Error("Error de acceso a la base de datos al insertar question-tags"));

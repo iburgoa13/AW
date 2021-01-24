@@ -1,0 +1,34 @@
+<!-- Práctica 5 Grupo 03 Miembros: Daniela Nicoleta Boldureanu , Iker Burgoa Muñoz  -->
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>PRACTICA 5 VOLUNTARIA</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/loginScreen.css" media="screen">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="img/favicon.png">
+    </head>
+    <body>
+        <header>
+            <h1>TAREAS</h1>
+        </header>
+        <main>
+            <div class="container">
+                <form method="POST" action="/login">
+                    <div class="items">
+                        <label for="formCorreo">DIRECCIÓN DE CORREO:</label>
+                        <input class="input_form" type="text"name="correo"id="formCorreo">
+                    </div>
+                    <div class="items">
+                    <label for="formPass">CONTRASEÑA:</label>
+                    <input  class="input_form" type="password"name="password"id="formPass">
+                   </div>
+                    <input id = "boton" type="submit" value="Aceptar">
+
+                </form>
+            </div>
+            <h3 id="error" ><%= errorMsg%></h3>
+        </main>
+    </body>
+</html>
